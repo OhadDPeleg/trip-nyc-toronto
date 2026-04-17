@@ -24,7 +24,7 @@
   .hero { text-align: center; padding: 2rem 0 1.5rem; }
   .hero h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
   .hero h1 .hi { color: var(--accent); }
-  .route-visual { display: flex; align-items: center; justify-content: center; gap: 0; margin: 1rem 0 0.5rem; direction: ltr; }
+  .route-visual { display: flex; align-items: center; justify-content: center; gap: 0; margin: 1rem 0 0.5rem; direction: ltr; flex-wrap: wrap; }
   .route-node { display: flex; flex-direction: column; align-items: center; padding: 0.5rem 1rem; }
   .route-node .city { font-weight: 700; font-size: 1rem; }
   .route-node .country { font-size: 0.7rem; color: var(--text3); letter-spacing: 0.5px; }
@@ -32,14 +32,16 @@
   .route-line::after { content: '\2192'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 1rem; }
   .rl-fly { background: var(--accent); }
   .rl-fly::after { color: var(--accent); }
-  .rl-drive { background: var(--yellow); }
-  .rl-drive::after { color: var(--yellow); content: '\1F697'; top: -12px; }
-  .trip-meta { font-size: 0.82rem; color: var(--text2); margin-top: 0.5rem; }
+  .rl-mixed { background: linear-gradient(90deg, var(--yellow) 0%, var(--accent) 100%); }
+  .rl-mixed::after { color: var(--yellow); content: '\1F697\2728'; top: -12px; font-size: 0.85rem; letter-spacing: -2px; }
+  .trip-meta { font-size: 0.82rem; color: var(--text2); margin-top: 0.5rem; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6; }
   .trip-meta b { color: var(--text); }
+  .pill { display: inline-block; background: var(--accent-dim); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 0.75rem; margin: 0 2px; }
 
   .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; margin-bottom: 1.25rem; }
   .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
   .section-title .icon { font-size: 1.2rem; }
+  .section-title .sub { font-size: 0.75rem; font-weight: 500; color: var(--text3); margin-right: auto; }
 
   .date-builder { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
   .date-col { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -81,21 +83,74 @@
   .fl-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: default; transition: background 0.15s; direction: rtl; gap: 1rem; }
   .fl-row:hover { background: rgba(255,255,255,0.02); }
   .fl-row:last-child { border-bottom: none; }
-  .fl-left { flex: 1; text-align: right; }
+  .fl-left { flex: 1; text-align: right; min-width: 0; }
   .fl-airline { font-weight: 600; font-size: 0.88rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; direction: rtl; justify-content: flex-start; }
   .fl-code { font-weight: 400; color: var(--text3); font-size: 0.78rem; }
   .fl-detail { font-size: 0.75rem; color: var(--text2); margin-top: 3px; direction: rtl; unicode-bidi: plaintext; }
   .fl-times { font-size: 0.75rem; color: var(--text3); margin-top: 2px; direction: rtl; unicode-bidi: plaintext; }
-  .fl-right { text-align: left; direction: ltr; min-width: 170px; flex-shrink: 0; }
+  .fl-right { text-align: left; direction: ltr; min-width: 195px; flex-shrink: 0; }
   .fl-price { font-weight: 700; font-size: 1.05rem; }
   .fl-price-label { font-size: 0.65rem; color: var(--accent); letter-spacing: 0.5px; margin-top: 1px; text-align: left; font-weight: 600; }
   .fl-price-3 { font-size: 0.72rem; color: var(--text2); margin-top: 3px; text-align: left; font-weight: 500; background: rgba(255,255,255,0.03); padding: 2px 6px; border-radius: 4px; direction: ltr; }
+  .fl-refund { font-size: 0.68rem; color: var(--purple); margin-top: 4px; text-align: left; font-weight: 600; background: rgba(167,139,250,0.08); padding: 3px 7px; border-radius: 4px; border: 1px solid rgba(167,139,250,0.2); direction: ltr; }
+  .fl-refund .rf-label { color: var(--text3); font-weight: 500; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 4px; }
+  .fl-kiwi-alt { font-size: 0.66rem; color: #ff6b3d; margin-top: 4px; text-align: left; font-weight: 600; background: rgba(255,107,61,0.08); padding: 3px 7px; border-radius: 4px; border: 1px solid rgba(255,107,61,0.25); direction: ltr; }
+  .fl-kiwi-alt a { color: #ff8f5e; text-decoration: underline; }
+
+  /* Hero pick cards — the main decision UI */
+  .picks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; direction: rtl; }
+  .pick-card { position: relative; background: linear-gradient(180deg, var(--card2), var(--card)); border: 1.5px solid var(--border); border-radius: 14px; padding: 1.25rem; transition: all 0.2s; }
+  .pick-card.pick-hero { border-color: var(--green); box-shadow: 0 0 0 1px rgba(52,211,153,0.15), 0 4px 20px rgba(52,211,153,0.1); }
+  .pick-card.pick-comfort { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(91,140,255,0.15), 0 4px 20px rgba(91,140,255,0.08); }
+  .pick-card .pick-badge { position: absolute; top: -10px; right: 1rem; padding: 3px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+  .pick-card.pick-hero .pick-badge { background: var(--green); color: #0a1812; }
+  .pick-card.pick-comfort .pick-badge { background: var(--accent); color: #06102e; }
+  .pick-card .pick-price { font-size: 2rem; font-weight: 800; line-height: 1.1; direction: ltr; text-align: left; margin-bottom: 0.25rem; }
+  .pick-card.pick-hero .pick-price { color: var(--green); }
+  .pick-card.pick-comfort .pick-price { color: var(--accent); }
+  .pick-card .pick-price-usd { font-size: 1rem; font-weight: 600; color: var(--text2); direction: ltr; text-align: left; margin-bottom: 0.75rem; }
+  .pick-card .pick-sub { font-size: 0.7rem; color: var(--text3); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .pick-card .pick-flight { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
+  .pick-card .pick-flight .pfl-stops { font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; margin-right: 6px; font-weight: 700; letter-spacing: 0.5px; vertical-align: middle; }
+  .pick-card .pick-time { font-size: 0.82rem; color: var(--text2); direction: rtl; unicode-bidi: plaintext; margin-bottom: 0.5rem; }
+  .pick-card .pick-time b { color: var(--text); direction: ltr; unicode-bidi: bidi-override; }
+  .pick-card .pick-route { font-size: 0.75rem; color: var(--text3); margin-bottom: 1rem; }
+  .pick-card .pick-cta-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .pick-card .pick-cta { flex: 1; min-width: 120px; display: inline-flex; justify-content: center; align-items: center; padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; text-decoration: none; transition: all 0.15s; direction: ltr; }
+  .pick-card.pick-hero .pick-cta.cta-primary { background: var(--green); color: #0a1812; }
+  .pick-card.pick-hero .pick-cta.cta-primary:hover { background: #4be0a8; }
+  .pick-card.pick-comfort .pick-cta.cta-primary { background: var(--accent); color: #06102e; }
+  .pick-card.pick-comfort .pick-cta.cta-primary:hover { background: #7aa3ff; }
+  .pick-card .pick-cta.cta-secondary { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
+  .pick-card .pick-cta.cta-secondary:hover { background: var(--card2); color: var(--text); }
+  .pick-card .pick-refund { font-size: 0.68rem; color: var(--purple); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed rgba(167,139,250,0.25); direction: rtl; }
+
+  /* Show-all toggle */
+  .show-all-toggle { display: flex; justify-content: center; margin-top: 1rem; }
+  .show-all-btn { background: transparent; border: 1px solid var(--border2); color: var(--text2); padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s; }
+  .show-all-btn:hover { background: var(--card); color: var(--text); border-color: var(--accent); }
+  .full-list { display: none; margin-top: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .full-list.is-open { display: block; }
+  .full-list .fl-header { background: var(--card2); }
+
+  /* Leg divider */
+  .leg-heading { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .leg-heading .leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .leg-heading .leg-title { font-size: 0.95rem; font-weight: 700; }
+  .leg-heading .leg-date { margin-right: auto; font-size: 0.82rem; color: var(--text3); direction: ltr; }
+  .leg-section { margin-bottom: 1.5rem; }
+  .leg-section:last-child { margin-bottom: 0; }
+  .fl-source-tag { display: inline-block; font-size: 0.58rem; padding: 2px 6px; border-radius: 3px; font-weight: 700; letter-spacing: 0.5px; margin-right: 4px; vertical-align: middle; }
+  .fl-src-google { background: rgba(91,140,255,0.15); color: #89b0ff; border: 1px solid rgba(91,140,255,0.3); }
+  .fl-src-kiwi { background: rgba(255,107,61,0.15); color: #ff8f5e; border: 1px solid rgba(255,107,61,0.3); }
+  .fl-src-only { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
   .tag { display: inline-block; font-size: 0.65rem; padding: 3px 9px; border-radius: 5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; vertical-align: middle; }
   .tag-nonstop { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
   .tag-1stop { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(251,191,36,0.25); }
   .tag-2stop { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
   .tag-cheap { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
   .tag-comfort { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(91,140,255,0.3); }
+  .tag-best { background: linear-gradient(135deg, var(--accent), var(--purple)); color: #fff; border: none; }
 
   .book-link { display: inline-block; margin-top: 5px; font-size: 0.7rem; color: var(--accent); text-decoration: none; font-weight: 600; padding: 3px 10px; border: 1px solid var(--accent); border-radius: 5px; transition: all 0.15s; direction: ltr; }
   .book-link:hover { background: var(--accent); color: #fff; }
@@ -109,9 +164,30 @@
   .tc-airlines { font-size: 0.75rem; color: var(--text2); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border); direction: ltr; }
   .tc-per { font-size: 0.72rem; color: var(--text2); margin-top: 0.3rem; direction: ltr; }
   .tc-per-label { font-size: 0.62rem; color: var(--text3); letter-spacing: 0.5px; margin-top: 0.5rem; font-weight: 600; }
+  .tc-refund { font-size: 0.7rem; color: var(--purple); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed rgba(167,139,250,0.3); font-weight: 600; }
   .tc-green { color: var(--green); }
   .tc-blue { color: var(--accent); }
   .tc-orange { color: var(--orange); }
+
+  .nyc-tor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; direction: rtl; }
+  .nt-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .nt-card.nt-recommended { border-color: rgba(91,140,255,0.4); background: linear-gradient(180deg, rgba(91,140,255,0.04), var(--card)); }
+  .nt-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; }
+  .nt-head .nt-icon { font-size: 1.5rem; }
+  .nt-head .nt-title { font-size: 1rem; font-weight: 700; }
+  .nt-head .nt-tag { font-size: 0.6rem; background: var(--accent-dim); color: var(--accent); padding: 2px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .nt-meta { font-size: 0.78rem; color: var(--text2); line-height: 1.6; margin-bottom: 0.75rem; }
+  .nt-meta b { color: var(--text); }
+  .nt-options { border-top: 1px solid var(--border); padding-top: 0.75rem; }
+  .nt-opt-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.78rem; border-bottom: 1px solid rgba(255,255,255,0.03); direction: rtl; }
+  .nt-opt-row:last-child { border-bottom: none; }
+  .nt-opt-left { color: var(--text2); }
+  .nt-opt-left b { color: var(--text); }
+  .nt-opt-right { font-weight: 700; color: var(--text); direction: ltr; }
+  .nt-summary { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.78rem; color: var(--text3); line-height: 1.7; }
+  .nt-summary .nt-tot { color: var(--green); font-weight: 700; font-size: 0.95rem; }
+  .nt-summary .nt-refund { color: var(--purple); font-weight: 600; }
+  .nt-summary .nt-warn { color: var(--text3); font-size: 0.72rem; }
 
   .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .info-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; }
@@ -121,9 +197,10 @@
 
   .source-note { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.78rem; color: var(--text3); line-height: 1.5; margin-top: 1.25rem; }
   .source-note b { color: var(--green); font-weight: 600; }
+  .source-note .refnote { color: var(--purple); font-weight: 600; }
 
   @media (max-width: 900px) {
-    .date-builder, .flights-split, .totals-grid, .info-grid { grid-template-columns: 1fr; }
+    .date-builder, .flights-split, .totals-grid, .info-grid, .nyc-tor-grid { grid-template-columns: 1fr; }
     .route-visual { flex-wrap: wrap; }
   }
 </style>
@@ -136,19 +213,25 @@
     <div class="route-node"><span class="city" style="color:var(--green)">TLV</span><span class="country">ישראל</span></div>
     <div class="route-line rl-fly"></div>
     <div class="route-node"><span class="city" style="color:var(--orange)">NYC</span><span class="country">ניו יורק</span></div>
-    <div class="route-line rl-drive"></div>
+    <div class="route-line rl-mixed"></div>
     <div class="route-node"><span class="city" style="color:var(--blue)">YYZ</span><span class="country">טורונטו</span></div>
     <div class="route-line rl-fly"></div>
     <div class="route-node"><span class="city" style="color:var(--green)">TLV</span><span class="country">ישראל</span></div>
   </div>
-  <div class="trip-meta"><b>3 מבוגרים</b> · אל על ישיר לניו יורק · עד עצירה אחת בחזרה · חייבים להיות בניו יורק ב-<b>20.5</b> וב-<b>25.5</b></div>
+  <div class="trip-meta">
+    <b>3 מבוגרים</b> · חייבים להיות בניו יורק ב־<span class="pill">20.5</span> ובקנדה ב־<span class="pill">23.5</span><span class="pill">24.5</span>
+    <br>
+    <b>הלוך ישיר</b> (TLV→JFK) · <b>חזור עד עצירה אחת</b> (YYZ→TLV אין ישיר) · לא עצירה בשני הכיוונים
+    <br>
+    טיסות עם אופציית ביטול · NYC→טורונטו: לטוס או לנסוע (השוואה למטה)
+  </div>
 </div>
 
 <div class="section">
   <div class="section-title"><span class="icon">&#128197;</span> בנה את הטיול שלך</div>
   <div class="date-builder">
     <div class="date-col">
-      <label>טיסה לניו יורק</label>
+      <label>טיסה לניו יורק (TLV → JFK)</label>
       <select id="sel-depart"></select>
     </div>
     <div class="date-col">
@@ -156,7 +239,7 @@
       <select id="sel-drive"></select>
     </div>
     <div class="date-col">
-      <label>טיסה הביתה מטורונטו</label>
+      <label>טיסה הביתה (YYZ → TLV)</label>
       <select id="sel-return"></select>
     </div>
   </div>
@@ -172,15 +255,48 @@
 </div>
 
 <div class="section">
-  <div class="section-title"><span class="icon">&#9992;</span> אפשרויות טיסה</div>
-  <div class="flights-split">
-    <div class="fl-panel" id="fl-outbound"></div>
-    <div class="fl-panel" id="fl-return"></div>
+  <div class="section-title">
+    <span class="icon">&#9992;</span> טיסות בינלאומיות — 2 המומלצות לכל כיוון
+    <span class="sub">בחר אחת, לחץ להזמנה · עם ביטול ב־~+35%</span>
+  </div>
+
+  <div class="leg-section">
+    <div class="leg-heading">
+      <span class="leg-dot" style="background:var(--orange)"></span>
+      <span class="leg-title">&#9992; הלוך — TLV &#8594; JFK</span>
+      <span class="leg-date" id="leg-out-date"></span>
+    </div>
+    <div class="picks-grid" id="picks-outbound"></div>
+    <div class="show-all-toggle">
+      <button class="show-all-btn" id="btn-all-out">&#9662; הצג את כל האפשרויות להלוך</button>
+    </div>
+    <div class="full-list" id="full-outbound"></div>
+  </div>
+
+  <div class="leg-section">
+    <div class="leg-heading">
+      <span class="leg-dot" style="background:var(--blue)"></span>
+      <span class="leg-title">&#9992; חזור — YYZ &#8594; TLV</span>
+      <span class="leg-date" id="leg-ret-date"></span>
+    </div>
+    <div class="picks-grid" id="picks-return"></div>
+    <div class="show-all-toggle">
+      <button class="show-all-btn" id="btn-all-ret">&#9662; הצג את כל האפשרויות לחזור</button>
+    </div>
+    <div class="full-list" id="full-return"></div>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-title"><span class="icon">&#128176;</span> עלות כוללת — 3 מבוגרים (טיסות בלבד)</div>
+  <div class="section-title">
+    <span class="icon">&#128666;</span> ניו יורק &#8594; טורונטו: לטוס או לנסוע?
+    <span class="sub">3 מבוגרים · ~550 מייל</span>
+  </div>
+  <div class="nyc-tor-grid" id="nyc-tor-grid"></div>
+</div>
+
+<div class="section">
+  <div class="section-title"><span class="icon">&#128176;</span> עלות כוללת — 3 מבוגרים (טיסות בינלאומיות בלבד)</div>
   <div class="totals-grid" id="totals-grid"></div>
 </div>
 
@@ -190,20 +306,26 @@
 </div>
 
 <div class="source-note" id="source-note">
-  <b>מקור נתונים:</b> כל המחירים מ-<b>Google Flights</b> בזמן אמת (אותם תוצאות כמו ב-google.com/flights). מחירים מקוריים בשקלים.
-  שער חליפין: <span id="rate-display">טוען...</span>. מחירים עשויים להשתנות — שווה להזמין מוקדם. מחיר בסיס; כבודה בתוספת.
+  <b>מקורות נתונים:</b> <b>Google Flights</b> (flights MCP) + <b>Kiwi.com</b> (kiwi-flights MCP) — 3 נוסעים, מחלקת תיירים, אפריל 2026.
+  התגית ליד כל טיסה מציינת באיזה מקור היא נמצאה; במקום שיש גם Kiwi מופיע לינק ישיר להזמנה.
+  Arkia מופיעה רק ב־Google Flights (Kiwi לא מצא אותה).
+  <br>
+  שער חליפין: <span id="rate-display">טוען...</span>.
+  <span class="refnote">הערכת מחיר עם ביטול = מחיר בסיס × 1.35</span> — ממוצע תעשייתי לתעריף refundable;
+  המחיר המדויק תלוי בחברה (Porter Freedom, El Al Flex וכו') ויש לאמת בעת ההזמנה.
+  <br>
+  <b>הערה חשובה:</b> ב־Kiwi יש אופציה של "virtual interlining" (חיבור עצמי של טיסות) שיכולה להיות זולה משמעותית — למשל חזרה YYZ→TLV ב־₪4,451 במקום ₪6,811. <b>אבל:</b> זה מצריך מעבר עצמאי בין שדות עם כבודה, אין אחריות של חברת תעופה על איחור/ביטול של קטע, ועל פי רוב הכרטיסים לא ניתנים לביטול — לכן לא מתאים לדרישת refundable.
 </div>
 
 <script>
 var rate = 3.63;
-var rateLoaded = false;
+var REFUND_MULT = 1.35;
 
 fetch("https://open.er-api.com/v6/latest/USD")
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data && data.rates && data.rates.ILS) {
       rate = data.rates.ILS;
-      rateLoaded = true;
       document.getElementById("rate-display").textContent = "1$ = " + rate.toFixed(2) + " \u20AA (\u05E2\u05D3\u05DB\u05D5\u05DF)";
       render();
     }
@@ -215,100 +337,179 @@ fetch("https://open.er-api.com/v6/latest/USD")
 function ilsToUsd(ils) { return Math.round(ils / rate); }
 function fmtILS(n) { return "\u20AA" + n.toLocaleString(); }
 function fmtUSD(n) { return "$" + n.toLocaleString(); }
+function refund(n) { return Math.round(n * REFUND_MULT); }
 
+// IMPORTANT: Prices in this file (`ils` field on each flight) are **TOTAL for 3 adults**.
+// Kiwi's MCP and Google Flights MCP both return the total for the searched pax count,
+// not per-person. All searches used passengers=3, so `ils` = 3-pax total.
+var PAX = 3;
+function perPax(totalIls) { return Math.round(totalIls / PAX); }
+
+// ===== TLV → JFK (outbound) — direct preferred =====
 var outFlights = {
-  "17.5 (\u05E9\u05D1\u05EA)": {
+  "13.5 (\u05E8\u05D1\u05D9\u05E2\u05D9) — 9 \u05D9\u05DE\u05D9\u05DD \u05D1-NYC": {
+    isoDate: "2026-05-13",
+    flights: [
+      { airline: "El Al", code: "LY3", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "00:05", arr: "04:55", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "kiwi", kiwi: { price: 9080, link: "https://on.kiwi.com/GyKi9y" } },
+      { airline: "El Al", code: "LY7", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "10:15", arr: "15:05", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "kiwi", kiwi: { price: 9080, link: "https://on.kiwi.com/kWCKsl" } },
+      { airline: "El Al", code: "LY11", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "16:55", arr: "21:35", dur: "11:40", stops: 0, ils: 9080, quality: "comfort", source: "kiwi", kiwi: { price: 9080, link: "https://on.kiwi.com/fNP4gO" } },
+    ]
+  },
+  "14.5 (\u05D7\u05DE\u05D9\u05E9\u05D9) — 8 \u05D9\u05DE\u05D9\u05DD \u05D1-NYC": {
+    isoDate: "2026-05-14",
+    flights: [
+      { airline: "El Al", code: "LY1", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "01:00", arr: "05:50", dur: "11:50", stops: 0, ils: 9065, quality: "comfort", source: "kiwi", kiwi: { price: 9065, link: "https://on.kiwi.com/a2gUgd" } },
+      { airline: "El Al", code: "LY7", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "10:15", arr: "15:05", dur: "11:50", stops: 0, ils: 9065, quality: "comfort", source: "kiwi", kiwi: { price: 9065, link: "https://on.kiwi.com/OYMIgz" } },
+      { airline: "El Al", code: "LY11", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "16:55", arr: "21:35", dur: "11:40", stops: 0, ils: 9065, quality: "comfort", source: "kiwi", kiwi: { price: 9065, link: "https://on.kiwi.com/c2CYel" } },
+    ]
+  },
+  "15.5 (\u05E9\u05D9\u05E9\u05D9) — 7 \u05D9\u05DE\u05D9\u05DD \u05D1-NYC": {
+    isoDate: "2026-05-15",
+    flights: [
+      { airline: "Etihad", code: "EY600+EY3", route: "TLV \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 JFK", dep: "01:20", arr: "16:00", dur: "~15 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 5006, quality: "cheap", source: "kiwi", kiwi: { price: 5006, link: "https://on.kiwi.com/5hFqqL" } },
+      { airline: "Etihad", code: "EY596+EY1", route: "TLV \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 JFK", dep: "07:45", arr: "16.5 08:35", dur: "~25 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 5055, quality: "", source: "kiwi", kiwi: { price: 5055, link: "https://on.kiwi.com/E5Ly5T" } },
+      { airline: "El Al", code: "LY3", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "00:05", arr: "04:55", dur: "11:50", stops: 0, ils: 9094, quality: "comfort", source: "kiwi", kiwi: { price: 9094, link: "https://on.kiwi.com/2N5SPE" } },
+      { airline: "El Al", code: "LY1", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "01:00", arr: "05:50", dur: "11:50", stops: 0, ils: 9065, quality: "comfort", source: "kiwi", kiwi: { price: 9065, link: "https://on.kiwi.com/vTmEWw" } },
+    ]
+  },
+  "16.5 (\u05E9\u05D1\u05EA) — 6 \u05D9\u05DE\u05D9\u05DD \u05D1-NYC (\u05E9\u05D1\u05EA, \u05E4\u05D7\u05D5\u05EA \u05D0\u05D5\u05E4\u05E6\u05D9\u05D5\u05EA)": {
+    isoDate: "2026-05-16",
+    flights: [
+      { airline: "Etihad", code: "EY600+EY3", route: "TLV \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 JFK", dep: "01:20", arr: "16:00", dur: "~15 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 5006, quality: "cheap", source: "kiwi", kiwi: { price: 5006, link: "https://on.kiwi.com/1roSdp" } },
+      { airline: "Etihad", code: "EY596+EY1", route: "TLV \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 JFK", dep: "07:45", arr: "17.5 08:35", dur: "~25 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 5055, quality: "", source: "kiwi", kiwi: { price: 5055, link: "https://on.kiwi.com/jOwAls" } },
+    ]
+  },
+  "17.5 (\u05E8\u05D0\u05E9\u05D5\u05DF) — 5 \u05D9\u05DE\u05D9\u05DD · \u05DB\u05D5\u05DC\u05DC \u05DE\u05D5\u05E6\u05F3\u05E9 \u05DC\u05D9\u05DC\u05D4": {
     isoDate: "2026-05-17",
-    elal: [
-      { flight: "LY3", dep: "00:05", arr: "04:55", dur: "11:50", ils: 7478 },
-      { flight: "LY1", dep: "01:00", arr: "05:50", dur: "11:50", ils: 7478 },
-      { flight: "LY7", dep: "10:15", arr: "15:05", dur: "11:50", ils: 7478 },
-      { flight: "LY11", dep: "19:15", arr: "23:55", dur: "11:40", ils: 7478 },
+    flights: [
+      { airline: "El Al", code: "LY3", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8 (\u05DE\u05D5\u05E6\u05F3\u05E9 \u05DC\u05D9\u05DC\u05D4)", dep: "00:05", arr: "04:55", dur: "11:50", stops: 0, ils: 9094, quality: "comfort", source: "kiwi", kiwi: { price: 9094, link: "https://on.kiwi.com/u8rI1Q" } },
+      { airline: "El Al", code: "LY1", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8 (\u05DE\u05D5\u05E6\u05F3\u05E9 \u05DC\u05D9\u05DC\u05D4)", dep: "01:00", arr: "05:50", dur: "11:50", stops: 0, ils: 9094, quality: "comfort", source: "kiwi", kiwi: { price: 9094, link: "https://on.kiwi.com/e2quTR" } },
+      { airline: "El Al", code: "LY7", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "10:15", arr: "15:05", dur: "11:50", stops: 0, ils: 9065, quality: "comfort", source: "kiwi", kiwi: { price: 9065, link: "https://on.kiwi.com/J7dFio" } },
+      { airline: "El Al", code: "LY11", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "19:15", arr: "23:55", dur: "11:40", stops: 0, ils: 9065, quality: "comfort", source: "kiwi", kiwi: { price: 9065, link: "https://on.kiwi.com/1nHSck" } },
     ]
   },
-  "18.5 (\u05E8\u05D0\u05E9\u05D5\u05DF)": {
+  "18.5 (\u05E9\u05E0\u05D9)": {
     isoDate: "2026-05-18",
-    elal: [
-      { flight: "LY1", dep: "01:00", arr: "05:50", dur: "11:50", ils: 7478 },
-      { flight: "LY9", dep: "05:55", arr: "10:45", dur: "11:50", ils: 7478 },
-      { flight: "LY7", dep: "10:15", arr: "15:05", dur: "11:50", ils: 7478 },
-      { flight: "LY11", dep: "16:55", arr: "21:35", dur: "11:40", ils: 7478 },
+    flights: [
+      { airline: "Arkia", code: "IZ991", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "00:05", arr: "04:55", dur: "11:50", stops: 0, ils: 5636, quality: "cheap", source: "google", note: "\u05D6\u05DE\u05D9\u05DF \u05E8\u05E7 \u05D1-Google Flights" },
+      { airline: "El Al", code: "LY1", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "01:00", arr: "05:50", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "both", kiwi: { price: 9094, link: "https://on.kiwi.com/Xw6hvD" } },
+      { airline: "El Al", code: "LY9", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "05:55", arr: "10:45", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "both", kiwi: { price: 9065, link: "https://on.kiwi.com/vTv4VR" } },
+      { airline: "El Al", code: "LY7", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "10:15", arr: "15:05", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "both" },
+      { airline: "El Al", code: "LY11", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "16:55", arr: "21:35", dur: "11:40", stops: 0, ils: 9080, quality: "comfort", source: "both", kiwi: { price: 9065, link: "https://on.kiwi.com/TaQfMC" } },
+      { airline: "Etihad", code: "EY596+EY1", route: "TLV \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 JFK", dep: "07:45", arr: "19.5 08:35", dur: "~25 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 5062, quality: "cheap", source: "both", kiwi: { price: 5006, link: "https://on.kiwi.com/KXCCZ1" } },
+      { airline: "Etihad", code: "EY600+EY3", route: "TLV \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 JFK", dep: "01:20", arr: "16:00", dur: "~15 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 5080, quality: "", source: "both", kiwi: { price: 5025, link: "https://on.kiwi.com/o8cwG5" } },
     ]
   },
-  "19.5 (\u05E9\u05E0\u05D9)": {
+  "19.5 (\u05E9\u05DC\u05D9\u05E9\u05D9)": {
     isoDate: "2026-05-19",
-    elal: [
-      { flight: "LY1", dep: "01:00", arr: "05:50", dur: "11:50", ils: 7478 },
-      { flight: "LY9", dep: "05:55", arr: "10:45", dur: "11:50", ils: 7478 },
-      { flight: "LY7", dep: "10:15", arr: "15:05", dur: "11:50", ils: 7478 },
-      { flight: "LY11", dep: "16:55", arr: "21:35", dur: "11:40", ils: 7478 },
+    flights: [
+      { airline: "Arkia", code: "IZ997", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8 (\u05DC\u05D9\u05DC\u05D4)", dep: "23:30", arr: "20.5 04:20", dur: "11:50", stops: 0, ils: 4291, quality: "best", source: "google", note: "\u05D4\u05DB\u05D9 \u05D6\u05D5\u05DC \u2014 Google Flights \u05D1\u05DC\u05D1\u05D3" },
+      { airline: "Arkia", code: "IZ991", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "00:05", arr: "04:55", dur: "11:50", stops: 0, ils: 6085, quality: "", source: "google" },
+      { airline: "El Al", code: "LY1", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "01:00", arr: "05:50", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "both", kiwi: { price: 9094, link: "https://on.kiwi.com/8Foml7" } },
+      { airline: "El Al", code: "LY9", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "05:55", arr: "10:45", dur: "11:50", stops: 0, ils: 9080, quality: "", source: "both" },
+      { airline: "El Al", code: "LY7", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "10:15", arr: "15:05", dur: "11:50", stops: 0, ils: 9080, quality: "", source: "both" },
+      { airline: "El Al", code: "LY11", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "16:55", arr: "21:35", dur: "11:40", stops: 0, ils: 9080, quality: "comfort", source: "both", kiwi: { price: 9094, link: "https://on.kiwi.com/dySQCt" } },
+      { airline: "Etihad", code: "EY600+EY3", route: "TLV \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 JFK", dep: "01:20", arr: "16:00", dur: "~15 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 5080, quality: "cheap", source: "both", kiwi: { price: 5006, link: "https://on.kiwi.com/SIZGhf" } },
     ]
   },
-  "20.5 (\u05E8\u05D1\u05D9\u05E2\u05D9)": {
+  "20.5 (\u05E8\u05D1\u05D9\u05E2\u05D9) — \u05D1\u05D5\u05E7\u05E8 \u05D1\u05DC\u05D1\u05D3": {
     isoDate: "2026-05-20",
-    elal: [
-      { flight: "LY3", dep: "00:05", arr: "04:55", dur: "11:50", ils: 7478 },
-      { flight: "LY1", dep: "01:00", arr: "05:50", dur: "11:50", ils: 7478 },
-      { flight: "LY7", dep: "10:15", arr: "15:05", dur: "11:50", ils: 7478 },
-      { flight: "LY11", dep: "16:55", arr: "21:35", dur: "11:40", ils: 7478 },
+    flights: [
+      { airline: "El Al", code: "LY3", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "00:05", arr: "04:55", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "both" },
+      { airline: "El Al", code: "LY7", route: "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8", dep: "10:15", arr: "15:05", dur: "11:50", stops: 0, ils: 9080, quality: "comfort", source: "both" },
     ]
   },
 };
 
-function gfLink(from, to, date, pax) {
-  return "https://www.google.com/travel/flights?q=Flights+to+" + to + "+from+" + from + "+on+" + date + "+passengers+" + pax;
-}
+// ===== NYC → Toronto travel day options =====
+var travelDates = ["22.5 (\u05E9\u05D9\u05E9\u05D9)", "23.5 (\u05E9\u05D1\u05EA)"];
 
-var driveDates = ["26.5 (\u05E9\u05DC\u05D9\u05E9\u05D9)", "27.5 (\u05E8\u05D1\u05D9\u05E2\u05D9)", "28.5 (\u05D7\u05DE\u05D9\u05E9\u05D9)", "29.5 (\u05E9\u05D9\u05E9\u05D9)"];
+// All prices below are TOTAL for 3 adults (same convention as outFlights/retFlights)
+var nycTorontoFlight = {
+  cheapest: { airline: "Porter Airlines", code: "PD604", dur: "1\u05E9 40\u05D3", ilsTot3: 1427, kiwiLink: "https://on.kiwi.com/hdc11y", googlePrice: 1594 },
+  alts: [
+    { airline: "Porter PD606", price: 1471, note: "17:55 \u2192 19:35 \u05D9\u05E9\u05D9\u05E8", kiwi: "https://on.kiwi.com/BWurZE" },
+    { airline: "Porter PD608", price: 1471, note: "20:25 \u2192 22:05 \u05D9\u05E9\u05D9\u05E8", kiwi: "https://on.kiwi.com/ZEs2yd" },
+    { airline: "Air Canada AC711", price: 2015, note: "14:30 \u2192 16:10 \u05D9\u05E9\u05D9\u05E8", kiwi: "https://on.kiwi.com/zHZVPN" },
+  ]
+};
 
+var nycTorontoDrive = {
+  hours: 8.5, miles: 550, rentalUSD: 250, gasUSD: 80, crossBorderFeeUSD: 200,
+  note: "I-87 + I-90 \u00B7 \u05D0\u05E4\u05E9\u05E8\u05D5\u05EA \u05E2\u05E6\u05D9\u05E8\u05D4 \u05D1\u05DE\u05E4\u05DC\u05D9 \u05E0\u05D9\u05D0\u05D2\u05E8\u05D4"
+};
+
+// ===== YYZ → TLV (return) — no non-stop option; always 1-stop =====
 var retFlights = {
+  "26.5 (\u05E9\u05DC\u05D9\u05E9\u05D9)": {
+    isoDate: "2026-05-26",
+    flights: [
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "27.5 16:50", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7101, quality: "cheap", source: "kiwi", kiwi: { price: 7101, link: "https://on.kiwi.com/ffM0OK" } },
+      { airline: "Air France", code: "AF357+AF966", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "27.5 14:45", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 8996, quality: "comfort", source: "kiwi", kiwi: { price: 8996, link: "https://on.kiwi.com/3C9ENZ" } },
+    ]
+  },
+  "28.5 (\u05D7\u05DE\u05D9\u05E9\u05D9)": {
+    isoDate: "2026-05-28",
+    flights: [
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "29.5 16:20", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7194, quality: "cheap", source: "both", kiwi: { price: 7092, link: "https://on.kiwi.com/5dzhXO" } },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "29.5 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7638, quality: "comfort", source: "both", kiwi: { price: 7638, link: "https://on.kiwi.com/g7DBW6" } },
+      { airline: "Air France", code: "AF357+AF966", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "29.5 14:45", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9528, quality: "", source: "both", kiwi: { price: 9482, link: "https://on.kiwi.com/utsJLq" } },
+    ]
+  },
+  "29.5 (\u05E9\u05D9\u05E9\u05D9)": {
+    isoDate: "2026-05-29",
+    flights: [
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "30.5 16:50", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7077, quality: "cheap", source: "kiwi", kiwi: { price: 7077, link: "https://on.kiwi.com/YxL09J" } },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "30.5 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7195, quality: "comfort", source: "both" },
+      { airline: "Air France", code: "AF357+AF966", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "30.5 14:45", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9483, quality: "", source: "kiwi", kiwi: { price: 9483, link: "https://on.kiwi.com/GfnhAI" } },
+    ]
+  },
+  "31.5 (\u05E8\u05D0\u05E9\u05D5\u05DF)": {
+    isoDate: "2026-05-31",
+    flights: [
+      { airline: "TAP Portugal", code: "TP262+TP1603", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "22:55", arr: "2.6 04:15", dur: "~24 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6811, quality: "cheap", source: "both" },
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "1.6 16:20", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7194, quality: "", source: "both" },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "1.6 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7195, quality: "comfort", source: "both" },
+    ]
+  },
   "1.6 (\u05E9\u05E0\u05D9)": {
     isoDate: "2026-06-01",
     flights: [
-      { airline: "Alitalia", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "2.6 13:30", dur: "~20 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7213, quality: "comfort" },
-      { airline: "Ethiopian Airlines", route: "YYZ \u2192 \u05D0\u05D3\u05D9\u05E1 \u05D0\u05D1\u05D1\u05D4 \u2192 TLV", dep: "10:45", arr: "2.6 14:35", dur: "~28 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 8234, quality: "" },
-      { airline: "Air France", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "2.6 14:45", dur: "~21 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9059, quality: "" },
-    ]
-  },
-  "2.6 (\u05E9\u05DC\u05D9\u05E9\u05D9)": {
-    isoDate: "2026-06-02",
-    flights: [
-      { airline: "Alitalia", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "3.6 13:30", dur: "~20 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7213, quality: "comfort" },
-      { airline: "Air France", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "3.6 14:45", dur: "~21 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9059, quality: "" },
-      { airline: "Delta + El Al", route: "YYZ \u2192 JFK \u2192 TLV", dep: "18:37", arr: "3.6 17:10", dur: "~22 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 12239, quality: "" },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "2.6 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6889, quality: "best", source: "kiwi", kiwi: { price: 6889, link: "https://on.kiwi.com/1a7gxH" } },
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "2.6 16:50", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7101, quality: "cheap", source: "kiwi", kiwi: { price: 7101, link: "https://on.kiwi.com/Ufltvz" } },
+      { airline: "Air France", code: "AF357+AF966", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "2.6 14:45", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 8996, quality: "comfort", source: "kiwi", kiwi: { price: 8996, link: "https://on.kiwi.com/J7WltX" } },
     ]
   },
   "3.6 (\u05E8\u05D1\u05D9\u05E2\u05D9)": {
     isoDate: "2026-06-03",
     flights: [
-      { airline: "TAP Portugal", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "22:55", arr: "5.6 04:15", dur: "~29 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6828, quality: "cheap" },
-      { airline: "Alitalia", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "4.6 13:30", dur: "~20 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7213, quality: "comfort" },
-      { airline: "Ethiopian Airlines", route: "YYZ \u2192 \u05D0\u05D3\u05D9\u05E1 \u05D0\u05D1\u05D1\u05D4 \u2192 TLV", dep: "10:45", arr: "4.6 14:35", dur: "~28 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 8234, quality: "" },
-      { airline: "Air France", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "4.6 14:45", dur: "~21 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9059, quality: "" },
-    ]
-  },
-  "4.6 (\u05D7\u05DE\u05D9\u05E9\u05D9)": {
-    isoDate: "2026-06-04",
-    flights: [
-      { airline: "TAP Portugal", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "23:45", arr: "6.6 03:40", dur: "~28 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6828, quality: "cheap" },
-      { airline: "Air France", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "5.6 14:45", dur: "~21 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9552, quality: "comfort" },
-      { airline: "Delta + El Al", route: "YYZ \u2192 JFK \u2192 TLV", dep: "18:37", arr: "5.6 17:10", dur: "~22 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 12239, quality: "" },
+      { airline: "TAP Portugal", code: "TP262+TP1603", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "22:55", arr: "5.6 04:15", dur: "~29 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6811, quality: "best", source: "both", kiwi: { price: 6777, link: "https://on.kiwi.com/JLEVI3" } },
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "4.6 16:50", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7194, quality: "cheap", source: "both", kiwi: { price: 7077, link: "https://on.kiwi.com/DSaTr7" } },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "4.6 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7195, quality: "comfort", source: "both", kiwi: { price: 7101, link: "https://on.kiwi.com/T3XmjM" } },
+      { airline: "Air France", code: "AF357+AF966", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "4.6 14:45", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9036, quality: "", source: "both", kiwi: { price: 8996, link: "https://on.kiwi.com/ndoFh4" } },
     ]
   },
   "5.6 (\u05E9\u05D9\u05E9\u05D9)": {
     isoDate: "2026-06-05",
     flights: [
-      { airline: "TAP Portugal", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "22:55", arr: "7.6 03:15", dur: "~28 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6828, quality: "cheap" },
-      { airline: "Alitalia", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "6.6 13:30", dur: "~20 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7963, quality: "comfort" },
-      { airline: "Air France", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "6.6 14:45", dur: "~21 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9552, quality: "" },
+      { airline: "TAP Portugal", code: "TP262+TP1603", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "22:55", arr: "7.6 03:15", dur: "~28 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6811, quality: "cheap", source: "both" },
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "6.6 16:50", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7194, quality: "", source: "both" },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "6.6 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7195, quality: "comfort", source: "both" },
     ]
   },
   "7.6 (\u05E8\u05D0\u05E9\u05D5\u05DF)": {
     isoDate: "2026-06-07",
     flights: [
-      { airline: "TAP Portugal", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "22:55", arr: "9.6 04:05", dur: "~29 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6828, quality: "cheap" },
-      { airline: "Alitalia", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "8.6 13:30", dur: "~20 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7430, quality: "comfort" },
-      { airline: "Air France", route: "YYZ \u2192 \u05E4\u05E8\u05D9\u05D6 \u2192 TLV", dep: "18:00", arr: "8.6 14:45", dur: "~21 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 9059, quality: "" },
+      { airline: "TAP Portugal", code: "TP262+TP1603", route: "YYZ \u2192 \u05DC\u05D9\u05E1\u05D1\u05D5\u05DF \u2192 TLV", dep: "22:55", arr: "9.6 04:05", dur: "~29 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 6811, quality: "cheap", source: "both" },
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "8.6 16:50", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7194, quality: "", source: "both" },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "8.6 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7195, quality: "comfort", source: "both" },
+    ]
+  },
+  "9.6 (\u05E9\u05DC\u05D9\u05E9\u05D9)": {
+    isoDate: "2026-06-09",
+    flights: [
+      { airline: "Etihad Airways", code: "EY22+EY597", route: "YYZ \u2192 \u05D0\u05D1\u05D5 \u05D3\u05D0\u05D1\u05D9 \u2192 TLV", dep: "13:40", arr: "10.6 16:50", dur: "~17 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7103, quality: "cheap", source: "kiwi", kiwi: { price: 7103, link: "https://on.kiwi.com/bXeU1U" } },
+      { airline: "Alitalia", code: "AZ651+AZ806", route: "YYZ \u2192 \u05E8\u05D5\u05DE\u05D0 \u2192 TLV", dep: "17:00", arr: "10.6 13:30", dur: "~14 \u05E9\u05E2\u05D5\u05EA", stops: 1, ils: 7313, quality: "comfort", source: "kiwi", kiwi: { price: 7313, link: "https://on.kiwi.com/0ZxIwp" } },
     ]
   },
 };
@@ -321,12 +522,12 @@ var selDr = document.getElementById("sel-drive");
 var selR = document.getElementById("sel-return");
 
 outKeys.forEach(function(k) { var o = document.createElement("option"); o.value = k; o.textContent = k; selD.appendChild(o); });
-driveDates.forEach(function(k) { var o = document.createElement("option"); o.value = k; o.textContent = k; selDr.appendChild(o); });
+travelDates.forEach(function(k) { var o = document.createElement("option"); o.value = k; o.textContent = k; selDr.appendChild(o); });
 retKeys.forEach(function(k) { var o = document.createElement("option"); o.value = k; o.textContent = k; selR.appendChild(o); });
 
-selD.value = outKeys[1];
-selDr.value = driveDates[1];
-selR.value = retKeys[2];
+selD.value = outKeys[2]; // 15.5 — 7 days in NYC
+selDr.value = travelDates[0]; // 22.5 — Friday evening travel
+selR.value = retKeys.find(function(k) { return k.indexOf("29.5") === 0; }) || retKeys[0];
 selD.onchange = selDr.onchange = selR.onchange = render;
 
 function el(tag, cls, text) {
@@ -353,12 +554,12 @@ function stopsTag(n) {
 function buildInfo() {
   var grid = document.getElementById("info-grid");
   var cards = [
-    { icon: "\uD83D\uDE97", title: "\u05E0\u05E1\u05D9\u05E2\u05D4 \u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u2192 \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5", body: "~550 \u05DE\u05D9\u05D9\u05DC / ~8.5 \u05E9\u05E2\u05D5\u05EA \u05D3\u05E8\u05DA I-87 \u05D5-I-90. \u05D4\u05E9\u05DB\u05E8\u05EA \u05E8\u05DB\u05D1 \u05D7\u05D3-\u05DB\u05D9\u05D5\u05D5\u05E0\u05D9\u05EA (Enterprise, Hertz). \u05D8\u05D9\u05E4: \u05E2\u05E6\u05D9\u05E8\u05D4 \u05D1\u05DE\u05E4\u05DC\u05D9 \u05E0\u05D9\u05D0\u05D2\u05E8\u05D4 \u2014 \u05D1\u05D3\u05D9\u05D5\u05E7 \u05D1\u05D3\u05E8\u05DA! \u05EA\u05E7\u05E6\u05D9\u05D1: ~$200\u2013350." },
+    { icon: "\u2708\uFE0F", title: "\u05DE\u05D8\u05D5\u05E1 \u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u2192 \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5", body: "Porter \u05D9\u05E9\u05D9\u05E8 \u05DE-LGA \u2014 ~\u20AA1,594 \u05DC\u05D0\u05D3\u05DD (\u05DB-$440 \u05DC-3), \u05E8\u05E7 1\u05E9 40\u05D3. \u05D6\u05D5\u05DC \u05D9\u05D5\u05EA\u05E8 \u05DE\u05D4\u05E0\u05E1\u05D9\u05E2\u05D4 \u05E2\u05DD \u05E8\u05DB\u05D1 \u05D7\u05D5\u05E6\u05D4 \u05DC\u05D2\u05D1\u05D5\u05DC. \u05D7\u05D9\u05E1\u05E8\u05D5\u05DF: \u05DC\u05D0 \u05E0\u05D9\u05D0\u05D2\u05E8\u05D4." },
+    { icon: "\uD83D\uDE97", title: "\u05E0\u05E1\u05D9\u05E2\u05D4 \u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u2192 \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5", body: "~550 \u05DE\u05D9\u05D9\u05DC / ~8.5 \u05E9\u05E2\u05D5\u05EA \u05D3\u05E8\u05DA I-87 \u05D5-I-90. \u05D4\u05E9\u05DB\u05E8\u05EA \u05E8\u05DB\u05D1 \u05D7\u05D3-\u05DB\u05D9\u05D5\u05D5\u05E0\u05D9\u05EA + \u05D3\u05DC\u05E7. \u05D8\u05D9\u05E4: \u05E2\u05E6\u05D9\u05E8\u05D4 \u05D1\u05DE\u05E4\u05DC\u05D9 \u05E0\u05D9\u05D0\u05D2\u05E8\u05D4. \u05EA\u05E7\u05E6\u05D9\u05D1: ~$530 \u05DB\u05D5\u05DC\u05DC \u05E2\u05DE\u05DC\u05D5\u05EA \u05D7\u05E6\u05D9\u05D9\u05EA-\u05D2\u05D1\u05D5\u05DC." },
     { icon: "\u2600\uFE0F", title: "\u05DE\u05D6\u05D2 \u05D0\u05D5\u05D9\u05E8 (\u05E1\u05D5\u05E3 \u05DE\u05D0\u05D9\u2013\u05EA\u05D7\u05D9\u05DC\u05EA \u05D9\u05D5\u05E0\u05D9)", body: "\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7: 18\u201327\u00B0C, \u05E9\u05DE\u05E9\u05D9 \u05D1\u05E8\u05D5\u05D1. \u05DE\u05D5\u05E9\u05DC\u05DD \u05DC\u05D8\u05D9\u05D5\u05DC\u05D9\u05DD \u05D1\u05E8\u05D2\u05DC. \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5: 14\u201324\u00B0C, \u05E7\u05E6\u05EA \u05D9\u05D5\u05EA\u05E8 \u05E7\u05E8\u05D9\u05E8. \u05E7\u05D7\u05D5 \u05E9\u05DB\u05D1\u05D5\u05EA \u05DC\u05E2\u05E8\u05D1\u05D9\u05DD." },
-    { icon: "\uD83C\uDFE8", title: "\u05D0\u05D5\u05DE\u05D3\u05DF \u05DC\u05D9\u05E0\u05D4", body: "\u05DE\u05DC\u05D5\u05E0\u05D5\u05EA \u05D1\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7: $150\u2013300/\u05DC\u05D9\u05DC\u05D4 (\u05DE\u05E0\u05D4\u05D8\u05DF). \u05E9\u05D5\u05D5\u05D4 \u05DC\u05E9\u05E7\u05D5\u05DC \u05D1\u05E8\u05D5\u05E7\u05DC\u05D9\u05DF/\u05E7\u05D5\u05D5\u05D9\u05E0\u05D6 \u05DC\u05D7\u05D9\u05E1\u05DB\u05D5\u05DF. \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5: $120\u2013250/\u05DC\u05D9\u05DC\u05D4. Airbnb \u05DC\u05E8\u05D5\u05D1 \u05D6\u05D5\u05DC \u05D9\u05D5\u05EA\u05E8 \u05DC-3." },
-    { icon: "\uD83D\uDCB3", title: "\u05EA\u05E7\u05E6\u05D9\u05D1 \u05DE\u05E2\u05D1\u05E8 \u05DC\u05D8\u05D9\u05E1\u05D5\u05EA", body: "\u05D4\u05E9\u05DB\u05E8\u05EA \u05E8\u05DB\u05D1: ~$250. \u05DE\u05DC\u05D5\u05E0\u05D5\u05EA (14 \u05DC\u05D9\u05DC\u05D5\u05EA): ~$2,500\u20134,500. \u05D0\u05D5\u05DB\u05DC \u05D5\u05D0\u05D8\u05E8\u05E7\u05E6\u05D9\u05D5\u05EA: ~$100\u2013200/\u05D9\u05D5\u05DD. \u05E1\u05D4\u05F4\u05DB \u05DE\u05D5\u05E2\u05E8\u05DA: $15,000\u2013$22,000 \u05DC-3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD." },
-    { icon: "\uD83D\uDDFD", title: "\u05D4\u05D9\u05D9\u05DC\u05D9\u05D9\u05D8\u05E1 \u05D1\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7", body: "\u05E1\u05E0\u05D8\u05E8\u05DC \u05E4\u05D0\u05E8\u05E7, \u05D2\u05E9\u05E8 \u05D1\u05E8\u05D5\u05E7\u05DC\u05D9\u05DF, \u05D8\u05D9\u05D9\u05DE\u05E1 \u05E1\u05E7\u05D5\u05D5\u05E8, \u05E4\u05E1\u05DC \u05D4\u05D7\u05D9\u05E8\u05D5\u05EA, \u05D4\u05D9\u05D9\u05DC\u05D9\u05D9\u05DF, \u05DE\u05D5\u05D6\u05D9\u05D0\u05D5\u05E0\u05D9\u05DD (MoMA, Met). \u05D0\u05D5\u05DB\u05DC: \u05E4\u05D9\u05E6\u05D4, \u05D1\u05D9\u05D9\u05D2\u05DC\u05E1, \u05E6\u05F3\u05D9\u05D9\u05E0\u05D4\u05D8\u05D0\u05D5\u05DF, \u05DC\u05D9\u05D8\u05DC \u05D0\u05D9\u05D8\u05DC\u05D9." },
-    { icon: "\uD83C\uDDE8\uD83C\uDDE6", title: "\u05D4\u05D9\u05D9\u05DC\u05D9\u05D9\u05D8\u05E1 \u05D1\u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5", body: "\u05DE\u05D2\u05D3\u05DC CN, Distillery District, \u05E9\u05D5\u05E7 \u05E7\u05E0\u05D6\u05D9\u05E0\u05D2\u05D8\u05D5\u05DF, \u05DE\u05D5\u05D6\u05D9\u05D0\u05D5\u05DF \u05D0\u05D5\u05E0\u05D8\u05E8\u05D9\u05D5, \u05D0\u05D9\u05D9 \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5. \u05D8\u05D9\u05D5\u05DC\u05D9 \u05D9\u05D5\u05DD: \u05D0\u05D6\u05D5\u05E8 \u05D4\u05D9\u05D9\u05DF Niagara-on-the-Lake." },
+    { icon: "\uD83C\uDFE8", title: "\u05D0\u05D5\u05DE\u05D3\u05DF \u05DC\u05D9\u05E0\u05D4", body: "\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7: $150\u2013300/\u05DC\u05D9\u05DC\u05D4 \u05D1\u05DE\u05DC\u05D5\u05DF (\u05DE\u05E0\u05D4\u05D8\u05DF). \u05E9\u05D5\u05D5\u05D4 \u05DC\u05E9\u05E7\u05D5\u05DC \u05D1\u05E8\u05D5\u05E7\u05DC\u05D9\u05DF/\u05E7\u05D5\u05D5\u05D9\u05E0\u05D6 \u05DC\u05D7\u05D9\u05E1\u05DB\u05D5\u05DF. \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5: $120\u2013250/\u05DC\u05D9\u05DC\u05D4. Airbnb \u05DC\u05E8\u05D5\u05D1 \u05D6\u05D5\u05DC \u05D9\u05D5\u05EA\u05E8 \u05DC-3." },
+    { icon: "\uD83D\uDCB3", title: "\u05EA\u05E7\u05E6\u05D9\u05D1 \u05DE\u05E2\u05D1\u05E8 \u05DC\u05D8\u05D9\u05E1\u05D5\u05EA", body: "\u05D8\u05D9\u05E1\u05D5\u05EA \u05D1\u05D9\u05E0\u05DC\u05F4 (3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD): $9,800\u2013$15,000 (\u05D2\u05DD \u05E2\u05DD \u05D1\u05D9\u05D8\u05D5\u05DC). \u05DE\u05DC\u05D5\u05E0\u05D5\u05EA: $2,500\u20134,500. \u05E1\u05D4\u05F4\u05DB \u05DE\u05D5\u05E2\u05E8\u05DA: $14,000\u2013$22,000." },
+    { icon: "\uD83D\uDDFD", title: "\u05D4\u05D9\u05D9\u05DC\u05D9\u05D9\u05D8\u05E1 \u05D1\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 (\u05D9\u05D5\u05DE\u05D9\u05D9\u05DD \u05E1\u05E4\u05D5\u05E8\u05D9\u05DD)", body: "\u05E1\u05E0\u05D8\u05E8\u05DC \u05E4\u05D0\u05E8\u05E7, \u05D2\u05E9\u05E8 \u05D1\u05E8\u05D5\u05E7\u05DC\u05D9\u05DF, \u05D8\u05D9\u05D9\u05DE\u05E1 \u05E1\u05E7\u05D5\u05D5\u05E8, \u05E4\u05E1\u05DC \u05D4\u05D7\u05D9\u05E8\u05D5\u05EA. \u05E2\u05DD \u05E8\u05E7 \u05E2\u05D3 22.5 \u2014 \u05E6\u05E8\u05D9\u05DA \u05DC\u05DE\u05E7\u05E1\u05DD: One World Trade, MoMA, Central Park." },
   ];
   cards.forEach(function(c) {
     var card = el("div", "info-card");
@@ -369,6 +570,294 @@ function buildInfo() {
   });
 }
 buildInfo();
+
+function buildNycToronto() {
+  var grid = document.getElementById("nyc-tor-grid");
+  grid.textContent = "";
+
+  // Fly card
+  var fly = el("div", "nt-card nt-recommended");
+  var fhead = el("div", "nt-head");
+  fhead.appendChild(el("span", "nt-icon", "\u2708\uFE0F"));
+  fhead.appendChild(el("span", "nt-title", "\u05DC\u05D8\u05D5\u05E1 (LGA \u2192 YYZ)"));
+  fhead.appendChild(el("span", "nt-tag", "\u05DE\u05D5\u05DE\u05DC\u05E5"));
+  fly.appendChild(fhead);
+  var fmeta = el("div", "nt-meta");
+  fmeta.appendChild(el("b", null, "Porter Airlines \u05D9\u05E9\u05D9\u05E8"));
+  fmeta.appendChild(document.createTextNode(" \u00B7 1\u05E9 40\u05D3 \u05D8\u05D9\u05E1\u05D4 \u00B7 LaGuardia \u2192 Pearson"));
+  fmeta.appendChild(document.createElement("br"));
+  fmeta.appendChild(document.createTextNode("\u05D9\u05D5\u05DD \u05D8\u05D9\u05D5\u05DC \u05E0\u05D7\u05E1\u05DA, \u05D0\u05D9\u05DF \u05E9\u05DB\u05D9\u05E8\u05D5\u05EA \u05E8\u05DB\u05D1, \u05D0\u05D9\u05DF \u05D7\u05E6\u05D9\u05D9\u05EA \u05D2\u05D1\u05D5\u05DC."));
+  fly.appendChild(fmeta);
+
+  var fopts = el("div", "nt-options");
+  var rowMain = el("div", "nt-opt-row");
+  var rml = el("div", "nt-opt-left");
+  rml.appendChild(el("b", null, "Porter"));
+  rml.appendChild(document.createTextNode(" 09:55/17:55/20:25 \u05D9\u05E9\u05D9\u05E8"));
+  rowMain.appendChild(rml);
+  rowMain.appendChild(el("div", "nt-opt-right", fmtILS(perPax(nycTorontoFlight.cheapest.ilsTot3)) + " \u05DC\u05D0\u05D3\u05DD"));
+  fopts.appendChild(rowMain);
+  nycTorontoFlight.alts.forEach(function(a) {
+    var r = el("div", "nt-opt-row");
+    r.appendChild(el("div", "nt-opt-left", a.airline + " \u00B7 " + a.note));
+    r.appendChild(el("div", "nt-opt-right", fmtILS(perPax(a.price)) + " \u05DC\u05D0\u05D3\u05DD"));
+    fopts.appendChild(r);
+  });
+  fly.appendChild(fopts);
+
+  var flyTotal = nycTorontoFlight.cheapest.ilsTot3;
+  var flyGoogle = nycTorontoFlight.cheapest.googlePrice;
+  var fsum = el("div", "nt-summary");
+  fsum.appendChild(document.createTextNode("\u05E1\u05D4\u05F4\u05DB \u05DC-3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD (Kiwi): "));
+  fsum.appendChild(el("span", "nt-tot", fmtILS(flyTotal) + " / " + fmtUSD(ilsToUsd(flyTotal))));
+  fsum.appendChild(document.createElement("br"));
+  var googleSpan = el("span", "nt-warn", "Google Flights: " + fmtILS(flyGoogle) + " (\u2191" + fmtILS(flyGoogle - flyTotal) + ")");
+  fsum.appendChild(googleSpan);
+  fsum.appendChild(document.createElement("br"));
+  fsum.appendChild(el("span", "nt-refund", "\u05E2\u05DD \u05D1\u05D9\u05D8\u05D5\u05DC (~+35%): " + fmtILS(refund(flyTotal))));
+  if (nycTorontoFlight.cheapest.kiwiLink) {
+    fsum.appendChild(document.createElement("br"));
+    var klink = document.createElement("a");
+    klink.className = "book-link";
+    klink.textContent = "\u05D4\u05D6\u05DE\u05E0\u05D4 \u05D1-Kiwi \u2197";
+    klink.target = "_blank"; klink.rel = "noopener";
+    klink.href = nycTorontoFlight.cheapest.kiwiLink;
+    fsum.appendChild(klink);
+  }
+  fly.appendChild(fsum);
+  grid.appendChild(fly);
+
+  // Drive card
+  var drive = el("div", "nt-card");
+  var dhead = el("div", "nt-head");
+  dhead.appendChild(el("span", "nt-icon", "\uD83D\uDE97"));
+  dhead.appendChild(el("span", "nt-title", "\u05E0\u05E1\u05D9\u05E2\u05D4 (\u05E8\u05DB\u05D1 \u05E9\u05DB\u05D5\u05E8)"));
+  drive.appendChild(dhead);
+
+  var dmeta = el("div", "nt-meta");
+  dmeta.appendChild(el("b", null, "~8.5 \u05E9\u05E2\u05D5\u05EA \u05D3\u05E8\u05DA I-87 + I-90"));
+  dmeta.appendChild(document.createTextNode(" \u00B7 ~550 \u05DE\u05D9\u05D9\u05DC"));
+  dmeta.appendChild(document.createElement("br"));
+  dmeta.appendChild(document.createTextNode("\u05D7\u05D5\u05E6\u05D4 \u05D2\u05D1\u05D5\u05DC \u05D9\u05D1\u05E9\u05D4 (\u05DE\u05E1\u05DE\u05DB\u05D9 \u05DB\u05E0\u05D9\u05E1\u05D4) + \u05D2\u05E9\u05E8 \u05E8\u05D9\u05D9\u05E0\u05D1\u05D5 \u00B7 \u05D9\u05D5\u05DD \u05E0\u05E1\u05D9\u05E2\u05D4 \u05E0\u05E4\u05E8\u05D3."));
+  drive.appendChild(dmeta);
+
+  var dopts = el("div", "nt-options");
+  var dRows = [
+    ["\u05D4\u05E9\u05DB\u05E8\u05EA \u05E8\u05DB\u05D1 (4-5 \u05D9\u05DE\u05D9\u05DD, SUV)", fmtUSD(nycTorontoDrive.rentalUSD)],
+    ["\u05D3\u05DC\u05E7", fmtUSD(nycTorontoDrive.gasUSD)],
+    ["\u05D7\u05E6\u05D9\u05D9\u05EA-\u05D2\u05D1\u05D5\u05DC drop fee", fmtUSD(nycTorontoDrive.crossBorderFeeUSD)],
+    ["\u05D0\u05D2\u05E8\u05D5\u05EA \u05D3\u05E8\u05DA + \u05D0\u05D5\u05DB\u05DC", "~$50"],
+  ];
+  dRows.forEach(function(r) {
+    var row = el("div", "nt-opt-row");
+    row.appendChild(el("div", "nt-opt-left", r[0]));
+    row.appendChild(el("div", "nt-opt-right", r[1]));
+    dopts.appendChild(row);
+  });
+  drive.appendChild(dopts);
+
+  var driveUSD = nycTorontoDrive.rentalUSD + nycTorontoDrive.gasUSD + nycTorontoDrive.crossBorderFeeUSD + 50;
+  var dsum = el("div", "nt-summary");
+  dsum.appendChild(document.createTextNode("\u05E1\u05D4\u05F4\u05DB \u05DC-3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD: "));
+  var driveTot = el("span", "nt-tot", "~" + fmtUSD(driveUSD) + " / ~" + fmtILS(Math.round(driveUSD * rate)));
+  driveTot.style.color = "var(--yellow)";
+  dsum.appendChild(driveTot);
+  dsum.appendChild(document.createElement("br"));
+  dsum.appendChild(el("span", "nt-warn", "+ \u05D0\u05D9\u05DF \u05D0\u05D5\u05E4\u05E6\u05D9\u05D9\u05EA \"\u05D1\u05D9\u05D8\u05D5\u05DC\" \u2014 \u05D4\u05DE\u05D7\u05D9\u05E8 \u05E7\u05D1\u05D5\u05E2 \u05D1\u05E8\u05D2\u05E2 \u05D4\u05D4\u05D6\u05DE\u05E0\u05D4"));
+  drive.appendChild(dsum);
+  grid.appendChild(drive);
+}
+
+function sourceTag(source) {
+  var t = el("span", "fl-source-tag");
+  if (source === "google") { t.className += " fl-src-google"; t.textContent = "Google"; }
+  else if (source === "kiwi") { t.className += " fl-src-kiwi"; t.textContent = "Kiwi"; }
+  else if (source === "both") { t.className += " fl-src-google"; t.textContent = "Google+Kiwi"; }
+  else { return null; }
+  return t;
+}
+
+function renderFlightRow(f, isCheapest) {
+  var row = el("div", "fl-row");
+  var left = el("div", "fl-left");
+  var aline = el("div", "fl-airline");
+  var st = sourceTag(f.source);
+  if (st) aline.appendChild(st);
+  aline.appendChild(document.createTextNode(f.airline + " "));
+  if (f.code) aline.appendChild(el("span", "fl-code", f.code));
+  aline.appendChild(document.createTextNode(" "));
+  aline.appendChild(stopsTag(f.stops));
+  if (f.quality === "best") { aline.appendChild(document.createTextNode(" ")); aline.appendChild(el("span", "tag tag-best", "\u05D4\u05DB\u05D9 \u05D8\u05D5\u05D1")); }
+  else if (isCheapest) { aline.appendChild(document.createTextNode(" ")); aline.appendChild(el("span", "tag tag-cheap", "\u05D4\u05DB\u05D9 \u05D6\u05D5\u05DC")); }
+  if (f.quality === "comfort") { aline.appendChild(document.createTextNode(" ")); aline.appendChild(el("span", "tag tag-comfort", "\u05DE\u05D5\u05DE\u05DC\u05E5")); }
+  left.appendChild(aline);
+  left.appendChild(el("div", "fl-detail", f.route + " \u00B7 " + f.dur));
+  left.appendChild(el("div", "fl-times", "\u05D9\u05E6\u05D9\u05D0\u05D4 " + f.dep + " \u2192 \u05E0\u05D7\u05D9\u05EA\u05D4 " + f.arr));
+  if (f.note) {
+    var noteEl = el("div", "fl-times", f.note);
+    noteEl.style.color = "var(--yellow)";
+    left.appendChild(noteEl);
+  }
+  row.appendChild(left);
+
+  var right = el("div", "fl-right");
+  var pp = perPax(f.ils);
+  right.appendChild(el("div", "fl-price", fmtILS(pp) + " / " + fmtUSD(ilsToUsd(pp))));
+  right.appendChild(el("div", "fl-price-label", "\u05DC\u05D0\u05D3\u05DD"));
+  right.appendChild(el("div", "fl-price-3", "3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD: " + fmtILS(f.ils) + " / " + fmtUSD(ilsToUsd(f.ils))));
+  var rf = el("div", "fl-refund");
+  rf.appendChild(el("span", "rf-label", "\u05E2\u05DD \u05D1\u05D9\u05D8\u05D5\u05DC ~+35%"));
+  rf.appendChild(document.createTextNode(fmtILS(refund(f.ils))));
+  right.appendChild(rf);
+
+  if (f.kiwi && f.kiwi.link) {
+    var kiwiBox = el("div", "fl-kiwi-alt");
+    var diff = f.kiwi.price - f.ils;
+    var kiwiLabel = "Kiwi: " + fmtILS(f.kiwi.price);
+    if (diff < -20) kiwiLabel += " (\u2193" + fmtILS(-diff) + " \u05D6\u05D5\u05DC \u05D9\u05D5\u05EA\u05E8)";
+    else if (diff > 20) kiwiLabel += " (\u2191" + fmtILS(diff) + ")";
+    else kiwiLabel += " (\u05D6\u05D4\u05D4)";
+    kiwiBox.appendChild(document.createTextNode(kiwiLabel + " \u00B7 "));
+    var kiwiLink = document.createElement("a");
+    kiwiLink.href = f.kiwi.link;
+    kiwiLink.target = "_blank";
+    kiwiLink.rel = "noopener";
+    kiwiLink.textContent = "\u05D4\u05D6\u05DE\u05E0\u05D4 \u2197";
+    kiwiBox.appendChild(kiwiLink);
+    right.appendChild(kiwiBox);
+  }
+
+  row.appendChild(right);
+  return { row: row, right: right };
+}
+
+// Pick 2 hero flights: cheapest overall + best direct (or best comfort if all direct).
+// Return flights are all 1-stop, so for return: cheapest + best-comfort (Alitalia etc.).
+function choosePicks(flights, isOutbound) {
+  var sorted = flights.slice().sort(function(a, b) { return a.ils - b.ils; });
+  var cheapest = sorted[0];
+  var alt;
+  if (isOutbound) {
+    // Find cheapest direct flight that isn't the cheapest pick
+    var directs = sorted.filter(function(f) { return f.stops === 0; });
+    var cheapestDirect = directs[0];
+    if (cheapestDirect && cheapestDirect !== cheapest) alt = cheapestDirect;
+    else alt = sorted.find(function(f) { return f.quality === "comfort" && f !== cheapest; }) || sorted[1];
+  } else {
+    // For return: pick the best "comfort" flight (Alitalia/Air France direct to Rome/Paris typical)
+    alt = sorted.find(function(f) { return f.quality === "comfort" && f !== cheapest; }) || sorted[1];
+  }
+  return { hero: cheapest, alt: alt };
+}
+
+function renderPickCard(f, kind, isoDate, from, to) {
+  var card = el("div", "pick-card " + (kind === "hero" ? "pick-hero" : "pick-comfort"));
+
+  var badge = el("span", "pick-badge");
+  badge.textContent = kind === "hero" ? "\u05D4\u05DB\u05D9 \u05D6\u05D5\u05DC" : (f.stops === 0 ? "\u05D9\u05E9\u05D9\u05E8 \u00B7 \u05E0\u05D5\u05D7\u05D5\u05EA" : "\u05E0\u05D5\u05D7\u05D5\u05EA");
+  card.appendChild(badge);
+
+  var total = f.ils;
+  card.appendChild(el("div", "pick-price", fmtILS(total)));
+  card.appendChild(el("div", "pick-price-usd", fmtUSD(ilsToUsd(total))));
+  card.appendChild(el("div", "pick-sub", "3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD \u00B7 " + fmtILS(perPax(f.ils)) + " \u05DC\u05D0\u05D3\u05DD"));
+
+  var flLine = el("div", "pick-flight");
+  flLine.appendChild(document.createTextNode(f.airline + " " + (f.code || "") + " "));
+  var stopsPill = el("span", "pfl-stops");
+  if (f.stops === 0) {
+    stopsPill.className += " tag-nonstop";
+    stopsPill.textContent = "\u05D9\u05E9\u05D9\u05E8";
+  } else {
+    stopsPill.className += " tag-1stop";
+    stopsPill.textContent = "\u05E2\u05E6\u05D9\u05E8\u05D4 1";
+  }
+  flLine.appendChild(stopsPill);
+  card.appendChild(flLine);
+
+  var timeLine = el("div", "pick-time");
+  timeLine.appendChild(document.createTextNode("\u05D9\u05E6\u05D9\u05D0\u05D4 "));
+  var depB = el("b", null, f.dep);
+  timeLine.appendChild(depB);
+  timeLine.appendChild(document.createTextNode(" \u2192 \u05E0\u05D7\u05D9\u05EA\u05D4 "));
+  var arrB = el("b", null, f.arr);
+  timeLine.appendChild(arrB);
+  timeLine.appendChild(document.createTextNode(" \u00B7 " + f.dur));
+  card.appendChild(timeLine);
+
+  if (f.stops > 0) {
+    card.appendChild(el("div", "pick-route", f.route));
+  }
+
+  // CTAs: prefer Kiwi link if Kiwi-only source, else Google (+Kiwi if available)
+  var ctaRow = el("div", "pick-cta-row");
+  if (f.source === "kiwi" && f.kiwi && f.kiwi.link) {
+    var ctaK = document.createElement("a");
+    ctaK.className = "pick-cta cta-primary";
+    ctaK.textContent = "\u05D4\u05D6\u05DE\u05E0\u05D4 \u05D1-Kiwi \u2197";
+    ctaK.href = f.kiwi.link; ctaK.target = "_blank"; ctaK.rel = "noopener";
+    ctaRow.appendChild(ctaK);
+  } else {
+    var ctaG = document.createElement("a");
+    ctaG.className = "pick-cta cta-primary";
+    ctaG.textContent = "\u05D4\u05D6\u05DE\u05E0\u05D4 \u05D1-Google \u2197";
+    ctaG.target = "_blank"; ctaG.rel = "noopener";
+    ctaG.href = "https://www.google.com/travel/flights?q=Flights+from+" + from + "+to+" + to + "+on+" + isoDate + "+passengers+3&hl=he";
+    ctaRow.appendChild(ctaG);
+    if (f.kiwi && f.kiwi.link) {
+      var ctaK2 = document.createElement("a");
+      ctaK2.className = "pick-cta cta-secondary";
+      ctaK2.textContent = "Kiwi \u2197";
+      ctaK2.href = f.kiwi.link; ctaK2.target = "_blank"; ctaK2.rel = "noopener";
+      ctaRow.appendChild(ctaK2);
+    }
+  }
+  card.appendChild(ctaRow);
+
+  var rf = el("div", "pick-refund", "\u05E2\u05DD \u05D0\u05D5\u05E4\u05E6\u05D9\u05D9\u05EA \u05D1\u05D9\u05D8\u05D5\u05DC (~+35%): " + fmtILS(refund(total)));
+  card.appendChild(rf);
+
+  return card;
+}
+
+function renderLeg(data, prefix, dateKey, from, to) {
+  var picksContainer = document.getElementById("picks-" + (prefix === "out" ? "outbound" : "return"));
+  var fullContainer = document.getElementById("full-" + (prefix === "out" ? "outbound" : "return"));
+  picksContainer.textContent = "";
+  fullContainer.textContent = "";
+  fullContainer.classList.remove("is-open");
+
+  var isOutbound = prefix === "out";
+  // Rule: outbound TLV→JFK must always be DIRECT only
+  var allFlights = isOutbound ? data.flights.filter(function(f) { return f.stops === 0; }) : data.flights.slice();
+  data = { isoDate: data.isoDate, flights: allFlights };
+  var picks = choosePicks(data.flights, isOutbound);
+  picksContainer.appendChild(renderPickCard(picks.hero, "hero", data.isoDate, from, to));
+  picksContainer.appendChild(renderPickCard(picks.alt, "alt", data.isoDate, from, to));
+
+  // Full list (collapsed)
+  var cheapestPrice = Math.min.apply(null, data.flights.map(function(f) { return f.ils; }));
+  var list = el("div", "fl-list");
+  data.flights.forEach(function(f) {
+    var built = renderFlightRow(f, f.ils === cheapestPrice);
+    var bk = document.createElement("a");
+    bk.className = "book-link";
+    bk.textContent = "Google \u2197";
+    bk.target = "_blank"; bk.rel = "noopener";
+    bk.href = "https://www.google.com/travel/flights?q=Flights+from+" + from + "+to+" + to + "+on+" + data.isoDate + "+passengers+3&hl=he";
+    built.right.appendChild(bk);
+    list.appendChild(built.row);
+  });
+  fullContainer.appendChild(list);
+
+  // Toggle button
+  var btn = document.getElementById("btn-all-" + (isOutbound ? "out" : "ret"));
+  btn.textContent = "\u25BE \u05D4\u05E6\u05D2 \u05D0\u05EA \u05DB\u05DC " + data.flights.length + " \u05D4\u05D0\u05E4\u05E9\u05E8\u05D5\u05D9\u05D5\u05EA \u05DC" + (isOutbound ? "\u05D4\u05DC\u05D5\u05DA" : "\u05D7\u05D6\u05D5\u05E8");
+  btn.onclick = function() {
+    var isOpen = fullContainer.classList.toggle("is-open");
+    btn.textContent = (isOpen ? "\u25B4 \u05E1\u05D2\u05D5\u05E8 " : "\u25BE \u05D4\u05E6\u05D2 \u05D0\u05EA \u05DB\u05DC ") + data.flights.length + " \u05D4\u05D0\u05E4\u05E9\u05E8\u05D5\u05D9\u05D5\u05EA \u05DC" + (isOutbound ? "\u05D4\u05DC\u05D5\u05DA" : "\u05D7\u05D6\u05D5\u05E8");
+  };
+}
 
 function render() {
   var dk = selD.value, drk = selDr.value, rk = selR.value;
@@ -384,127 +873,69 @@ function render() {
 
   var stats = document.getElementById("date-stats");
   stats.textContent = "";
+  var nycOk = depDay <= dayNum("20.5") && driveDay >= dayNum("20.5");
+  var canadaOk = driveDay <= dayNum("23.5") && retDay >= dayNum("24.5");
   var items = [
     ["\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7:", nycNights + " \u05DC\u05D9\u05DC\u05D5\u05EA", "num-nyc"],
-    ["\u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5:", torNights + " \u05DC\u05D9\u05DC\u05D5\u05EA", "num-tor"],
+    ["\u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5/\u05E7\u05E0\u05D3\u05D4:", torNights + " \u05DC\u05D9\u05DC\u05D5\u05EA", "num-tor"],
     ["\u05E1\u05D4\u05F4\u05DB \u05D8\u05D9\u05D5\u05DC:", totalDays + " \u05D9\u05DE\u05D9\u05DD", "num-total"],
-    ["", "\u05D1\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u05D1-20.5 \u2713 \u05D5\u05D1-25.5 \u2713", ""],
+    ["", (nycOk ? "\u2713 \u05D1\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u05D1-20.5" : "\u26A0 \u05DC\u05D0 \u05D1\u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7 \u05D1-20.5"), nycOk ? "" : "warn"],
+    ["", (canadaOk ? "\u2713 \u05D1\u05E7\u05E0\u05D3\u05D4 \u05D1-23.5+24.5" : "\u26A0 \u05DC\u05D0 \u05D1\u05E7\u05E0\u05D3\u05D4 \u05D1-23.5/24.5"), canadaOk ? "" : "warn"],
   ];
   items.forEach(function(it) {
     var s = el("span", "date-stat");
     if (it[0]) { s.appendChild(el("b", null, it[0] + " ")); }
-    s.appendChild(el("span", it[2] ? "num " + it[2] : null, it[1]));
+    var span = el("span", it[2] && it[2] !== "warn" ? "num " + it[2] : null, it[1]);
+    if (it[2] === "warn") span.style.color = "var(--red)";
+    s.appendChild(span);
     stats.appendChild(s);
   });
-
-  if (nycNights < 1 || torNights < 1) {
-    var warn = el("span", "date-stat");
-    warn.style.color = "var(--red)";
-    warn.textContent = "\u26A0 \u05EA\u05D0\u05E8\u05D9\u05DB\u05D9\u05DD \u05D7\u05D5\u05E4\u05E4\u05D9\u05DD \u2014 \u05EA\u05EA\u05E7\u05E0\u05D5 \u05DB\u05DA \u05E9\u05D4\u05E0\u05E1\u05D9\u05E2\u05D4 \u05EA\u05D4\u05D9\u05D4 \u05D1\u05D9\u05DF \u05D4\u05D4\u05DC\u05D9\u05DB\u05D4 \u05DC\u05D7\u05D6\u05E8\u05D4.";
-    stats.appendChild(warn);
-  }
 
   var bar = document.getElementById("timeline-bar");
   bar.textContent = "";
   var s1 = el("div", "tl-seg tl-fly"); s1.style.flex = 2; s1.textContent = "\u2708"; bar.appendChild(s1);
   var s2 = el("div", "tl-seg tl-nyc"); s2.style.flex = Math.max(2, nycNights);
   s2.appendChild(el("span", "tl-num", nycNights)); s2.appendChild(document.createTextNode(" \u05DC\u05D9\u05DC\u05D5\u05EA \u05E0\u05D9\u05D5 \u05D9\u05D5\u05E8\u05E7")); bar.appendChild(s2);
-  var s3 = el("div", "tl-seg tl-drive"); s3.style.flex = 1; s3.textContent = "\uD83D\uDE97"; bar.appendChild(s3);
+  var s3 = el("div", "tl-seg tl-drive"); s3.style.flex = 1; s3.textContent = "\u2708\uFE0F/\uD83D\uDE97"; bar.appendChild(s3);
   var s4 = el("div", "tl-seg tl-toronto"); s4.style.flex = Math.max(2, torNights);
-  s4.appendChild(el("span", "tl-num", torNights)); s4.appendChild(document.createTextNode(" \u05DC\u05D9\u05DC\u05D5\u05EA \u05D8\u05D5\u05E8\u05D5\u05E0\u05D8\u05D5")); bar.appendChild(s4);
+  s4.appendChild(el("span", "tl-num", torNights)); s4.appendChild(document.createTextNode(" \u05DC\u05D9\u05DC\u05D5\u05EA \u05E7\u05E0\u05D3\u05D4")); bar.appendChild(s4);
   var s5 = el("div", "tl-seg tl-fly"); s5.style.flex = 2; s5.textContent = "\u2708"; bar.appendChild(s5);
 
   var labels = document.getElementById("timeline-labels");
   labels.textContent = "";
   labels.appendChild(el("span", null, dk.split(" ")[0]));
-  labels.appendChild(el("span", null, "\u05E0\u05E1\u05D9\u05E2\u05D4: " + drk.split(" ")[0]));
+  labels.appendChild(el("span", null, "\u05DE\u05E2\u05D1\u05E8: " + drk.split(" ")[0]));
   labels.appendChild(el("span", null, rk.split(" ")[0]));
 
-  // Outbound
-  var outPanel = document.getElementById("fl-outbound");
-  outPanel.textContent = "";
-  var oh = el("div", "fl-header");
-  var od = el("span", "fl-dot"); od.style.background = "var(--orange)"; oh.appendChild(od);
-  oh.appendChild(el("span", "fl-title", "\u05D4\u05DC\u05D5\u05DA \u2014 TLV \u2192 JFK"));
-  oh.appendChild(el("span", "fl-date", dk));
-  outPanel.appendChild(oh);
+  document.getElementById("leg-out-date").textContent = dk;
+  document.getElementById("leg-ret-date").textContent = rk;
+  renderLeg(outData, "out", dk, "TLV", "JFK");
+  renderLeg(retData, "ret", rk, "YYZ", "TLV");
 
-  var olist = el("div", "fl-list");
-  outData.elal.forEach(function(f) {
-    var row = el("div", "fl-row");
-    var left = el("div", "fl-left");
-    var aline = el("div", "fl-airline");
-    aline.appendChild(document.createTextNode("El Al "));
-    aline.appendChild(el("span", "fl-code", f.flight));
-    aline.appendChild(document.createTextNode(" "));
-    aline.appendChild(stopsTag(0));
-    left.appendChild(aline);
-    left.appendChild(el("div", "fl-detail", "TLV \u2192 JFK \u05D9\u05E9\u05D9\u05E8 \u00B7 " + f.dur));
-    left.appendChild(el("div", "fl-times", "\u05D9\u05E6\u05D9\u05D0\u05D4 " + f.dep + " \u2192 \u05E0\u05D7\u05D9\u05EA\u05D4 " + f.arr + " (\u05D0\u05D5\u05EA\u05D5 \u05D9\u05D5\u05DD)"));
-    row.appendChild(left);
-    var right = el("div", "fl-right");
-    right.appendChild(el("div", "fl-price", fmtILS(f.ils) + " / " + fmtUSD(ilsToUsd(f.ils))));
-    right.appendChild(el("div", "fl-price-label", "\u05DC\u05D0\u05D3\u05DD"));
-    right.appendChild(el("div", "fl-price-3", "3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD: " + fmtILS(f.ils * 3) + " / " + fmtUSD(ilsToUsd(f.ils * 3))));
-    var bk = document.createElement("a"); bk.className = "book-link"; bk.textContent = "\u05D7\u05E4\u05E9 \u05D1-Google Flights \u2197"; bk.target = "_blank"; bk.rel = "noopener";
-    bk.href = "https://www.google.com/travel/flights?q=Flights+from+TLV+to+JFK+on+" + outData.isoDate + "+passengers+3&hl=he";
-    right.appendChild(bk);
-    row.appendChild(right);
-    olist.appendChild(row);
-  });
-  outPanel.appendChild(olist);
+  buildNycToronto();
 
-  // Return
-  var retPanel = document.getElementById("fl-return");
-  retPanel.textContent = "";
-  var rh = el("div", "fl-header");
-  var rd = el("span", "fl-dot"); rd.style.background = "var(--blue)"; rh.appendChild(rd);
-  rh.appendChild(el("span", "fl-title", "\u05D7\u05D6\u05E8\u05D4 \u2014 YYZ \u2192 TLV"));
-  rh.appendChild(el("span", "fl-date", rk));
-  retPanel.appendChild(rh);
-
-  var rlist = el("div", "fl-list");
-  var cheapestRet = Math.min.apply(null, retData.flights.map(function(f) { return f.ils; }));
-  retData.flights.forEach(function(f) {
-    var row = el("div", "fl-row");
-    var left = el("div", "fl-left");
-    var aline = el("div", "fl-airline");
-    aline.appendChild(document.createTextNode(f.airline + " "));
-    aline.appendChild(stopsTag(f.stops));
-    if (f.ils === cheapestRet) { aline.appendChild(document.createTextNode(" ")); aline.appendChild(el("span", "tag tag-cheap", "\u05D4\u05DB\u05D9 \u05D6\u05D5\u05DC")); }
-    if (f.quality === "comfort") { aline.appendChild(document.createTextNode(" ")); aline.appendChild(el("span", "tag tag-comfort", "\u05DE\u05D5\u05DE\u05DC\u05E5")); }
-    left.appendChild(aline);
-    left.appendChild(el("div", "fl-detail", f.route + " \u00B7 " + f.dur));
-    left.appendChild(el("div", "fl-times", "\u05D9\u05E6\u05D9\u05D0\u05D4 " + f.dep + " \u2192 \u05E0\u05D7\u05D9\u05EA\u05D4 " + f.arr));
-    row.appendChild(left);
-    var right = el("div", "fl-right");
-    right.appendChild(el("div", "fl-price", fmtILS(f.ils) + " / " + fmtUSD(ilsToUsd(f.ils))));
-    right.appendChild(el("div", "fl-price-label", "\u05DC\u05D0\u05D3\u05DD"));
-    right.appendChild(el("div", "fl-price-3", "3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD: " + fmtILS(f.ils * 3) + " / " + fmtUSD(ilsToUsd(f.ils * 3))));
-    var bk2 = document.createElement("a"); bk2.className = "book-link"; bk2.textContent = "\u05D7\u05E4\u05E9 \u05D1-Google Flights \u2197"; bk2.target = "_blank"; bk2.rel = "noopener";
-    bk2.href = "https://www.google.com/travel/flights?q=Flights+from+YYZ+to+TLV+on+" + retData.isoDate + "+passengers+3&hl=he";
-    right.appendChild(bk2);
-    row.appendChild(right);
-    rlist.appendChild(row);
-  });
-  retPanel.appendChild(rlist);
-
-  // Totals
+  // Totals — outbound uses direct-only (rule)
   var tg = document.getElementById("totals-grid");
   tg.textContent = "";
-  var outILS = outData.elal[0].ils;
-  var sorted = retData.flights.slice().sort(function(a, b) { return a.ils - b.ils; });
-  var cheapR = sorted[0];
-  var comfortR = sorted.find(function(f) { return f.quality === "comfort"; }) || sorted[Math.min(1, sorted.length - 1)];
-  var premR = sorted.length > 2 ? sorted[2] : sorted[sorted.length - 1];
+  var outDirect = outData.flights.filter(function(f) { return f.stops === 0; });
+  var outSorted = outDirect.slice().sort(function(a, b) { return a.ils - b.ils; });
+  var retSorted = retData.flights.slice().sort(function(a, b) { return a.ils - b.ils; });
+  var outCheap = outSorted[0];
+  var outComfort = outSorted.find(function(f) { return f.quality === "comfort"; }) || outSorted[Math.min(1, outSorted.length - 1)];
+  var retCheap = retSorted[0];
+  var retComfort = retSorted.find(function(f) { return f.quality === "comfort"; }) || retSorted[Math.min(1, retSorted.length - 1)];
+  var outPrem = outSorted[outSorted.length - 1];
+  var retPrem = retSorted[retSorted.length - 1];
 
+  // All `ils` values are total for 3 adults. Summing two legs = trip total for 3.
   var combos = [
-    { label: "\u05D4\u05DB\u05D9 \u05D6\u05D5\u05DC", ilsPP: outILS + cheapR.ils, airlines: "El Al + " + cheapR.airline, cls: "tc-green" },
-    { label: "\u05DE\u05D5\u05DE\u05DC\u05E5", ilsPP: outILS + comfortR.ils, airlines: "El Al + " + comfortR.airline, cls: "tc-blue" },
-    { label: "\u05E4\u05E8\u05DE\u05D9\u05D5\u05DD", ilsPP: outILS + premR.ils, airlines: "El Al + " + premR.airline, cls: "tc-orange" },
+    { label: "\u05D4\u05DB\u05D9 \u05D6\u05D5\u05DC", tot3: outCheap.ils + retCheap.ils, airlines: outCheap.airline + " + " + retCheap.airline, cls: "tc-green" },
+    { label: "\u05DE\u05D5\u05DE\u05DC\u05E5 (\u05E0\u05D5\u05D7\u05D5\u05EA)", tot3: outComfort.ils + retComfort.ils, airlines: outComfort.airline + " + " + retComfort.airline, cls: "tc-blue" },
+    { label: "\u05E4\u05E8\u05DE\u05D9\u05D5\u05DD", tot3: outPrem.ils + retPrem.ils, airlines: outPrem.airline + " + " + retPrem.airline, cls: "tc-orange" },
   ];
   combos.forEach(function(c) {
-    var ils3 = c.ilsPP * 3;
+    var ils3 = c.tot3;
+    var perAdult = perPax(ils3);
     var card = el("div", "total-card");
     card.appendChild(el("div", "tc-label", c.label));
     card.appendChild(el("div", "tc-price " + c.cls, fmtILS(ils3)));
@@ -512,7 +943,8 @@ function render() {
     card.appendChild(el("div", "tc-per", "\u05E1\u05D4\u05F4\u05DB \u05DC-3 \u05DE\u05D1\u05D5\u05D2\u05E8\u05D9\u05DD"));
     card.appendChild(el("div", "tc-airlines", c.airlines));
     card.appendChild(el("div", "tc-per-label", "\u05DC\u05D0\u05D3\u05DD"));
-    card.appendChild(el("div", "tc-per", fmtILS(c.ilsPP) + " / " + fmtUSD(ilsToUsd(c.ilsPP))));
+    card.appendChild(el("div", "tc-per", fmtILS(perAdult) + " / " + fmtUSD(ilsToUsd(perAdult))));
+    card.appendChild(el("div", "tc-refund", "\u05E2\u05DD \u05D1\u05D9\u05D8\u05D5\u05DC (~+35%): " + fmtILS(refund(ils3))));
     tg.appendChild(card);
   });
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NYC מאי 2026 — משפחת פלס לוי פלג</title>
+<title>NYC + Toronto מאי 2026 — משפחת פלס לוי פלג</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -22,8 +22,39 @@
   --kids: #e84444;
   --ohad: #2a8fe8;
   --mama: #c25cad;
+  --maple: #d44343;
+  --maple2: #ec7766;
   --r: 10px;
 }
+
+/* Phase visibility */
+body.phase-nyc .phase-toronto-only { display: none !important; }
+body.phase-toronto .phase-nyc-only { display: none !important; }
+
+/* Family availability markers (Toronto) */
+.fam-marker {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.fam-marker.full { background: rgba(212,67,67,.15); color: #ec7766; border: 1px solid rgba(212,67,67,.35); }
+.fam-marker.solo { background: rgba(80,140,200,.12); color: #7baadb; border: 1px solid rgba(80,140,200,.35); }
+.fam-marker.evening { background: rgba(124,92,232,.12); color: #a890f0; border: 1px solid rgba(124,92,232,.35); }
+.cal-day-col.solo-day { background-color: rgba(80,140,200,0.04); }
+
+/* Toronto accent: when in toronto phase, swap key gold accents to maple */
+body.phase-toronto {
+  --gold: #d44343;
+  --gold2: #ec7766;
+  --border: rgba(212,67,67,0.18);
+  --border2: rgba(212,67,67,0.4);
+}
+body.phase-toronto .gfact.tip { background: rgba(212,67,67,.1); border-color: rgba(212,67,67,.3); color: #ec7766; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -50,6 +81,39 @@ body {
 .site-logo span { color: var(--gold); }
 .site-dates { font-size: 13px; color: var(--muted); }
 
+/* HEADER CONTROLS */
+.header-controls { display: flex; gap: 12px; align-items: center; }
+
+/* PHASE TOGGLE — bigger, visually dominant */
+.phase-toggle {
+  display: flex;
+  gap: 0;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 3px;
+  position: relative;
+}
+.phase-btn {
+  padding: 8px 16px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.phase-btn:hover { color: var(--cream); }
+.phase-btn.nyc.active { background: #d4a843; color: #0c1520; box-shadow: 0 2px 8px rgba(212,168,67,0.25); }
+.phase-btn.tor.active { background: #d44343; color: #fff; box-shadow: 0 2px 8px rgba(212,67,67,0.3); }
+.phase-icon { font-size: 15px; line-height: 1; }
+
 /* VIEW TOGGLE */
 .view-toggle {
   display: flex;
@@ -71,6 +135,27 @@ body {
   transition: all .15s;
 }
 .view-btn.active { background: var(--gold); color: var(--bg); font-weight: 700; }
+
+/* Phase banner — subtle reminder of which half of trip you're viewing */
+.phase-banner {
+  padding: 8px 2rem;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.phase-banner.nyc { background: linear-gradient(90deg, rgba(212,168,67,0.08), transparent); border-right: 3px solid #d4a843; }
+.phase-banner.tor { background: linear-gradient(90deg, rgba(212,67,67,0.08), transparent); border-right: 3px solid #d44343; }
+.phase-banner-label { color: var(--cream); font-weight: 600; }
+.phase-banner-label .icon { margin-left: 6px; }
+.phase-banner-meta { color: var(--muted); }
+@media (max-width: 768px) {
+  .phase-banner { padding: 6px 1rem; font-size: 11px; }
+  .header-controls { flex-direction: column; gap: 6px; align-items: flex-end; }
+  .phase-btn { padding: 6px 10px; font-size: 12px; }
+  .view-btn { padding: 4px 10px; font-size: 12px; }
+}
 
 /* VIEWS */
 .view { display: none; }
@@ -99,6 +184,7 @@ body {
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
 }
+.cal-head.tor9, .cal-body.tor9 { grid-template-columns: 52px repeat(9, 1fr); }
 .cal-head-gutter { border-right: 1px solid var(--border); }
 .cal-head-day {
   padding: 10px 6px;
@@ -174,6 +260,39 @@ body {
 .evt-title { font-weight: 700; font-size: 11px; }
 .evt-sub { font-size: 10px; opacity: 0.8; margin-top: 1px; }
 .evt-time { font-size: 9px; opacity: 0.7; margin-top: 2px; }
+
+/* SPLIT DAY columns — mama half-track on right, ohad half-track on left */
+.cal-day-col.split { background-image: linear-gradient(to right, rgba(42,143,232,0.04) 0%, rgba(42,143,232,0.04) 50%, rgba(194,92,173,0.04) 50%, rgba(194,92,173,0.04) 100%); }
+.cal-day-col.split::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: repeating-linear-gradient(to bottom, rgba(238,232,216,0.18) 0, rgba(238,232,216,0.18) 4px, transparent 4px, transparent 9px);
+  pointer-events: none;
+  z-index: 1;
+}
+.cal-day-col.split .evt.mama { left: calc(50% + 2px); right: 3px; }
+.cal-day-col.split .evt.ohad { left: 3px; right: calc(50% + 2px); }
+.cal-day-col.split .evt.all { left: 3px; right: 3px; z-index: 2; }
+.cal-day-col.split .evt.kids,
+.cal-day-col.split .evt.morning,
+.cal-day-col.split .evt.afternoon,
+.cal-day-col.split .evt.evening { left: 3px; right: 3px; }
+.split-track-label {
+  position: absolute;
+  top: 0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  z-index: 3;
+  pointer-events: none;
+}
+.split-track-label.mama { right: 3px; color: var(--mama); border-right: 2px solid var(--mama); }
+.split-track-label.ohad { left: 3px; color: var(--ohad); border-left: 2px solid var(--ohad); }
 
 .evt.morning  { background: rgba(232,149,42,0.85); color: #fff; border-right: 2px solid var(--morning); }
 .evt.afternoon { background: rgba(42,171,114,0.85); color: #fff; border-right: 2px solid var(--afternoon); }
@@ -409,20 +528,36 @@ body {
 
 <header class="site-header">
   <div>
-    <div class="site-logo">NYC <span>·</span> מאי 2026</div>
-    <div class="site-dates">15–23.5 · Freehand NYC · 8 לילות</div>
+    <div class="site-logo">NYC <span>+</span> Toronto <span style="color:rgba(238,232,216,0.4);font-size:14px">·</span> מאי 2026</div>
+    <div class="site-dates" id="siteDates">15–22.5 · NYC · 8 לילות</div>
   </div>
-  <div class="view-toggle">
-    <button class="view-btn" onclick="setView('cal')">לוח שבועי</button>
-    <button class="view-btn active" onclick="setView('daily')">לוז יומי</button>
-    <button class="view-btn" onclick="setView('guide')">מדריך מקומות</button>
+  <div class="header-controls">
+    <div class="phase-toggle">
+      <button class="phase-btn nyc active" onclick="setPhase('nyc')"><span class="phase-icon">🗽</span> NYC</button>
+      <button class="phase-btn tor" onclick="setPhase('tor')"><span class="phase-icon">🍁</span> Toronto</button>
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn" onclick="setView('cal')">לוח שבועי</button>
+      <button class="view-btn active" onclick="setView('daily')">לוז יומי</button>
+      <button class="view-btn" onclick="setView('guide')">מדריך מקומות</button>
+    </div>
   </div>
 </header>
 
+<!-- Phase banner -->
+<div class="phase-banner nyc phase-nyc-only">
+  <div class="phase-banner-label"><span class="icon">🗽</span> שלב 1 · NYC</div>
+  <div class="phase-banner-meta">15–22.5 · 8 לילות · עם משפחת עידן + חני</div>
+</div>
+<div class="phase-banner tor phase-toronto-only">
+  <div class="phase-banner-label"><span class="icon">🍁</span> שלב 2 · Toronto</div>
+  <div class="phase-banner-meta">23–31.5 · 8 לילות · עם משפחת רועי + קטי + הבנות</div>
+</div>
+
 <!-- ══════════════════════════════════════════
-     CALENDAR VIEW
+     CALENDAR VIEW · NYC
 ══════════════════════════════════════════ -->
-<div id="view-cal" class="view">
+<div id="view-cal" class="view phase-nyc-only">
 <div class="cal-wrap">
 
   <div class="cal-mobile-tabs" id="calMobileTabs">
@@ -453,7 +588,7 @@ body {
       <div class="cal-head-day"><div class="cal-head-date">15.5</div><div class="cal-head-name">שישי</div><div class="cal-head-label">נחיתה</div></div>
       <div class="cal-head-day"><div class="cal-head-date">16.5</div><div class="cal-head-name">שבת</div><div class="cal-head-label">Midtown</div></div>
       <div class="cal-head-day"><div class="cal-head-date">17.5</div><div class="cal-head-name">ראשון</div><div class="cal-head-label">Central Park</div></div>
-      <div class="cal-head-day"><div class="cal-head-date">18.5</div><div class="cal-head-name">שני</div><div class="cal-head-label">יום מפוצל</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">18.5</div><div class="cal-head-name">שני</div><div class="cal-head-label">Union+High Line</div></div>
       <div class="cal-head-day"><div class="cal-head-date">19.5</div><div class="cal-head-name">שלישי</div><div class="cal-head-label">יום מפוצל</div></div>
       <div class="cal-head-day" style="border-right:2px solid var(--gold)"><div class="cal-head-date" style="color:var(--gold2)">20.5</div><div class="cal-head-name">רביעי</div><div class="cal-head-label">🎂 יום הולדת</div></div>
       <div class="cal-head-day"><div class="cal-head-date">21.5</div><div class="cal-head-name">חמישי</div><div class="cal-head-label">Brooklyn</div></div>
@@ -547,42 +682,39 @@ body {
         </div>
       </div>
 
-      <!-- Day 3: 18.5 SPLIT -->
+      <!-- Day 3: 18.5 — joint day (all together) -->
       <div class="cal-day-col" id="dc3">
-        <div class="evt mama" style="top:120px;height:120px">
-          <div class="evt-title">Union Square Market</div>
-          <div class="evt-sub">אמא + זאביק</div>
+        <div class="evt all" style="top:120px;height:120px">
+          <div class="evt-title">Union Square Greenmarket</div>
+          <div class="evt-sub">שוק איכרים — כולם</div>
           <div class="evt-time">09:00–11:00</div>
         </div>
-        <div class="evt ohad" style="top:150px;height:90px">
-          <div class="evt-title">קפה לבד</div>
-          <div class="evt-sub">אוהד</div>
-          <div class="evt-time">09:30–11:00</div>
-        </div>
-        <div class="evt mama" style="top:270px;height:90px">
-          <div class="evt-title">Paper Source + Café</div>
-          <div class="evt-sub">אמא + זאביק</div>
+        <div class="evt all" style="top:270px;height:90px">
+          <div class="evt-title">Paper Source + הליכה</div>
+          <div class="evt-sub">דרומה ל-Chelsea</div>
           <div class="evt-time">11:30–13:00</div>
         </div>
-        <div class="evt ohad" style="top:300px;height:180px">
-          <div class="evt-title">SoHo + Strand</div>
-          <div class="evt-sub">אוהד</div>
-          <div class="evt-time">12:00–15:00</div>
+        <div class="evt all" style="top:360px;height:120px">
+          <div class="evt-title">Chelsea Market — צהריים</div>
+          <div class="evt-sub">food hall · כולם</div>
+          <div class="evt-time">13:00–15:00</div>
         </div>
-        <div class="evt mama" style="top:450px;height:180px">
-          <div class="evt-title">High Line + Chelsea Market</div>
-          <div class="evt-sub">אמא + זאביק + אוהד</div>
-          <div class="evt-time">14:30–17:30</div>
+        <div class="evt all" style="top:480px;height:150px">
+          <div class="evt-title">High Line walk</div>
+          <div class="evt-sub">14th → 30th · נוף וגינות</div>
+          <div class="evt-time">15:00–17:30</div>
         </div>
         <div class="evt all" style="top:720px;height:120px">
-          <div class="evt-title">Koreatown — ביחד</div>
+          <div class="evt-title">Koreatown — דינר עם עידן</div>
           <div class="evt-sub">כולם</div>
           <div class="evt-time">19:00–21:00</div>
         </div>
       </div>
 
       <!-- Day 4: 19.5 SPLIT -->
-      <div class="cal-day-col" id="dc4">
+      <div class="cal-day-col split" id="dc4">
+        <div class="split-track-label mama">אמא</div>
+        <div class="split-track-label ohad">אוהד</div>
         <div class="evt ohad" style="top:150px;height:180px">
           <div class="evt-title">Midtown Comics</div>
           <div class="evt-sub">+ Forbidden Planet</div>
@@ -688,9 +820,9 @@ body {
 </div>
 
 <!-- ══════════════════════════════════════════
-     DAILY VIEW
+     DAILY VIEW · NYC
 ══════════════════════════════════════════ -->
-<div id="view-daily" class="view active">
+<div id="view-daily" class="view active phase-nyc-only">
 <div class="daily-wrap">
 
   <!-- Crew -->
@@ -709,7 +841,7 @@ body {
   <div class="stats">
     <div class="stat"><div class="stat-n">8</div><div class="stat-l">ימי טיול</div></div>
     <div class="stat"><div class="stat-n">8</div><div class="stat-l">משתתפים</div></div>
-    <div class="stat"><div class="stat-n">3</div><div class="stat-l">ימים עם ילדים</div></div>
+    <div class="stat"><div class="stat-n">1</div><div class="stat-l">יום סולו (אוהד)</div></div>
     <div class="stat"><div class="stat-n">5</div><div class="stat-l">מסעדות</div></div>
   </div>
 
@@ -718,7 +850,7 @@ body {
     <button class="dtab active" onclick="showDay(0)"><small>15.5 שישי</small>נחיתה</button>
     <button class="dtab" onclick="showDay(1)"><small>16.5 שבת</small>Midtown</button>
     <button class="dtab" onclick="showDay(2)"><small>17.5 ראשון</small>Central Park</button>
-    <button class="dtab" onclick="showDay(3)"><small>18.5 שני</small>יום מפוצל</button>
+    <button class="dtab" onclick="showDay(3)"><small>18.5 שני</small>Union+High Line</button>
     <button class="dtab" onclick="showDay(4)"><small>19.5 שלישי</small>יום מפוצל</button>
     <button class="dtab" onclick="showDay(5)"><small>20.5 רביעי</small>🎂 יום הולדת</button>
     <button class="dtab" onclick="showDay(6)"><small>21.5 חמישי</small>Brooklyn</button>
@@ -794,42 +926,24 @@ body {
   <!-- ── DAY 3 SPLIT ── -->
   <div id="d3" class="dpanel">
     <div class="dpanel-head">
-      <div><div class="dpanel-num">יום 4 מתוך 8</div><div class="dpanel-title">יום מפוצל — אמא יוצרת, אוהד חופשי</div><div class="dpanel-date">שני 18.5 · עידן עובד</div></div>
-      <div class="who-badges">
-        <span class="wbadge" style="background:rgba(194,92,173,.15);color:var(--mama)">אמא + זאביק</span>
-        <span class="wbadge" style="background:rgba(42,143,232,.15);color:var(--ohad)">אוהד</span>
-      </div>
+      <div><div class="dpanel-num">יום 4 מתוך 8</div><div class="dpanel-title">Union Square + High Line + Chelsea</div><div class="dpanel-date">שני 18.5 · כולם ביחד · עידן עובד</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Union Square"><div class="img-card-label">Union Square Market</div></div>
-      <div class="img-card"><img src="https://images.unsplash.com/photo-1471553163030-2a42d6e1e9b4?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Art"><div class="img-card-label">Blick Art Materials</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1545571099-0b0ec0e1df7f?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="High Line"><div class="img-card-label">High Line</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1504474762218-8a3fa04cbf7a?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Chelsea Market"><div class="img-card-label">Chelsea Market</div></div>
     </div>
-    <div class="tl-grid">
-      <div>
-        <div class="tl-col-title" style="color:var(--mama)">אמא + זאביק</div>
-        <div class="tl">
-          <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00</div><div class="tl-name">Union Square Farmers Market</div><div class="tl-desc">פעיל בימי שני — ירקות, גבינות, פרחים. אמא תהנה</div></div>
-          <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:00</div><div class="tl-name">Paper Source</div><div class="tl-desc">חנות scrapbook + נייר יפה. קפה לידה</div></div>
-          <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:30</div><div class="tl-name">High Line + Chelsea Market — כולם!</div><div class="tl-desc">High Line: הליכה על מסילת רכבת ישנה מעל העיר, Gansevoort עד 30th St — שעה וחצי נוחה. Chelsea Market ממש מתחת: food hall ענק, אוכל מכל העולם. להיפגש שם כולם — אמא, אוהד, כולם</div></div>
-          <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">16:30</div><div class="tl-name">Lush</div><div class="tl-desc">סבונים לאמא — ב-Chelsea בדרך חזרה</div></div>
-        </div>
-      </div>
-      <div>
-        <div class="tl-col-title" style="color:var(--ohad)">אוהד — יום חופשי</div>
-        <div class="tl">
-          <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:30</div><div class="tl-name">קפה לבד</div><div class="tl-desc">לשבת, לקרוא, להיות</div></div>
-          <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:00</div><div class="tl-name">SoHo + Nolita</div><div class="tl-desc">חנויות ויניל, גלריות, הכל יוניק</div></div>
-          <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:00</div><div class="tl-name">Strand Bookstore</div><div class="tl-desc">18 מייל של ספרים — כאוס יפה</div></div>
-        </div>
-      </div>
-    </div>
     <div class="tl-grid full"><div class="tl">
-      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:00 — כולם ביחד</div><div class="tl-name">ארוחת ערב — Koreatown</div><div class="tl-desc">Jongro BBQ / Kang Ho Dong Baekjeong — להיפגש ולספר על היום</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — בוקר</div><div class="tl-name">Union Square Greenmarket — שוק איכרים</div><div class="tl-desc">פעיל ימי שני — ירקות, גבינות, פרחים, דבש מקומי. שפים מהמסעדות הטובות בעיר קונים כאן בכל בוקר. אמא תהנה. אוהד יכול לקפוץ ל-Strand Bookstore (3 דקות) בזמן שאמא וזאביק מסיימים לסייר</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:30 — בוקר מאוחר</div><div class="tl-name">Paper Source + הליכה דרומה</div><div class="tl-desc">חנות נייר/scrapbook יפה (אמא). הליכה דרומה לכיוון Chelsea — עוברים ב-Flatiron, Madison Square Park</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:00 — צהריים</div><div class="tl-name">Chelsea Market — food hall</div><div class="tl-desc">בניין מפעל Nabisco הישן — כאן הומצאו ה-Oreo ב-1912. food hall ענק עם 35+ מסעדות. Lobster Place, Los Tacos No.1, Dickson's. כל אחד בוחר משלו ונפגשים בשולחנות</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">15:00 — אחה"צ</div><div class="tl-name">High Line walk</div><div class="tl-desc">מסילת רכבת עילית מ-1934 שהפכה לפארק — 2.3 ק"מ מעל הרחוב, גינות, פסלים. ב-Gansevoort St עד 30th St. שעה וחצי הליכה רגועה. נוף לגובה על Manhattan</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">17:00 — לפני הערב</div><div class="tl-name">Lush ב-Chelsea / קפה</div><div class="tl-desc">בדרך חזרה — סבונים לאמא ב-Lush ב-Chelsea. או קפה רגוע</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:00 — ערב</div><div class="tl-name">Koreatown — דינר עם עידן</div><div class="tl-desc">Jongro BBQ / Kang Ho Dong Baekjeong — עידן יסיים עבודה ויצטרף. להחליט יחד</div></div>
     </div></div>
-    <div class="planb"><strong>Plan B:</strong> זאביק לא בחנויות — יכול להצטרף לאוהד ב-SoHo או פשוט לנוח במלון.</div>
-    <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div id="map-d3" class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=Union+Square+Greenmarket+New+York&daddr=Blick+Art+Materials+5+W+19th+St+New+York+to:High+Line+Gansevoort+St+New+York+to:Chelsea+Market+New+York&output=embed"></iframe></div></div>
+    <div class="planb"><strong>Plan B:</strong> אם הקצב מהיר מדי לזאביק — לדלג Paper Source ולשבת בקפה ב-Madison Square Park 30 דקות. ה-High Line אופציונלי — אם עייפים, לרדת ישר ל-Chelsea Market</div>
+    <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div id="map-d3" class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=Union+Square+Greenmarket+New+York&daddr=Paper+Source+5+W+19th+St+New+York+to:Chelsea+Market+New+York+to:High+Line+30th+St+New+York&output=embed"></iframe></div></div>
   </div>
 
   <!-- ── DAY 4 SPLIT ── -->
@@ -1001,9 +1115,9 @@ body {
 </div>
 
 <!-- ══════════════════════════════════════════
-     GUIDE VIEW
+     GUIDE VIEW · NYC
 ══════════════════════════════════════════ -->
-<div id="view-guide" class="view">
+<div id="view-guide" class="view phase-nyc-only">
 <div class="guide-wrap">
 
   <div class="guide-section-title">אטרקציות — Midtown</div>
@@ -1143,26 +1257,816 @@ body {
 </div>
 </div>
 
-<footer>NYC · מאי 2026 · אוהד, זאביק, אמא, עידן, חני, ליב, בן ודילן</footer>
+<!-- ══════════════════════════════════════════
+     CALENDAR VIEW · TORONTO
+══════════════════════════════════════════ -->
+<div id="view-cal-tor" class="view phase-toronto-only">
+<div class="cal-wrap">
+
+  <div class="cal-mobile-tabs" id="calMobileTabsTor">
+    <button class="cal-mtab" onclick="setCalDayTor(0)"><small>שבת · כולם</small>🎶 23.5</button>
+    <button class="cal-mtab" onclick="setCalDayTor(1)"><small>ראשון · כולם</small>24.5</button>
+    <button class="cal-mtab" onclick="setCalDayTor(2)"><small>שני · רועי 🟢</small>🌊 25.5</button>
+    <button class="cal-mtab" onclick="setCalDayTor(3)"><small>שלישי · ערב</small>26.5</button>
+    <button class="cal-mtab" onclick="setCalDayTor(4)"><small>רביעי · ערב</small>27.5</button>
+    <button class="cal-mtab" onclick="setCalDayTor(5)"><small>חמישי · ערב</small>Aga Khan</button>
+    <button class="cal-mtab" onclick="setCalDayTor(6)"><small>שישי · רועי 🟢</small>🌲 29.5</button>
+    <button class="cal-mtab" onclick="setCalDayTor(7)"><small>שבת · כולם</small>30.5</button>
+    <button class="cal-mtab" onclick="setCalDayTor(8)"><small>ראשון · כולם</small>✈️ 31.5</button>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--morning)"></div>בוקר</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--afternoon)"></div>אחה"צ</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--evening)"></div>ערב</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--kids)"></div>עם הבנות</div>
+    <div class="leg"><div class="leg-dot" style="background:#d44343"></div>כל המשפחה</div>
+  </div>
+
+  <div class="cal-outer">
+    <!-- Header -->
+    <div class="cal-head tor9">
+      <div class="cal-head-gutter"></div>
+      <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#ec7766">23.5</div><div class="cal-head-name">שבת</div><div class="cal-head-label">🎶 Queen vs ABBA</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">24.5</div><div class="cal-head-name">ראשון</div><div class="cal-head-label">Downtown</div></div>
+      <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#ec7766">25.5</div><div class="cal-head-name">שני · רועי 🟢</div><div class="cal-head-label">🌊 Niagara</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">26.5</div><div class="cal-head-name">שלישי · ערב</div><div class="cal-head-label">Islands</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">27.5</div><div class="cal-head-name">רביעי · ערב</div><div class="cal-head-label">Casa+ROM</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">28.5</div><div class="cal-head-name">חמישי · ערב</div><div class="cal-head-label">Aga Khan + chill</div></div>
+      <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#ec7766">29.5</div><div class="cal-head-name">שישי · רועי 🟢</div><div class="cal-head-label">🌲 Elora</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">30.5</div><div class="cal-head-name">שבת</div><div class="cal-head-label">Kensington</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">31.5</div><div class="cal-head-name">ראשון</div><div class="cal-head-label">✈️ טיסה</div></div>
+    </div>
+
+    <!-- Body -->
+    <div class="cal-body tor9" id="calBodyTor">
+      <div class="cal-time-col" id="timeColTor"></div>
+
+      <!-- Day 0: 23.5 — Arrival + Candlelight concert -->
+      <div class="cal-day-col" id="tdc0">
+        <div class="evt morning" style="top:60px;height:90px">
+          <div class="evt-title">טיסה LGA → YYZ</div>
+          <div class="evt-sub">Porter ~1h45</div>
+          <div class="evt-time">08:00–09:45</div>
+        </div>
+        <div class="evt morning" style="top:180px;height:90px">
+          <div class="evt-title">איסוף רכב + נסיעה</div>
+          <div class="evt-sub">YYZ → רועי</div>
+          <div class="evt-time">10:30–12:00</div>
+        </div>
+        <div class="evt afternoon" style="top:330px;height:150px">
+          <div class="evt-title">מתפרקים אצל רועי</div>
+          <div class="evt-sub">קפה + מנוחה אחרי טיסה</div>
+          <div class="evt-time">12:30–15:00</div>
+        </div>
+        <div class="evt afternoon" style="top:510px;height:90px">
+          <div class="evt-title">סיבוב רגוע / Harbourfront</div>
+          <div class="evt-time">15:30–17:00</div>
+        </div>
+        <div class="evt evening" style="top:630px;height:90px;background:rgba(212,67,67,0.85)">
+          <div class="evt-title">ארוחה מוקדמת</div>
+          <div class="evt-sub">עם רועי, קטי, הבנות</div>
+          <div class="evt-time">17:30–19:00</div>
+        </div>
+        <div class="evt evening" style="top:750px;height:30px">
+          <div class="evt-title">נסיעה ל-College St</div>
+          <div class="evt-time">19:30–20:00</div>
+        </div>
+        <div class="evt evening" style="top:825px;height:90px;background:rgba(236,119,102,0.95);color:#0c1520">
+          <div class="evt-title">🎶 Candlelight: Queen vs ABBA</div>
+          <div class="evt-sub">Royal Theatre · 5 כרטיסים · Zone B</div>
+          <div class="evt-time">20:45–22:15</div>
+        </div>
+      </div>
+
+      <!-- Day 1: 24.5 — Downtown -->
+      <div class="cal-day-col" id="tdc1">
+        <div class="evt morning" style="top:120px;height:150px">
+          <div class="evt-title">CN Tower</div>
+          <div class="evt-sub">EdgeWalk לאמיצים</div>
+          <div class="evt-time">09:00–11:30</div>
+        </div>
+        <div class="evt all" style="top:300px;height:120px">
+          <div class="evt-title">Ripley's Aquarium</div>
+          <div class="evt-sub">תמר ונירה יאהבו</div>
+          <div class="evt-time">11:30–13:30</div>
+        </div>
+        <div class="evt afternoon" style="top:450px;height:90px">
+          <div class="evt-title">Harbourfront</div>
+          <div class="evt-sub">צהריים על המים</div>
+          <div class="evt-time">14:00–15:30</div>
+        </div>
+        <div class="evt afternoon" style="top:570px;height:120px">
+          <div class="evt-title">Distillery District</div>
+          <div class="evt-sub">קוקיז, בוטיקים</div>
+          <div class="evt-time">16:00–18:00</div>
+        </div>
+        <div class="evt evening" style="top:750px;height:90px">
+          <div class="evt-title">Mill St. Brewery</div>
+          <div class="evt-sub">ארוחת ערב</div>
+          <div class="evt-time">19:30–21:00</div>
+        </div>
+      </div>
+
+      <!-- Day 2: 25.5 — NIAGARA -->
+      <div class="cal-day-col" id="tdc2" style="border-right:2px solid #d44343">
+        <div class="evt morning" style="top:60px;height:90px">
+          <div class="evt-title">יציאה לניאגרה</div>
+          <div class="evt-sub">~1.5 שעות נסיעה</div>
+          <div class="evt-time">08:00–09:30</div>
+        </div>
+        <div class="evt all" style="top:180px;height:120px;background:rgba(212,67,67,0.9)">
+          <div class="evt-title">Table Rock + תצפית</div>
+          <div class="evt-sub">המפלים מקרוב</div>
+          <div class="evt-time">10:00–12:00</div>
+        </div>
+        <div class="evt all" style="top:330px;height:90px">
+          <div class="evt-title">Hornblower Boat</div>
+          <div class="evt-sub">להזמין מראש</div>
+          <div class="evt-time">12:30–14:00</div>
+        </div>
+        <div class="evt afternoon" style="top:450px;height:90px">
+          <div class="evt-title">צהריים</div>
+          <div class="evt-sub">Niagara Parkway</div>
+          <div class="evt-time">14:00–15:30</div>
+        </div>
+        <div class="evt afternoon" style="top:570px;height:120px">
+          <div class="evt-title">Niagara-on-the-Lake</div>
+          <div class="evt-sub">עיירה קסומה</div>
+          <div class="evt-time">16:00–18:00</div>
+        </div>
+        <div class="evt evening" style="top:750px;height:90px">
+          <div class="evt-title">חזרה לטורונטו</div>
+          <div class="evt-sub">~1.5 שעות</div>
+          <div class="evt-time">18:30–20:00</div>
+        </div>
+      </div>
+
+      <!-- Day 3: 26.5 — Islands + Market (solo: 3 of us, Roei works → joins dinner) -->
+      <div class="cal-day-col solo-day" id="tdc3">
+        <div class="evt morning" style="top:120px;height:120px">
+          <div class="evt-title">St. Lawrence Market</div>
+          <div class="evt-sub">פתוח שלישי!</div>
+          <div class="evt-time">09:00–11:00</div>
+        </div>
+        <div class="evt morning" style="top:270px;height:60px">
+          <div class="evt-title">מעבורת לאיים</div>
+          <div class="evt-sub">15 דקות · $9.57</div>
+          <div class="evt-time">11:30–12:00</div>
+        </div>
+        <div class="evt afternoon" style="top:330px;height:150px">
+          <div class="evt-title">פיקניק + הליכה</div>
+          <div class="evt-sub">Centre/Wards · ⚠ Centreville סגור</div>
+          <div class="evt-time">12:00–14:30</div>
+        </div>
+        <div class="evt afternoon" style="top:510px;height:150px">
+          <div class="evt-title">אופניים + חוף</div>
+          <div class="evt-sub">Hanlan's / Wards</div>
+          <div class="evt-time">14:30–17:00</div>
+        </div>
+        <div class="evt evening" style="top:720px;height:90px">
+          <div class="evt-title">חזרה + ארוחה</div>
+          <div class="evt-sub">King West</div>
+          <div class="evt-time">19:00–20:30</div>
+        </div>
+      </div>
+
+      <!-- Day 4: 27.5 — Casa Loma + ROM (solo: 3 of us during day, family for dinner) -->
+      <div class="cal-day-col solo-day" id="tdc4">
+        <div class="evt morning" style="top:150px;height:180px">
+          <div class="evt-title">Casa Loma</div>
+          <div class="evt-sub">הטירה — חובה</div>
+          <div class="evt-time">09:30–12:30</div>
+        </div>
+        <div class="evt afternoon" style="top:360px;height:90px">
+          <div class="evt-title">צהריים — Yorkville</div>
+          <div class="evt-sub">או Annex</div>
+          <div class="evt-time">13:00–14:30</div>
+        </div>
+        <div class="evt all" style="top:480px;height:180px">
+          <div class="evt-title">ROM — מוזיאון</div>
+          <div class="evt-sub">דינוזאורים, Bat Cave</div>
+          <div class="evt-time">15:00–18:00</div>
+        </div>
+        <div class="evt evening" style="top:720px;height:120px">
+          <div class="evt-title">ארוחה משפחתית</div>
+          <div class="evt-sub">אצל רועי או בחוץ</div>
+          <div class="evt-time">19:30–21:30</div>
+        </div>
+      </div>
+
+      <!-- Day 5: 28.5 — Aga Khan + chill (solo: 3 of us, family for BBQ evening) -->
+      <div class="cal-day-col solo-day" id="tdc5">
+        <div class="evt morning" style="top:90px;height:90px">
+          <div class="evt-title">בוקר רגוע</div>
+          <div class="evt-sub">קפה אצל רועי</div>
+          <div class="evt-time">08:30–10:00</div>
+        </div>
+        <div class="evt all" style="top:210px;height:180px">
+          <div class="evt-title">Aga Khan Museum + גנים</div>
+          <div class="evt-sub">אמנות אסלאמית · גני פרס</div>
+          <div class="evt-time">10:30–13:30</div>
+        </div>
+        <div class="evt afternoon" style="top:420px;height:90px">
+          <div class="evt-title">צהריים — Diwan Café</div>
+          <div class="evt-sub">במוזיאון</div>
+          <div class="evt-time">13:30–15:00</div>
+        </div>
+        <div class="evt afternoon" style="top:540px;height:120px">
+          <div class="evt-title">חזרה + מנוחה</div>
+          <div class="evt-sub">בריכה / קריאה / גינה</div>
+          <div class="evt-time">15:30–17:30</div>
+        </div>
+        <div class="evt evening" style="top:720px;height:120px">
+          <div class="evt-title">BBQ אצל רועי</div>
+          <div class="evt-sub">ערב משפחתי שקט</div>
+          <div class="evt-time">19:00–21:00</div>
+        </div>
+      </div>
+
+      <!-- Day 6: 29.5 — Nature -->
+      <div class="cal-day-col" id="tdc6">
+        <div class="evt morning" style="top:90px;height:90px">
+          <div class="evt-title">יציאה לטבע</div>
+          <div class="evt-sub">Elora Gorge</div>
+          <div class="evt-time">08:30–10:00</div>
+        </div>
+        <div class="evt all" style="top:210px;height:180px">
+          <div class="evt-title">Elora Gorge Trail</div>
+          <div class="evt-sub">קניון, נהר, גשרים</div>
+          <div class="evt-time">10:00–13:00</div>
+        </div>
+        <div class="evt afternoon" style="top:420px;height:90px">
+          <div class="evt-title">פיקניק / Elora Mill</div>
+          <div class="evt-time">13:00–14:30</div>
+        </div>
+        <div class="evt afternoon" style="top:540px;height:120px">
+          <div class="evt-title">סיבוב בעיירה Elora</div>
+          <div class="evt-sub">חנויות אומנים</div>
+          <div class="evt-time">14:30–16:30</div>
+        </div>
+        <div class="evt evening" style="top:720px;height:120px">
+          <div class="evt-title">חזרה + ארוחה</div>
+          <div class="evt-time">18:00–20:00</div>
+        </div>
+      </div>
+
+      <!-- Day 7: 30.5 — Last full day -->
+      <div class="cal-day-col" id="tdc7">
+        <div class="evt morning" style="top:150px;height:150px">
+          <div class="evt-title">Kensington Market</div>
+          <div class="evt-sub">+ Chinatown</div>
+          <div class="evt-time">10:00–12:30</div>
+        </div>
+        <div class="evt afternoon" style="top:330px;height:90px">
+          <div class="evt-title">Graffiti Alley</div>
+          <div class="evt-sub">Queen St West</div>
+          <div class="evt-time">13:00–14:30</div>
+        </div>
+        <div class="evt afternoon" style="top:480px;height:120px">
+          <div class="evt-title">High Park</div>
+          <div class="evt-sub">פארק ענק + גן חיות קטן</div>
+          <div class="evt-time">15:00–17:00</div>
+        </div>
+        <div class="evt evening" style="top:720px;height:120px;background:rgba(212,67,67,0.85)">
+          <div class="evt-title">ארוחת פרידה</div>
+          <div class="evt-sub">כל המשפחה</div>
+          <div class="evt-time">19:30–21:30</div>
+        </div>
+      </div>
+
+      <!-- Day 8: 31.5 — Fly home -->
+      <div class="cal-day-col" id="tdc8">
+        <div class="evt morning" style="top:120px;height:90px">
+          <div class="evt-title">בראנץ' פרידה</div>
+          <div class="evt-sub">משהו רגוע</div>
+          <div class="evt-time">09:00–10:30</div>
+        </div>
+        <div class="evt morning" style="top:240px;height:60px">
+          <div class="evt-title">אריזה אחרונה</div>
+          <div class="evt-time">11:00–12:00</div>
+        </div>
+        <div class="evt afternoon" style="top:330px;height:90px">
+          <div class="evt-title">החזרת רכב + YYZ</div>
+          <div class="evt-time">12:30–14:00</div>
+        </div>
+        <div class="evt evening" style="top:540px;height:150px;background:rgba(124,92,232,0.85)">
+          <div class="evt-title">✈️ טיסה הביתה</div>
+          <div class="evt-sub">YYZ → TLV</div>
+          <div class="evt-time">17:00–19:30</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DAILY VIEW · TORONTO
+══════════════════════════════════════════ -->
+<div id="view-daily-tor" class="view phase-toronto-only">
+<div class="daily-wrap">
+
+  <!-- Crew -->
+  <div class="crew">
+    <div class="crewp"><div class="av" style="background:rgba(212,67,67,.2);color:#ec7766">א</div><div><div class="cn">אוהד</div></div></div>
+    <div class="crewp"><div class="av" style="background:rgba(232,68,68,.2);color:#e84444">ז</div><div><div class="cn">זאביק</div></div></div>
+    <div class="crewp"><div class="av" style="background:rgba(194,92,173,.2);color:var(--mama)">א</div><div><div class="cn">אמא</div></div></div>
+    <div class="crewp"><div class="av" style="background:rgba(42,143,232,.2);color:#2a8fe8">ר</div><div><div class="cn">רועי</div></div></div>
+    <div class="crewp"><div class="av" style="background:rgba(42,171,114,.2);color:#2aab72">ק</div><div><div class="cn">קטי</div></div></div>
+    <div class="crewp"><div class="av" style="background:rgba(240,165,0,.2);color:#f0a500">ת</div><div><div class="cn">תמר<span class="cr"> · 13</span></div></div></div>
+    <div class="crewp"><div class="av" style="background:rgba(240,165,0,.2);color:#f0a500">נ</div><div><div class="cn">נירה<span class="cr"> · 11</span></div></div></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="stat-n">9</div><div class="stat-l">ימי טורונטו</div></div>
+    <div class="stat"><div class="stat-n">6</div><div class="stat-l">ימים עם רועי 🟢</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">ימים סולו ☕</div></div>
+    <div class="stat"><div class="stat-n">1</div><div class="stat-l">🎶 הופעה (23.5)</div></div>
+  </div>
+
+  <!-- Family availability legend -->
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:1.75rem;display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted)">
+    <div><span class="fam-marker full">🟢 כל המשפחה</span> סופי שבוע + שני ימי חופש של רועי (25.5 ניאגרה, 29.5 Elora)</div>
+    <div><span class="fam-marker solo">☕ 3 בלבד</span> שלישי-חמישי בבוקר/אחה"צ — רועי בעבודה, הבנות בבית ספר</div>
+    <div><span class="fam-marker evening">🌙 ערב יחד</span> רועי חוזר ~17:30, ארוחות ערב משפחתיות</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="day-tabs">
+    <button class="dtab tor active" onclick="showDayTor(0)"><small>23.5 שבת · כולם</small>🎶 Queen vs ABBA</button>
+    <button class="dtab tor" onclick="showDayTor(1)"><small>24.5 ראשון · כולם</small>Downtown</button>
+    <button class="dtab tor" onclick="showDayTor(2)"><small>25.5 שני · רועי 🟢</small>🌊 Niagara</button>
+    <button class="dtab tor" onclick="showDayTor(3)"><small>26.5 שלישי · ☕</small>שוק + איים</button>
+    <button class="dtab tor" onclick="showDayTor(4)"><small>27.5 רביעי · ☕</small>Casa+ROM</button>
+    <button class="dtab tor" onclick="showDayTor(5)"><small>28.5 חמישי · ☕</small>Aga Khan + chill</button>
+    <button class="dtab tor" onclick="showDayTor(6)"><small>29.5 שישי · רועי 🟢</small>🌲 Elora</button>
+    <button class="dtab tor" onclick="showDayTor(7)"><small>30.5 שבת · כולם</small>פרידה</button>
+    <button class="dtab tor" onclick="showDayTor(8)"><small>31.5 ראשון · כולם</small>✈️ טיסה</button>
+  </div>
+
+  <!-- ── DAY 0 — Arrival + Candlelight: Queen vs ABBA ── -->
+  <div id="td0" class="dpanel active">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 1 מתוך 9</div><div class="dpanel-title">הגעה + 🎶 Candlelight: Queen vs ABBA</div><div class="dpanel-date">שבת 23.5 · נחיתה ~10:00 · ההופעה 20:45</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(236,119,102,.2);color:#ec7766">🎶 5 כרטיסים Zone B</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Toronto skyline"><div class="img-card-label">Toronto Skyline</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Candlelight"><div class="img-card-label">🕯️ Candlelight</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1572456546088-e9d75c5d36b3?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Harbourfront"><div class="img-card-label">Harbourfront</div></div>
+    </div>
+    <div class="warn-box" style="background:rgba(236,119,102,0.1);border-color:rgba(236,119,102,0.3);color:#ec7766;margin-bottom:16px">🎶 <strong>הופעה הערב:</strong> Candlelight: Queen vs ABBA · The Royal Theatre, 608 College Street · 20:45 · 5 כרטיסים Zone B (Order R111547913). ~75 דקות בלי הפסקה. להגיע 20:00–20:15</div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">08:00 — בוקר</div><div class="tl-name">טיסה Porter LGA → YYZ</div><div class="tl-desc">~1h45, ישיר. Porter נוחת ב-Billy Bishop (Toronto Island Airport) — 5 דקות מ-Downtown. Air Canada/Delta נוחתים ב-YYZ Pearson. תלוי איזו טיסה הזמנתם</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:30 — בוקר</div><div class="tl-name">איסוף רכב + נסיעה לרועי</div><div class="tl-desc">לאסוף רכב מהשדה (Avis/Enterprise/Hertz). הסבר חצי שעה לסידורים. נסיעה לבית של רועי וקטי, ~30–40 דקות מ-YYZ</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:30 — צהריים</div><div class="tl-name">מתפרקים בבית רועי וקטי</div><div class="tl-desc">לאחסן מזוודות, חיבוקים ראשונים עם תמר ונירה. <strong>חשוב:</strong> מנוחה אמיתית — אחרי 8 ימי NYC + טיסה + הופעה הערב, צריכים לטעון מצברים. לישון אם אפשר</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">15:30 — אחה"צ קליל (אופציונלי)</div><div class="tl-name">סיבוב Harbourfront</div><div class="tl-desc">אם יש כוח — הליכה לאורך אגם אונטריו, Sugar Beach, HTO Park. אם לא — לישון. הים יישאר גם מחר</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">17:30 — ערב מוקדם</div><div class="tl-name">ארוחה מוקדמת — עם המשפחה</div><div class="tl-desc">חובה לאכול לפני ההופעה. משהו קל ומהיר — אצל רועי או takeout. <strong>לסיים עד 19:00</strong> כדי להתכונן לדרך</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:30 — נסיעה</div><div class="tl-name">ל-The Royal Theatre · 608 College Street</div><div class="tl-desc">לב Little Italy. חניה ב-Green P (אפליקציה) ברחובות הסמוכים, או אובר. תכננו 20–30 דקות מהבית. להגיע 20:00–20:15</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">20:45 — 🎶 ההופעה</div><div class="tl-name">Candlelight: Queen vs ABBA</div><div class="tl-desc">סדרת Candlelight — קוורטט מיתרים מנגן Bohemian Rhapsody, Don't Stop Me Now, Mamma Mia, Dancing Queen, ועוד באולם מעוטר במאות נרות (LED, לא אש). ~75 דקות, בלי הפסקה. רומנטי, אווירתי. <strong>5 כרטיסים = 5 מתוך 7 הנוסעים</strong> — לוודא מי בקבוצה</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">22:15 — סיום</div><div class="tl-name">חזרה לרועי</div><div class="tl-desc">כולם מותשים. Little Italy מציע גלידריות אם רוצים סוכר אחרון (Sicilian Sidewalk Cafe). ישירות הביתה לישון — מחר Downtown</div></div>
+    </div></div>
+    <div class="planb"><strong>Plan B אם הטיסה מתעכבת:</strong> לדלג על Harbourfront לחלוטין, ארוחה אצל רועי, ונסיעה ישירה להופעה. החלון הקריטי הוא 19:30 (נסיעה)</div>
+    <div class="warn-box">⚠️ <strong>5 כרטיסים מתוך 7 נוסעים:</strong> ההופעה לא לכולם. Candlelight זה רגוע ויפה אבל אטי לילדים — תמר (13) אולי תאהב, נירה (11) תלוי באישיות. חלופה: זאביק + 1 ילדה נשארים אצל רועי וקטי</div>
+    <div class="day-map-wrap"><div class="day-map-title">The Royal Theatre · 608 College St</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?q=The+Royal+Theatre+608+College+Street+Toronto&z=15&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 1 — Downtown ── -->
+  <div id="td1" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 2 מתוך 9</div><div class="dpanel-title">CN Tower + Aquarium + Distillery</div><div class="dpanel-date">ראשון 24.5 · סוף שבוע · כל המשפחה</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה</span><span class="wbadge" style="background:rgba(232,68,68,.15);color:var(--kids)">תמר + נירה</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1542391570-0a85b07eb39f?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="CN Tower"><div class="img-card-label">CN Tower</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1564417610182-c92e4ee9fb38?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Aquarium"><div class="img-card-label">Ripley's Aquarium</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1517483000871-1dbf64a6e1c6?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Distillery"><div class="img-card-label">Distillery District</div></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — בוקר</div><div class="tl-name">CN Tower — תצפית</div><div class="tl-desc">$47 CAD מבוגר / $34 ילד 6–13 / $18 גיל 3–5 (מחירי 2026, +13% מס). רצפת זכוכית בקומה 113 — תמר ונירה יצרחו. SkyPod (התצפית הגבוהה) — תוספת $12 בקופה. EdgeWalk לאמיצים בלבד. <strong>להזמין מראש online</strong></div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:30 — בוקר מאוחר</div><div class="tl-name">Ripley's Aquarium — ממש מתחת</div><div class="tl-desc">פתוח 9:00–21:00 כל יום. מנהרה זכוכית מתחת לכרישים — חוויה מטורפת לבנות. 2 שעות מספיקות. CityPASS Toronto נותן combo עם CN Tower (חוסך)</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:00 — צהריים</div><div class="tl-name">Harbourfront / Amsterdam BrewHouse</div><div class="tl-desc">פאב על המים, נוף, אוכל ברמה. או משהו פשוט יותר באזור</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">16:00 — אחה"צ</div><div class="tl-name">Distillery District</div><div class="tl-desc">קוואטר מ-1832 של מפעל ויסקי, היום אזור הולכי רגל בלבד עם בוטיקים, גלריות, SOMA Chocolatemaker (חובה לבנות) ו-Drake General Store. פוטוגני מאוד</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:30 — ערב</div><div class="tl-name">Mill St. Brewery (ב-Distillery)</div><div class="tl-desc">בירה מקומית מעולה, אוכל פאב טוב. אווירה משפחתית. או El Catrin הסמוך — מקסיקני יוקרתי</div></div>
+    </div></div>
+    <div class="planb"><strong>Plan B גשם:</strong> שניהם בפנים — CN Tower ו-Aquarium. אפשר להוסיף Hockey Hall of Fame ב-Brookfield Place (ליד CN). ל-Distillery לקחת אובר אם רטוב</div>
+    <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=CN+Tower+Toronto&daddr=Ripley%27s+Aquarium+Toronto+to:Distillery+District+Toronto&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 2 — NIAGARA ── -->
+  <div id="td2" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 3 מתוך 9</div><div class="dpanel-title">🌊 ניאגרה — היום הגדול</div><div class="dpanel-date">שני 25.5 · 🟢 רועי בחופש · כל המשפחה · רכב</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה · יום חופש של רועי #1</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1489447068241-b3490214e879?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Niagara"><div class="img-card-label">Niagara Falls</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1583341655739-fb4f73416cad?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Hornblower"><div class="img-card-label">Hornblower Boat</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1602610120100-0f95acdb22f7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="NOTL"><div class="img-card-label">Niagara-on-the-Lake</div></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">08:00 — בוקר מוקדם</div><div class="tl-name">יציאה לניאגרה</div><div class="tl-desc">QEW דרומה — ~130 ק"מ, ~1.5 שעות. לצאת מוקדם כדי לפני התורים. דלק לפני, קפה בדרך. הילדים יישנו</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:00 — Table Rock</div><div class="tl-name">תצפית ראשונה — Horseshoe Falls</div><div class="tl-desc">החנייה הטובה ביותר היא Falls Parking Lot ($25 CAD). Table Rock ממש בקצה המפל ה-Horseshoe — התחושה היא של איום פיזי. Journey Behind the Falls ($24/$16) — מנהרה מאחורי המפל, רטוב, מטורף</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:30 — האטרקציה הגדולה</div><div class="tl-name">Niagara City Cruises (Hornblower) ⛴️</div><div class="tl-desc">$47.95 מבוגר / $32.95 ילד 3–12 (מחירי 2026, מבצע סדיר ממאי). הסירה נכנסת ממש לתוך החצי-עיגול של ה-Horseshoe. תרססו לגמרי, מקבלים פונצ'ו אדום. <strong>חובה להזמין מראש online</strong> — בלי תור. 20 דקות הפלגה</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:00 — צהריים</div><div class="tl-name">צהריים על Niagara Parkway</div><div class="tl-desc">Skylon Tower למעלה (יקר אבל הנוף!) או משהו פשוט. להימנע מ-Clifton Hill — תיירותי וצולע. לכוון צפונה</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">16:00 — דרומה צפונה</div><div class="tl-name">Niagara-on-the-Lake</div><div class="tl-desc">25 דקות צפונית למפלים — אחת העיירות הקסומות בקנדה. רחוב Queen מלא חנויות, גלריות וגלידריות. Peller Estates / Inniskillin בדרך — יין קרח אגדי. תמר ונירה — Just Christmas Shop, פעיל כל השנה</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">18:30 — חזרה</div><div class="tl-name">חזרה לטורונטו</div><div class="tl-desc">~1.5 שעות. אם הילדים מותשים — לעצור ל-takeaway פיצה ולחזור. אם יש כוח — ארוחה מאוחרת ב-Niagara לפני</div></div>
+    </div></div>
+    <div class="planb"><strong>חובה להזמין מראש:</strong> Niagara City Cruises (Hornblower) — niagaracruises.com · Journey Behind the Falls — niagaraparks.com</div>
+    <div class="warn-box">⚠️ Niagara Falls Pass / Wonder Pass — $65 מבוגר, כולל Journey Behind the Falls + Power Station + Take Flight + WEGO bus. Hornblower בנפרד. <strong>לבדוק זמינות לתאריך 25.5 ב-niagaraparks.com</strong> (לפעמים מוכרים גרסה אחרת בעונה)</div>
+    <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=Toronto&daddr=Table+Rock+Niagara+Falls+to:Niagara-on-the-Lake&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 3 — Islands ── -->
+  <div id="td3" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 4 מתוך 9</div><div class="dpanel-title">St. Lawrence Market + Toronto Islands</div><div class="dpanel-date">שלישי 26.5 · 3 בלבד · רועי + הבנות בעבודה/בית ספר</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 ערב — כל המשפחה</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Market"><div class="img-card-label">St. Lawrence Market</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1517411804306-e6dfb4c39db4?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Islands"><div class="img-card-label">Toronto Islands</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Bikes"><div class="img-card-label">Bikes on Islands</div></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — בוקר</div><div class="tl-name">St. Lawrence Market — חובה</div><div class="tl-desc">השוק הסגור הטוב ביותר בקנדה — National Geographic דירג מס׳ 1 בעולם. <strong>פתוח שלישי 9:00–19:00</strong> ✓ (סגור רק יום שני). Carousel Bakery — peameal bacon sandwich אגדי. Buster's Sea Cove (lobster roll). ארוחת בוקר/בראנץ' אחד</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:30 — בדרך</div><div class="tl-name">Jack Layton Ferry Terminal</div><div class="tl-desc">המעבורת ל-Centre Island / Ward's Island / Hanlan's Point. $9.11 הלוך-חזור. 15 דקות הפלגה — נוף סקייליין מטורף</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:00 — צהריים</div><div class="tl-name">פיקניק + הליכה על האיים</div><div class="tl-desc">בלי הילדות זה יום אדולטי-מאוד — להוריד פיקניק (לקנות ב-St. Lawrence בבוקר), לשבת על הדשא של Centre Island, הליכה ל-Far Enough Farm (חוות חיות חינם), צילום הסקייליין מ-Olympic Island. שקט מטורף מול ה-Downtown</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:30 — אחה"צ</div><div class="tl-name">אופניים + חוף</div><div class="tl-desc">Toronto Islands Bike Rental ליד הטרמינל. ~$12/שעה. מסלול מ-Centre ל-Ward's ~30 דקות, נוף מהמם, חופים שקטים. אם חם מאוד — Hanlan's Point Beach (יש גם חוף נודיסטים בצד אחד — להישאר בצד הצפוני 😄). מעבורת חזרה: $9.57 הלוך-חזור</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:00 — ערב · רועי מצטרף</div><div class="tl-name">ארוחה משפחתית — King West</div><div class="tl-desc">רועי מסיים עבודה ~17:30 ומצטרף. אופציות: Khao San Road (11 Charlotte, תאילנדי מעולה), Pai (18 Duncan). או takeout אצלם בבית אם הילדות מוצפות מבית ספר. <em>Buca King West סגור לשיפוצים</em></div></div>
+    </div></div>
+    <div class="planb"><strong>Plan B:</strong> אם הבנות בכל זאת רוצות Centreville (לונה פארק) — אפשר להוסיף סבב באיים בשבת 30.5 בבוקר עם המשפחה. במאי הוא פועל רק סופי שבוע, אז 30.5 פתוח</div>
+    <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=St+Lawrence+Market+Toronto&daddr=Jack+Layton+Ferry+Terminal+Toronto+to:Centreville+Amusement+Park+Toronto&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 4 — Casa Loma + ROM ── -->
+  <div id="td4" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 5 מתוך 9</div><div class="dpanel-title">Casa Loma + ROM — תרבות + טירה</div><div class="dpanel-date">רביעי 27.5 · 3 בלבד · רועי בעבודה</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 ערב — כל המשפחה</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1601042029220-3a40d99c0628?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Casa Loma"><div class="img-card-label">Casa Loma</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1574870111867-089730e5a72b?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="ROM"><div class="img-card-label">ROM Crystal</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1531315395367-deb91b6f6f3e?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Yorkville"><div class="img-card-label">Yorkville</div></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:30 — בוקר</div><div class="tl-name">Casa Loma — הטירה של טורונטו 🏰</div><div class="tl-desc">ארמון אדוארדיני מ-1914 — הבית של סר הנרי פלאט עד שפשט רגל ב-1923. כיום מוזיאון ציבורי: 98 חדרים, מנהרה תת-קרקעית סודית, גני נוף ב-5 דונם. $40 מבוגר. פתוח כל יום 9:30–17 (כניסה אחרונה 16:30). Self-guided עם אודיו, 2.5–3 שעות. <strong>היום זה רק שלושתכם</strong> — תוכלו לקחת קצב משלכם בלי דאגה לילדות</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:00 — צהריים</div><div class="tl-name">Yorkville / The Annex</div><div class="tl-desc">Yorkville: שכונה עשירה ויפה, חנויות, גלריות, ארוחה ב-Hemingway's או Sotto Sotto. The Annex (ליד ROM): בוהמייני יותר, סטודנטי. By the Way Café — חמוד</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">15:00 — אחה"צ</div><div class="tl-name">Royal Ontario Museum (ROM) 🦖</div><div class="tl-desc">הבניין המפורסם — Crystal של דניאל ליבסקינד. אגף הדינוזאורים: T-Rex, רפטורים, אגף Bat Cave (מנהרה עם 3,000 עטלפי קוטף). אגף Egypt + מומיות, אגף First Peoples של קנדה. $26 / $19. תמר ונירה — דינוזאורים + עטלפים</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:30 — ערב · כולם נפגשים</div><div class="tl-name">ארוחה משפחתית</div><div class="tl-desc">רועי חזר מעבודה (~17:30), הבנות אחרי בית הספר. אופציות: BBQ אצלם בבית (הכי קל), Pukka (הודי עדין), או משהו בשכונה. אחרי יום מוזיאוני — נחמד לשבת רגוע</div></div>
+    </div></div>
+    <div class="planb"><strong>Plan B:</strong> ROM ו-Casa Loma שניהם 3 שעות נטו. אם עייפים — לבחור אחד ולהשאיר השני ליום אחר. או לחלק: רועי+הבנות ב-Casa Loma, אמא+אוהד+זאביק ב-ROM</div>
+    <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=Casa+Loma+Toronto&daddr=Royal+Ontario+Museum+Toronto&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 5 — Aga Khan Museum + relaxed ── -->
+  <div id="td5" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 6 מתוך 9</div><div class="dpanel-title">Aga Khan Museum + יום רגוע</div><div class="dpanel-date">חמישי 28.5 · 3 בלבד · רועי בעבודה · 🌿 קצב נמוך</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 BBQ ערב — כל המשפחה</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Aga Khan"><div class="img-card-label">Aga Khan Museum</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1582211443003-b62b8b1ef7c0?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Persian garden"><div class="img-card-label">גני פרס</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="BBQ"><div class="img-card-label">ערב משפחתי</div></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">08:30 — בוקר רגוע</div><div class="tl-name">קפה אצל רועי</div><div class="tl-desc">בוקר ארוך, ארוחת בוקר נחה. אחרי כמה ימים עמוסים (Niagara, Casa Loma, Islands) צריך נשימה עמוקה</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:30 — בוקר</div><div class="tl-name">Aga Khan Museum + הגנים</div><div class="tl-desc">77 Wynford Drive (North York, ~25 דקות נסיעה). מוזיאון אמנות אסלאמית-פרסית פתוח 2014, בניין מודרני מרהיב של Fumihiko Maki. <strong>הגנים הפרסיים מסביב</strong> עם בריכת שיקוף — אחד המקומות היפים בטורונטו. אוסף של 1,200 פריטים — קוראנים מ-1000 שנה, פיגורות מצרים, מיניאטורות פרסיות. $20 / $12 ילד / חינם מתחת ל-13 (=נירה חינם)</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:30 — צהריים</div><div class="tl-name">Diwan Café (במוזיאון)</div><div class="tl-desc">השף Mark McEwan — מטבח Indo-Persian-Lebanese, אווירתי. דברים כמו mansaf, kebab, mezze. אופציה: אם רוצים לחזור — Demetres ב-Sheppard למאפים</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">15:30 — אחה"צ</div><div class="tl-name">חזרה לבית רועי + מנוחה</div><div class="tl-desc">הבית ריק עד שרועי חוזר מעבודה ~17:30 והבנות מבית הספר. בריכה (אם יש), קריאה בגינה, סרט. <strong>יום במתכוון שקט</strong> — מחר Elora 1.5 שעות נסיעה עם כל המשפחה, צריכים אנרגיה</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:00 — ערב · כולם נפגשים</div><div class="tl-name">BBQ אצל רועי וקטי</div><div class="tl-desc">רועי חוזר מעבודה (~17:30), הבנות מבית הספר. ערב בית — צ'יפס, סטייקים, סלטים. הכי נכון אחרי יום רגוע. תמר ונירה ישחקו עם זאביק. שיחות אמיתיות, לא טסטיים</div></div>
+    </div></div>
+    <div class="planb"><strong>Plan B — אם רוצים יותר אקשן:</strong> במקום Aga Khan, יום ב-Yorkville (קניות, גלריות) או Distillery District (אם לא הספקתם בעומק ביום ראשון). או חצי-יום ב-Hockey Hall of Fame אם רועי או הילדות הוקייאיות</div>
+    <div class="day-map-wrap"><div class="day-map-title">Aga Khan Museum</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?q=Aga+Khan+Museum+Toronto&z=15&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 6 — Nature ── -->
+  <div id="td6" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 7 מתוך 9</div><div class="dpanel-title">🌲 יום טבע — Elora Gorge</div><div class="dpanel-date">שישי 29.5 · 🟢 רועי בחופש · כל המשפחה · רכב</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה · יום חופש של רועי #2</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Elora"><div class="img-card-label">Elora Gorge</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1564407526220-f02a8a04c6f3?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="River"><div class="img-card-label">Grand River</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1486520299386-6d106b22014b?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Town"><div class="img-card-label">Elora Town</div></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">08:30 — בוקר</div><div class="tl-name">יציאה ל-Elora</div><div class="tl-desc">~1.5 שעות מערב-צפון מטורונטו. דרך 401 ואז 6. בדרך — לעצור ל-Tim Hortons (חובה קנדית). הילדים יישנו</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">10:00 — Elora Gorge</div><div class="tl-name">קניון ה-Grand River</div><div class="tl-desc">קניון 22 מטר עומק חצוב על ידי Grand River. שביל המסלול הראשי 4 ק"מ — נוח לכולם, נוף מטורף. גשרים תלויים, מערות קטנות, מגדל תצפית. Conservation Area פתוח 1.5–15.10, 8:00–21:00. <strong>Tubing זמין רק מ-21.6 (לא בטיול שלנו)</strong> — אבל ההליכה לבד מספקת לחלוטין</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:00 — צהריים</div><div class="tl-name">פיקניק או Elora Mill</div><div class="tl-desc">אופציה 1: לקנות סנדוויצ'ים ב-St. Lawrence Market בבוקר ולפקניק על הסלעים. אופציה 2: <strong>Elora Mill Hotel</strong> — מלון יוקרתי בטחנה היסטורית מעל המפלים, ארוחה ברמה גבוהה (יקר). אופציה 3: Cork Restaurant בעיירה — שווה, סביר</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:30 — סיבוב בעיירה</div><div class="tl-name">Elora Village</div><div class="tl-desc">עיירה אבן מ-1832 — מבני כנסייה, גלריות (Elora Centre for the Arts), חנויות אומנים. Foodland קטן וחמוד. Mill St. — הרחוב הראשי, הליכה של שעה. רומנטי + נחמד לילדים</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">18:00 — חזרה</div><div class="tl-name">חזרה לטורונטו + ארוחה</div><div class="tl-desc">~1.5 שעות חזרה. ארוחה בעיר או טייקאוואי. יום ארוך אבל ממלא — טבע אמיתי בלי לעזוב את אזור טורונטו</div></div>
+    </div></div>
+    <div class="planb"><strong>Plan B קרוב לעיר:</strong> אם 1.5 שעות נסיעה זה יותר מדי — Scarborough Bluffs (30 דקות מטורונטו, 65 מטר מצוקים מעל אגם אונטריו) + Rouge National Urban Park (פארק לאומי ראשון בעיר בקנדה — 30 דקות מהמרכז). יום טבע קל יותר</div>
+    <div class="day-map-wrap"><div class="day-map-title">Elora Gorge</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=Toronto&daddr=Elora+Gorge+Conservation+Area&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 7 — Last full day ── -->
+  <div id="td7" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 8 מתוך 9</div><div class="dpanel-title">Kensington + High Park — יום אחרון מלא</div><div class="dpanel-date">שבת 30.5 · סוף שבוע · כל המשפחה</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה</span></div>
+    </div>
+    <div class="img-strip">
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1503176430-db1c5c1ea4f7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Kensington"><div class="img-card-label">Kensington Market</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1583515812080-fa4ebc9d59cd?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Graffiti"><div class="img-card-label">Graffiti Alley</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1568715030937-cd4d1f7e7afe?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="High Park"><div class="img-card-label">High Park</div></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:00 — בוקר</div><div class="tl-name">Kensington Market</div><div class="tl-desc">השכונה הכי בוהמיינית בקנדה — בתים צבעוניים, ויניל, יד שניה, אוכל מכל העולם. <strong>Pedestrian Sundays</strong> — ב-30.5 שבת, אז התנועה רגילה אבל עדיין נחמד מאוד. Cafe Pamenar, Otto's Berlin Doner, רחוב Augusta — לב השכונה</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:30 — דילוג מהיר</div><div class="tl-name">Chinatown — Spadina Ave</div><div class="tl-desc">5 דקות הליכה מ-Kensington. דים סאם או בועות-תה, סיבוב מהיר. T&T Supermarket — חוויה בפני עצמה</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:00 — Graffiti Alley</div><div class="tl-name">Rush Lane (Queen St West)</div><div class="tl-desc">סמטה של 700 מטר עם גרפיטי ברמה עולמית. ביצירה מתמשכת — אומנים ברחבי העולם מגיעים לצייר. תמר ונירה: סלפי גן עדן. אחרי — Trinity Bellwoods Park קרוב להליכה</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">15:00 — אחה"צ ירוק</div><div class="tl-name">High Park — הריאות של טורונטו</div><div class="tl-desc">161 דונם — הפארק העירוני הגדול ביותר בטורונטו. <strong>גן חיות חינמי קטן</strong> (יענים, יקים, ביזון, רנדיר), אגם Grenadier (סירות $16/שעה), מסלולי הליכה, פלייגראונד ענק. הסקורה היפנית פרחה השנה ב-1–5 במאי (peak), אז ב-30.5 הפרחים כבר נשרו — אבל הירוק מלא בשיא</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:30 — ארוחת פרידה</div><div class="tl-name">ארוחה משפחתית — כל המשפחה</div><div class="tl-desc">כאן זה הזמן להגיד את התודות. אופציות: <strong>Alo</strong> (1 כוכב מישלן, 163 Spadina — הזמנות נפתחות יום שלישי הראשון של החודש לחודשיים קדימה, צריך לתפוס מיד), <strong>Khao San Road</strong> (תאילנדי מעולה, פחות יוקרתי), <strong>Sotto Sotto Yorkville</strong> (איטלקי מהוקצע), או פשוט BBQ אצל רועי וקטי. <em>Buca King West בשיפוצים — להוציא מהאופציות אם לא ייפתח עד אז</em></div></div>
+    </div></div>
+    <div class="planb"><strong>Plan B:</strong> אם יש כוח — Aga Khan Museum (יפהפה, גם גנים פרסיים) או AGO. <em>הערה: Ontario Science Centre ב-Don Mills סגור — מיקום זמני ב-Harbourfront אולי בקיץ 2026.</em> אם אין כוח — לבלות יותר זמן ב-High Park, פיקניק על הדשא, ביציאת השמש</div>
+    <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=Kensington+Market+Toronto&daddr=Graffiti+Alley+Toronto+to:High+Park+Toronto&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- ── DAY 8 — Fly home ── -->
+  <div id="td8" class="dpanel">
+    <div class="dpanel-head">
+      <div><div class="dpanel-num">יום 9 מתוך 9</div><div class="dpanel-title">✈️ טיסה הביתה</div><div class="dpanel-date">ראשון 31.5 · YYZ → TLV</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(124,92,232,.15);color:var(--evening)">חזרה</span></div>
+    </div>
+    <div class="tl-grid full"><div class="tl">
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — בוקר אחרון</div><div class="tl-name">בראנץ' פרידה</div><div class="tl-desc">משהו רגוע — Lady Marmalade (בריקסטון), Mildred's Temple Kitchen, או פשוט אצל רועי וקטי. אווירה משפחתית, תמונות אחרונות</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:00 — אריזה</div><div class="tl-name">אריזה אחרונה + סיכום</div><div class="tl-desc">לוודא שלא נשכח שום דבר — סבונים מ-Niagara, מתנות מ-ROM, ויסקי מ-Distillery</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:30 — דרך</div><div class="tl-name">החזרת רכב + שדה תעופה YYZ</div><div class="tl-desc">~30–40 דקות לשדה. תלוי בטיסה — להגיע 3 שעות לפני לטיסה בינלאומית. Air Canada, El Al, Air Transat, KLM כולם טסים YYZ→TLV (לעיתים עם חניה אחת)</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">17:00 — Departure</div><div class="tl-name">✈️ טיסה</div><div class="tl-desc">YYZ → TLV — 11–13 שעות ישירות (Air Canada AC086 לפעמים), או חניה אחת באירופה. נחיתה בארץ למחרת בבוקר</div></div>
+    </div></div>
+    <div class="warn-box">⚠️ לוודא: דרכון תקף לעוד 6 חודשים, eTA קנדי קיים (אם נכנסים מהאוויר חזרה — לא רלוונטי בטיסה החוצה), קבלות לטקס פטור (אם לקנו מעל $200)</div>
+    <div class="day-map-wrap"><div class="day-map-title">YYZ Pearson</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?q=Toronto+Pearson+Airport&z=12&output=embed"></iframe></div></div>
+  </div>
+
+  <!-- TODO -->
+  <div class="todo-box" style="margin-top:2rem">
+    <div class="todo-title">משימות — Toronto</div>
+
+    <div class="tdi done">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">
+        🎶 Candlelight: Queen vs ABBA — מאושר
+        <div class="tdi-answer">23.5 בשעה 20:45 · The Royal Theatre · 608 College St · Zone B · 5 כרטיסים · Order R111547913</div>
+      </div>
+    </div>
+
+    <div class="tdi" onclick="this.classList.toggle('done')">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">להזמין Niagara City Cruises (Hornblower) — niagaracruises.com</div>
+    </div>
+
+    <div class="tdi" onclick="this.classList.toggle('done')">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">להזמין כרטיסים CN Tower + Aquarium (combo)</div>
+    </div>
+
+    <div class="tdi" onclick="this.classList.toggle('done')">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">להזמין רכב לשבוע ב-YYZ (לבדוק unlimited mileage לניאגרה)</div>
+    </div>
+
+    <div class="tdi" onclick="this.classList.toggle('done')">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">לתאם עם רועי וקטי — לוח זמנים, ארוחות, איזה מהלכים יחד</div>
+    </div>
+
+    <div class="tdi" onclick="this.classList.toggle('done')">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">להזמין ארוחה למסעדה ביום 30.5 (Alo/Buca דורשים מראש)</div>
+    </div>
+
+    <div class="tdi" onclick="this.classList.toggle('done')">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">eTA קנדי לכל הנוסעים — canada.ca/eTA · 7$ ותקף 5 שנים</div>
+    </div>
+
+    <div class="tdi" onclick="this.classList.toggle('done')">
+      <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="tdi-text">להזמין כרטיסי Aga Khan Museum מראש (agakhanmuseum.org)</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     GUIDE VIEW · TORONTO
+══════════════════════════════════════════ -->
+<div id="view-guide-tor" class="view phase-toronto-only">
+<div class="guide-wrap">
+
+  <div class="guide-section-title">Downtown + Harbourfront</div>
+  <div class="guide-grid">
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🗼</div><div><div class="gcard-name">CN Tower</div><div class="gcard-area">Downtown · 290 Bremner Blvd</div></div></div>
+      <div class="gcard-desc">בנוי ב-1976, היה המבנה הגבוה בעולם 32 שנים (553 מטר). פלטפורמת תצפית בקומה 113 עם רצפת זכוכית — להציץ 342 מטר למטה. EdgeWalk: לטייל בחוץ קשור בחבל, רק לאמיצים. 360 Restaurant מסתובב — תצפית בארוחה.</div>
+      <div class="gcard-facts"><span class="gfact">$47 / $34 / $18</span><span class="gfact tip">🎫 להזמין מראש online</span><span class="gfact kids">רצפת זכוכית</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🦈</div><div><div class="gcard-name">Ripley's Aquarium of Canada</div><div class="gcard-area">Downtown · 288 Bremner Blvd</div></div></div>
+      <div class="gcard-desc">פתוח ב-2013, ממש מתחת ל-CN Tower. הייט'לייט: Dangerous Lagoon — מנהרת זכוכית 96 מטר עם כרישי-מקקר ופלטה ענקית מעל הראש. Discovery Centre עם ipod-מתחת לכפפה. 5.7 מיליון ליטרים מים. כניסה דרך מסילה — אסור להישאר יותר מ-2 שעות.</div>
+      <div class="gcard-facts"><span class="gfact">$44 / $30</span><span class="gfact kids">חובה לבנות</span><span class="gfact tip">🎫 combo עם CN Tower חוסך</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🏭</div><div><div class="gcard-name">Distillery Historic District</div><div class="gcard-area">East Downtown · 55 Mill St</div></div></div>
+      <div class="gcard-desc">קוואטר של מפעל ויסקי Gooderham & Worts מ-1832 — בעבר המפעל הגדול בעולם. מ-2003 שכונה היסטורית רק להולכי רגל, 47 בנייני אבן ויקטוריאניים. SOMA Chocolatemaker חובה (תמר ונירה), Soulpepper Theatre, Bergo Designs, Ontario Spring Water Sake. הכי פוטוגני בעיר.</div>
+      <div class="gcard-facts"><span class="gfact free">חינם להליכה</span><span class="gfact tip">🍫 SOMA Chocolate</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🥖</div><div><div class="gcard-name">St. Lawrence Market</div><div class="gcard-area">Old Town · 93 Front St E</div></div></div>
+      <div class="gcard-desc">National Geographic דירג מס׳ 1 שוק בעולם 2012. בנוי ב-1803, הבניין הקיים מ-1845. South Market: 120 ספקים — Carousel Bakery (peameal bacon sandwich מיתולוגי), Buster's Sea Cove (lobster roll). <strong>פתוח שלישי-שישי 9–19, שבת 7–17, ראשון 10–17. סגור רק יום שני.</strong> Farmers Market הצפוני — שבת בלבד 5–15.</div>
+      <div class="gcard-facts"><span class="gfact">שני סגור</span><span class="gfact tip">🥓 Peameal bacon sandwich</span></div>
+    </div>
+  </div>
+
+  <div class="guide-section-title">מוזיאונים + תרבות</div>
+  <div class="guide-grid">
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🏰</div><div><div class="gcard-name">Casa Loma</div><div class="gcard-area">Midtown · 1 Austin Terrace</div></div></div>
+      <div class="gcard-desc">ארמון אדוארדיני נאו-גותי שבנה סר הנרי פלאט, מיליונר טורונטו, ב-1914. 98 חדרים, 30 חדרי שינה, 5 דונם של גנים. פלאט פשט רגל ב-1923 וגרם רק 9 שנים. תת-קרקעית: מנהרה 240 מטר מתחת לרחוב, אורווה מקצועית. Self-guided 2.5–3 שעות.</div>
+      <div class="gcard-facts"><span class="gfact">$40 / $35 / $25</span><span class="gfact kids">9:30–17 כל יום</span><span class="gfact tip">🎫 timed entry online</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🦖</div><div><div class="gcard-name">Royal Ontario Museum (ROM)</div><div class="gcard-area">Bloor St · 100 Queen's Park</div></div></div>
+      <div class="gcard-desc">המוזיאון הגדול בקנדה — אגף ה-Crystal של Daniel Libeskind (2007), שלד הסידן הגדול בקנדה. T-Rex, Bat Cave (מנהרה עם 3,000 עטלפי גומי קוטף), אגף ה-Galleries of Africa, חדר מומיות מצריות. 6 מיליון פריטים. 3 שעות לסיור הגון.</div>
+      <div class="gcard-facts"><span class="gfact">$26 / $19</span><span class="gfact kids">🦴 דינוזאורים + עטלפים</span><span class="gfact tip">📌 שלישי 3 בחודש חינם 16–20:30 (19.5 לפני הטיול)</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🎨</div><div><div class="gcard-name">Art Gallery of Ontario (AGO)</div><div class="gcard-area">Downtown · 317 Dundas St W</div></div></div>
+      <div class="gcard-desc">מוזיאון אמנות עם 90,000 יצירות — אוסף הגדול בעולם של Group of Seven (אמני נוף קנדים). הבניין שיפץ Frank Gehry (2008) — הקנדי הילד-מקומי. אגף European לפני 1900, אגף Inuit, אגף תמונות. ה-Galleria Italia עם תקרת זכוכית — חובה.</div>
+      <div class="gcard-facts"><span class="gfact">$30</span><span class="gfact tip">🎟️ חינם רק ד׳ הראשון של החודש 18–21 (לא בטיול שלנו)</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🕌</div><div><div class="gcard-name">Aga Khan Museum</div><div class="gcard-area">North York · 77 Wynford Drive</div></div></div>
+      <div class="gcard-desc">מוזיאון אמנות אסלאמית-פרסית (פתח 2014) בבניין מודרני מרהיב של האדריכל היפני Fumihiko Maki. אוסף של 1,200 פריטים מ-1,000 שנים — קוראנים מ-המאה ה-9, מיניאטורות פרסיות, חרסינה. <strong>הגנים הפרסיים</strong> מסביב עם בריכת שיקוף ארוכה — אחד המקומות הכי שקטים ויפים בטורונטו. Diwan Café פנימי מצוין.</div>
+      <div class="gcard-facts"><span class="gfact">$20 / $12 / חינם מתחת 13</span><span class="gfact tip">🌿 גנים פרסיים</span></div>
+    </div>
+  </div>
+
+  <div class="guide-section-title">טבע + פארקים</div>
+  <div class="guide-grid">
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🏝️</div><div><div class="gcard-name">Toronto Islands</div><div class="gcard-area">דרומית ל-Downtown · 13 דקות במעבורת</div></div></div>
+      <div class="gcard-desc">קבוצה של 15 איים סמוכים — Centre, Ward's, Algonquin, Hanlan's. החופים הטובים בעיר, בלי מכוניות, אופניים בלבד. נוף סקייליין הטוב ביותר. Centreville Park (לונה פארק קטן מ-1967) ב-Centre Island. Hanlan's Beach בקצה (יש חוף נודיסטים — להישאר בצד הצפוני).</div>
+      <div class="gcard-facts"><span class="gfact">$9.57 מעבורת</span><span class="gfact kids">🎡 Centreville (סופ"ש מאי)</span><span class="gfact tip">🚲 אופניים ~$12/שעה</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🌳</div><div><div class="gcard-name">High Park</div><div class="gcard-area">West End · 1873 Bloor St W</div></div></div>
+      <div class="gcard-desc">הפארק העירוני הגדול בטורונטו — 161 דונם. גן חיות חינמי קטן (יענים, ביזון, יקים, רנדיר), אגם Grenadier (סירות $16/שעה), פלייגראונדים. Cherry Blossom Hill — הסקורה היפנית הפכה ב-2026 ל-peak ב-1–5 במאי, אז בטיול שלנו (סוף מאי) הפרחים כבר נשרו. עדיין יפהפה — דשא ירוק, מסלולים. הליכה רגועה, פיקניק.</div>
+      <div class="gcard-facts"><span class="gfact free">חינם</span><span class="gfact kids">גן חיות חינמי</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🏞️</div><div><div class="gcard-name">Elora Gorge</div><div class="gcard-area">~1.5h צפון-מערב מטורונטו</div></div></div>
+      <div class="gcard-desc">קניון 22 מטר עומק חצוב על ידי Grand River, 1.6 ק"מ אורך. Conservation Area פתוח 1.5–15.10. מסלול מסביב, גשרים תלויים, מערות. <strong>Tubing פותח ב-21.6 — לא יהיה זמין בטיול שלנו (29.5).</strong> העיירה Elora עצמה — אבן מ-1832, גלריות, Elora Mill Hotel מעל המפלים. יום טבע מושלם.</div>
+      <div class="gcard-facts"><span class="gfact">8–21 כל יום</span><span class="gfact tip">🛶 Tubing מ-21.6</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🌊</div><div><div class="gcard-name">Niagara Falls</div><div class="gcard-area">~1.5h דרום-מערב מטורונטו</div></div></div>
+      <div class="gcard-desc">השלשה: Horseshoe Falls (הקנדי, 53 מטר, 90% מהזרימה), American Falls, Bridal Veil. הצד הקנדי הוא הצד הנכון לתצפית. Niagara City Cruises (לשעבר Hornblower) — סירה לתוך החצי-עיגול. Journey Behind the Falls — מנהרה. Skylon Tower תצפית מלמעלה. <strong>לא להישאר ב-Clifton Hill</strong> — תיירותי וצולע.</div>
+      <div class="gcard-facts"><span class="gfact">חניה $25</span><span class="gfact tip">⛴️ Hornblower חובה</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🏘️</div><div><div class="gcard-name">Niagara-on-the-Lake</div><div class="gcard-area">25 דקות צפונית למפלים</div></div></div>
+      <div class="gcard-desc">"העיירה הקסומה ביותר בקנדה" (ה-Prince of Wales עצמו אמר). אזור ה-wine country עם 30+ wineries. Queen Street עם בנייני 1815, Just Christmas Shop פתוח כל השנה, Niagara Apothecary (1869). Peller Estates / Inniskillin בדרך — יין-קרח אגדי.</div>
+      <div class="gcard-facts"><span class="gfact free">העיר חינם</span><span class="gfact tip">🍷 Peller / Inniskillin</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">⛰️</div><div><div class="gcard-name">Scarborough Bluffs</div><div class="gcard-area">East Toronto · 30 דקות מהמרכז</div></div></div>
+      <div class="gcard-desc">חלופה קרובה לטבע — מצוקים בגובה 65 מטר מעל אגם אונטריו, 15 ק"מ אורך. Bluffer's Park בתחתית — חוף + שייט. נוף מטורף, פוטוגני מאוד. Plan B מצוין אם 1.5 שעות ל-Elora זה יותר מדי.</div>
+      <div class="gcard-facts"><span class="gfact free">חינם</span><span class="gfact tip">📸 פוטוגני מאוד</span></div>
+    </div>
+  </div>
+
+  <div class="guide-section-title">שכונות + אוכל</div>
+  <div class="guide-grid">
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🌈</div><div><div class="gcard-name">Kensington Market</div><div class="gcard-area">Downtown · ליד Chinatown</div></div></div>
+      <div class="gcard-desc">השכונה הכי בוהמיינית בקנדה. הוכרזה National Historic Site ב-2006. בתים צבעוניים, יד שניה, ויניל, אוכל מכל העולם — אתיופי, טיביטי, מקסיקני, יווני, בריטי. Pedestrian Sundays בקיץ. Cafe Pamenar, Otto's Berlin Doner, Wanda's Pie In The Sky.</div>
+      <div class="gcard-facts"><span class="gfact free">חינם</span><span class="gfact tip">🥪 Otto's doner kebab</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🐉</div><div><div class="gcard-name">Chinatown — Spadina</div><div class="gcard-area">Spadina Ave · ליד Kensington</div></div></div>
+      <div class="gcard-desc">אחד מ-Chinatowns הגדולים בצפון אמריקה. דים סאם ב-Rol San (לא טוקנס, נהדר), בועות-תה, T&T Supermarket — חוויה עצמה. Pho ויטנאמי, Banh Mi בכל פינה. השכונה הצמודה Little Italy לאופציות פסטה.</div>
+      <div class="gcard-facts"><span class="gfact tip">🥟 Rol San dim sum</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🎨</div><div><div class="gcard-name">Graffiti Alley</div><div class="gcard-area">Rush Lane · Queen St West</div></div></div>
+      <div class="gcard-desc">סמטה של 700 מטר עם גרפיטי ברמה עולמית. ביצירה מתמשכת — אומנים מכל העולם מגיעים לצייר חוקית. Rick Mercer Report צילם כאן הרבה. Trinity Bellwoods Park קרוב להליכה אחרי. ה-spot הכי אינסטגרמי בעיר.</div>
+      <div class="gcard-facts"><span class="gfact free">חינם</span><span class="gfact tip">📸 לפני שעת השיא</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🍽️</div><div><div class="gcard-name">Yorkville</div><div class="gcard-area">Bloor St · ליד ROM</div></div></div>
+      <div class="gcard-desc">בעבר מרכז ההיפים של העולם (1960s). היום השכונה הכי יוקרתית בקנדה — Hermes, Chanel, Holt Renfrew. גם מסעדות מצוינות: Sotto Sotto (איטלקי), Cibo Wine Bar, Joso's. Mink Mile (Bloor St) — קניות יוקרה.</div>
+      <div class="gcard-facts"><span class="gfact">יקר</span><span class="gfact tip">💎 הקניות הכי טובות</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🍕</div><div><div class="gcard-name">Pizzeria Libretto</div><div class="gcard-area">Danforth / King W · ⚠ Ossington הפך ל-Bar</div></div></div>
+      <div class="gcard-desc">פיצה Neapolitan מהטובות בקנדה — קמח 00 איטלקי, רוטב San Marzano, מוצרלה Buffalo. תנור עצים 900°F, פיצה ב-90 שניות. <strong>הסניף המקורי ב-Ossington הפך לבר Libretto פברואר 2026 — פתוח רק ד׳-ש׳ מ-16:00, פחות מתאים למשפחה.</strong> סניפים אחרים (Danforth, King West, Yonge & Eglinton) פועלים רגיל.</div>
+      <div class="gcard-facts"><span class="gfact">$$</span><span class="gfact tip">🍕 Danforth/King W לסניף משפחה</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🍣</div><div><div class="gcard-name">Pai Northern Thai</div><div class="gcard-area">Downtown · 18 Duncan St</div></div></div>
+      <div class="gcard-desc">תאילנדי הטוב בעיר — שפ Nuit Regular הביאה את אוכל הצפון התאילנדי האמיתי. Khao Soi (Cheng Mai curry noodles) חובה. Boat noodles. אווירה צבעונית, אוהבת ילדים. תזמון: סוף שבוע יש תור — 30 דקות.</div>
+      <div class="gcard-facts"><span class="gfact">$$</span><span class="gfact tip">🍜 Khao Soi חובה</span></div>
+    </div>
+  </div>
+
+  <div class="guide-section-title">לילדים — תמר ונירה</div>
+  <div class="guide-grid">
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🎢</div><div><div class="gcard-name">Centreville Amusement Park</div><div class="gcard-area">Centre Island · ⚠ מאי = סופ"ש בלבד</div></div></div>
+      <div class="gcard-desc">לונה פארק קטן וחמוד מ-1967. 30 אטרקציות — סוסי קרוסלה, רכבת קטנה, סירות בנהר, דרקון מתנדנד. Far Enough Farm — חיות חווה חינם בסמוך. <strong>בחודש מאי 2026 פתוח רק סופי שבוע (כולל Victoria Day 18.5). מ-1 ביוני פתוח כל יום.</strong> בטיול שלנו זה אומר: פתוח 23–24.5 וגם 30–31.5, סגור 25–29.5.</div>
+      <div class="gcard-facts"><span class="gfact">סופ"ש בלבד במאי</span><span class="gfact kids">11–13 גיל יפה</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🔬</div><div><div class="gcard-name">⚠ Ontario Science Centre — סגור</div><div class="gcard-area">המיקום ב-Don Mills נסגר 6.2024</div></div></div>
+      <div class="gcard-desc"><strong>הבניין הקבוע ב-Don Mills סגור לצמיתות (יוני 2024) בשל נזק מבני.</strong> מיקום זמני ב-Harbourfront Centre מתוכנן לקיץ 2026 — אולי ייפתח אחרי הטיול שלנו. החלופה: AGO, ROM, Casa Loma, Aquarium. המרכז הקבוע החדש ב-Ontario Place — צפוי 2029 בלבד.</div>
+      <div class="gcard-facts"><span class="gfact" style="background:rgba(232,68,68,.1);border-color:rgba(232,68,68,.3);color:#e84444">סגור</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🏒</div><div><div class="gcard-name">Hockey Hall of Fame</div><div class="gcard-area">Downtown · Brookfield Place</div></div></div>
+      <div class="gcard-desc">היכל התהילה של ה-NHL. ה-Stanley Cup המקורי כאן — אפשר לגעת. אינטראקטיבי הרבה: לזרוק כדורי גומי, לעמוד בשער כשמשגרים עליך כדורים. הכי כיף לבני הבית של ההוקי. אם רועי או הבנות אוהבי הוקי — חובה.</div>
+      <div class="gcard-facts"><span class="gfact">$25 / $20</span><span class="gfact kids">לאוהבי הוקי</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🍫</div><div><div class="gcard-name">SOMA Chocolatemaker</div><div class="gcard-area">Distillery District</div></div></div>
+      <div class="gcard-desc">שוקולטיה בית מ-2003 — bean-to-bar, מהפולים. גלידת מאיה Hot Chocolate (חריף), טראפלים מקצועיים, gelato. תצוגת ייצור פתוחה. הילדות יבכו מאושר.</div>
+      <div class="gcard-facts"><span class="gfact tip">🍦 Mayan ice cream</span></div>
+    </div>
+  </div>
+
+  <div class="guide-section-title">טיפים מעשיים</div>
+  <div class="guide-grid">
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🚗</div><div><div class="gcard-name">רכב + נסיעה</div><div class="gcard-area">לוגיסטיקה</div></div></div>
+      <div class="gcard-desc">חניה ב-Downtown יקרה ($30/יום). מומלץ: רכב לימי הטיולים (Niagara, Elora, Aga Khan) ולא להחזיק בעיר. Toronto Parking Authority lots ($15–25). Green P אפליקציה לחניה ברחוב. כביש 401 וב-QEW מאוד עמוסים בשעות 7–9, 16–18.</div>
+      <div class="gcard-facts"><span class="gfact tip">📱 Green P app</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🚇</div><div><div class="gcard-name">TTC — תחבורה ציבורית</div><div class="gcard-area">Subway + רכבת קלה + אוטובוסים</div></div></div>
+      <div class="gcard-desc">2 קווי סאבווי + סטריטקאר אייקוני (החשמלי). $3.30 לנסיעה, $13 day pass. PRESTO card לקנדה. מהיר ויעיל יחסית. אפשר להגיע לרוב המקומות בלי רכב, מלבד טיולים מחוץ לעיר. בלילה עד ~01:30.</div>
+      <div class="gcard-facts"><span class="gfact">$3.30 / $13 יום</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">📶</div><div><div class="gcard-name">eTA + מסים</div><div class="gcard-area">חוקי</div></div></div>
+      <div class="gcard-desc">eTA קנדי חובה לישראלים — $7 CAD, תקף 5 שנים. canada.ca/eTA. מס 13% נוסף לכל מחיר (לא כלול). טיפ 18–20% במסעדות מקובל. מטבע: דולר קנדי. ב-Niagara — חוצים גבול = תוקף עוד פעם eTA אם נחזור.</div>
+      <div class="gcard-facts"><span class="gfact">$7 CAD eTA</span><span class="gfact tip">+13% מס</span></div>
+    </div>
+    <div class="gcard">
+      <div class="gcard-top"><div class="gcard-icon">🌡️</div><div><div class="gcard-name">מזג אוויר סוף מאי</div><div class="gcard-area">23.5–31.5</div></div></div>
+      <div class="gcard-desc">סוף מאי בטורונטו: 18–22°C ביום, 10–14°C בלילה. בהיר ברוב הימים, גשם קל אפשרי. מים באגם עוד קרים מדי לשחייה (15°C). בגדים: שכבות, ז'קט קל, נעליים נוחות, מטריה קטנה. ב-Niagara — לפעמים רטוב מהמפל, לקחת ציוד מתחלף.</div>
+      <div class="gcard-facts"><span class="gfact">18–22°C</span><span class="gfact tip">🧥 שכבות</span></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer>NYC · מאי 2026 · אוהד, זאביק, אמא, עידן, חני, ליב, בן ודילן · Toronto · רועי, קטי, תמר, נירה</footer>
 
 <script>
-// ── CALENDAR SETUP ──
-const timeCol = document.getElementById('timeCol');
+// ── CALENDAR SETUP (NYC + Toronto) ──
 const START = 7, HOURS = 16, PX = 60;
 const totalH = HOURS * PX;
 document.querySelectorAll('.cal-day-col,.cal-time-col').forEach(el => el.style.height = totalH + 'px');
-for (let h = START; h <= START + HOURS; h++) {
-  const lbl = document.createElement('div');
-  lbl.className = 'cal-hour-label';
-  lbl.style.top = ((h - START) * PX) + 'px';
-  lbl.textContent = h + ':00';
-  timeCol.appendChild(lbl);
+
+function fillTimeCol(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  for (let h = START; h <= START + HOURS; h++) {
+    const lbl = document.createElement('div');
+    lbl.className = 'cal-hour-label';
+    lbl.style.top = ((h - START) * PX) + 'px';
+    lbl.textContent = h + ':00';
+    el.appendChild(lbl);
+  }
 }
+fillTimeCol('timeCol');
+fillTimeCol('timeColTor');
+
 const now = new Date();
+// NYC current-time line: 15.5 to 22.5
 if (now.getMonth() === 4) {
-  const colIdx = now.getDate() - 15;
-  if (colIdx >= 0 && colIdx < 8) {
-    const col = document.getElementById('dc' + colIdx);
+  const nycIdx = now.getDate() - 15;
+  if (nycIdx >= 0 && nycIdx < 8) {
+    const col = document.getElementById('dc' + nycIdx);
+    if (col) {
+      const line = document.createElement('div');
+      line.className = 'cal-now-line';
+      const top = (now.getHours() + now.getMinutes()/60 - START) * PX;
+      if (top >= 0 && top <= totalH) { line.style.top = top + 'px'; col.appendChild(line); }
+    }
+  }
+  // Toronto current-time line: 23.5 to 31.5
+  const torIdx = now.getDate() - 23;
+  if (torIdx >= 0 && torIdx < 9) {
+    const col = document.getElementById('tdc' + torIdx);
     if (col) {
       const line = document.createElement('div');
       line.className = 'cal-now-line';
@@ -1172,38 +2076,155 @@ if (now.getMonth() === 4) {
   }
 }
 
+// ── URL STATE ──
+// Hash format: #<phase>/<view>[/<day>]   e.g. #tor/daily/2, #nyc/cal/0, #tor/guide
+let _suspendUrl = false;
+function readUrlState() {
+  const h = (location.hash || '').replace(/^#/, '');
+  if (!h) return null;
+  const parts = h.split('/');
+  const phase = (parts[0] === 'nyc' || parts[0] === 'tor') ? parts[0] : null;
+  const view = (parts[1] === 'cal' || parts[1] === 'daily' || parts[1] === 'guide') ? parts[1] : null;
+  const day = (parts[2] != null && /^\d+$/.test(parts[2])) ? +parts[2] : null;
+  if (!phase || !view) return null;
+  return { phase, view, day };
+}
+function updateUrlState() {
+  if (_suspendUrl) return;
+  const parts = [currentPhase, currentView];
+  if (currentView !== 'guide') {
+    const tabSel = currentPhase === 'nyc'
+      ? (currentView === 'cal' ? '#view-cal .cal-mtab' : '#view-daily .dtab')
+      : (currentView === 'cal' ? '#view-cal-tor .cal-mtab' : '#view-daily-tor .dtab');
+    const tabs = document.querySelectorAll(tabSel);
+    const idx = [...tabs].findIndex(b => b.classList.contains('active'));
+    if (idx >= 0) parts.push(idx);
+  }
+  const hash = '#' + parts.join('/');
+  if (location.hash !== hash) history.replaceState(null, '', hash);
+}
+
+// ── PHASE TOGGLE ──
+let currentPhase = 'nyc';
+function setPhase(p) {
+  currentPhase = p;
+  document.body.classList.toggle('phase-nyc', p === 'nyc');
+  document.body.classList.toggle('phase-toronto', p === 'tor');
+  document.querySelectorAll('.phase-btn').forEach(b => {
+    const isNyc = b.classList.contains('nyc');
+    b.classList.toggle('active', (isNyc && p === 'nyc') || (!isNyc && p === 'tor'));
+  });
+  const sd = document.getElementById('siteDates');
+  if (sd) sd.textContent = (p === 'nyc') ? '15–22.5 · NYC · 8 לילות' : '23–31.5 · Toronto · 9 ימים';
+  setView(currentView);
+  updateUrlState();
+}
+
 // ── VIEW TOGGLE ──
+let currentView = 'daily';
 function setView(v) {
+  currentView = v;
   document.getElementById('view-cal').classList.toggle('active', v === 'cal');
   document.getElementById('view-daily').classList.toggle('active', v === 'daily');
   document.getElementById('view-guide').classList.toggle('active', v === 'guide');
+  document.getElementById('view-cal-tor').classList.toggle('active', v === 'cal');
+  document.getElementById('view-daily-tor').classList.toggle('active', v === 'daily');
+  document.getElementById('view-guide-tor').classList.toggle('active', v === 'guide');
   document.querySelectorAll('.view-btn').forEach((b,i) => b.classList.toggle('active', (i===0&&v==='cal')||(i===1&&v==='daily')||(i===2&&v==='guide')));
+  updateUrlState();
 }
 
-// ── SHOW DAY ──
+// ── SHOW DAY (NYC) ──
 function showDay(n) {
-  document.querySelectorAll('.dpanel').forEach((p,i) => p.classList.toggle('active', i===n));
-  document.querySelectorAll('.dtab').forEach((t,i) => t.classList.toggle('active', i===n));
+  const panels = document.querySelectorAll('#view-daily .dpanel');
+  panels.forEach((p,i) => p.classList.toggle('active', i===n));
+  const tabs = document.querySelectorAll('#view-daily .dtab');
+  tabs.forEach((t,i) => t.classList.toggle('active', i===n));
+  updateUrlState();
 }
 
-// ── MOBILE CALENDAR DAY ──
+// ── SHOW DAY (Toronto) ──
+function showDayTor(n) {
+  const panels = document.querySelectorAll('#view-daily-tor .dpanel');
+  panels.forEach((p,i) => p.classList.toggle('active', i===n));
+  const tabs = document.querySelectorAll('#view-daily-tor .dtab');
+  tabs.forEach((t,i) => t.classList.toggle('active', i===n));
+  updateUrlState();
+}
+
+// ── MOBILE CALENDAR DAY (NYC) ──
 function setCalDay(n) {
   document.querySelectorAll('#view-cal .cal-head-day').forEach((el,i) => el.classList.toggle('m-active', i===n));
   document.querySelectorAll('#view-cal .cal-day-col').forEach((el,i) => el.classList.toggle('m-active', i===n));
-  const tabs = document.querySelectorAll('.cal-mtab');
+  const tabs = document.querySelectorAll('#view-cal .cal-mtab');
   tabs.forEach((b,i) => b.classList.toggle('active', i===n));
   if (tabs[n]) tabs[n].scrollIntoView({ inline:'center', block:'nearest', behavior:'smooth' });
+  updateUrlState();
 }
-(function initCalDay(){
-  let day = 0;
-  if (now.getMonth() === 4) {
-    const i = now.getDate() - 15;
-    if (i >= 0 && i < 8) day = i;
+
+// ── MOBILE CALENDAR DAY (Toronto) ──
+function setCalDayTor(n) {
+  document.querySelectorAll('#view-cal-tor .cal-head-day').forEach((el,i) => el.classList.toggle('m-active', i===n));
+  document.querySelectorAll('#view-cal-tor .cal-day-col').forEach((el,i) => el.classList.toggle('m-active', i===n));
+  const tabs = document.querySelectorAll('#view-cal-tor .cal-mtab');
+  tabs.forEach((b,i) => b.classList.toggle('active', i===n));
+  if (tabs[n]) tabs[n].scrollIntoView({ inline:'center', block:'nearest', behavior:'smooth' });
+  updateUrlState();
+}
+
+// ── Init: URL hash takes priority, fall back to current date ──
+function applyState(s) {
+  _suspendUrl = true;
+  setPhase(s.phase);
+  setView(s.view);
+  if (s.view === 'cal') {
+    if (s.phase === 'nyc') setCalDay(s.day ?? 0);
+    else setCalDayTor(s.day ?? 0);
+  } else if (s.view === 'daily') {
+    if (s.phase === 'nyc') showDay(s.day ?? 0);
+    else showDayTor(s.day ?? 0);
   }
-  setCalDay(day);
+  _suspendUrl = false;
+  updateUrlState();
+}
+
+(function initPhaseAndDay(){
+  const stored = readUrlState();
+  if (stored) {
+    // make sure default day positions are also primed for later toggles
+    _suspendUrl = true;
+    setCalDay(stored.phase === 'nyc' && stored.view === 'cal' ? (stored.day ?? 0) : 0);
+    setCalDayTor(stored.phase === 'tor' && stored.view === 'cal' ? (stored.day ?? 0) : 0);
+    showDay(stored.phase === 'nyc' && stored.view === 'daily' ? (stored.day ?? 0) : 0);
+    showDayTor(stored.phase === 'tor' && stored.view === 'daily' ? (stored.day ?? 0) : 0);
+    _suspendUrl = false;
+    applyState(stored);
+    return;
+  }
+  // No hash — use today's date
+  let phase = 'nyc';
+  let nycDay = 0, torDay = 0;
+  if (now.getMonth() === 4) {
+    const d = now.getDate();
+    if (d >= 23 && d <= 31) { phase = 'tor'; torDay = d - 23; }
+    else if (d >= 15 && d <= 22) { phase = 'nyc'; nycDay = d - 15; }
+  }
+  setPhase(phase);
+  setCalDay(nycDay);
+  setCalDayTor(torDay);
+  showDay(nycDay);
+  showDayTor(torDay);
 })();
-(function setupCalSwipe(){
-  const body = document.getElementById('calBody');
+
+// React to manual hash changes (back/forward, paste in URL bar)
+window.addEventListener('hashchange', () => {
+  const s = readUrlState();
+  if (s) applyState(s);
+});
+
+// ── Swipe support for calendars ──
+function setupCalSwipe(bodyId, setter, tabSel) {
+  const body = document.getElementById(bodyId);
   if (!body) return;
   let sx = null, sy = null;
   body.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive:true});
@@ -1212,14 +2233,16 @@ function setCalDay(n) {
     const dx = e.changedTouches[0].clientX - sx;
     const dy = e.changedTouches[0].clientY - sy;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-      const tabs = [...document.querySelectorAll('.cal-mtab')];
+      const tabs = [...document.querySelectorAll(tabSel)];
       const cur = tabs.findIndex(b => b.classList.contains('active'));
       const next = cur + (dx < 0 ? 1 : -1);
-      if (next >= 0 && next < tabs.length) setCalDay(next);
+      if (next >= 0 && next < tabs.length) setter(next);
     }
     sx = sy = null;
   }, {passive:true});
-})();
+}
+setupCalSwipe('calBody', setCalDay, '#view-cal .cal-mtab');
+setupCalSwipe('calBodyTor', setCalDayTor, '#view-cal-tor .cal-mtab');
 </script>
 </body>
 </html>

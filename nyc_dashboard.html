@@ -1268,7 +1268,7 @@ body {
     <button class="cal-mtab" onclick="setCalDayTor(1)"><small>ראשון · כולם</small>24.5</button>
     <button class="cal-mtab" onclick="setCalDayTor(2)"><small>שני · רועי 🟢</small>🌊 25.5</button>
     <button class="cal-mtab" onclick="setCalDayTor(3)"><small>שלישי · ערב</small>26.5</button>
-    <button class="cal-mtab" onclick="setCalDayTor(4)"><small>רביעי · ערב</small>🌲 Elora</button>
+    <button class="cal-mtab" onclick="setCalDayTor(4)"><small>רביעי · ערב</small>😴 מנוחה</button>
     <button class="cal-mtab" onclick="setCalDayTor(5)"><small>חמישי · 3 בלבד</small>🚗 Kingston</button>
     <button class="cal-mtab" onclick="setCalDayTor(6)"><small>שישי · 3 בלבד</small>🏝️ 1000 Is</button>
     <button class="cal-mtab" onclick="setCalDayTor(7)"><small>שבת · כולם</small>30.5</button>
@@ -1291,7 +1291,7 @@ body {
       <div class="cal-head-day"><div class="cal-head-date">24.5</div><div class="cal-head-name">ראשון</div><div class="cal-head-label">Downtown</div></div>
       <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#ec7766">25.5</div><div class="cal-head-name">שני · רועי 🟢</div><div class="cal-head-label">🌊 Niagara</div></div>
       <div class="cal-head-day"><div class="cal-head-date">26.5</div><div class="cal-head-name">שלישי · ערב</div><div class="cal-head-label">Islands</div></div>
-      <div class="cal-head-day"><div class="cal-head-date">27.5</div><div class="cal-head-name">רביעי · ערב</div><div class="cal-head-label">🌲 Elora</div></div>
+      <div class="cal-head-day"><div class="cal-head-date">27.5</div><div class="cal-head-name">רביעי · ערב</div><div class="cal-head-label">😴 יום מנוחה</div></div>
       <div class="cal-head-day" style="border-right:2px solid #5b6e9c"><div class="cal-head-date" style="color:#7baadb">28.5</div><div class="cal-head-name">חמישי · 3 בלבד</div><div class="cal-head-label">🚗 → Kingston</div></div>
       <div class="cal-head-day" style="border-right:2px solid #5b6e9c"><div class="cal-head-date" style="color:#7baadb">29.5</div><div class="cal-head-name">שישי · 3 בלבד</div><div class="cal-head-label">🏝️ 1000 Islands</div></div>
       <div class="cal-head-day"><div class="cal-head-date">30.5</div><div class="cal-head-name">שבת</div><div class="cal-head-label">Kensington</div></div>
@@ -1304,23 +1304,29 @@ body {
 
       <!-- Day 0: 23.5 — Arrival + Candlelight concert -->
       <div class="cal-day-col" id="tdc0">
-        <div class="evt morning" style="top:60px;height:90px">
-          <div class="evt-title">טיסה LGA → YYZ</div>
-          <div class="evt-sub">Porter ~1h45</div>
-          <div class="evt-time">08:00–09:45</div>
+        <div class="evt morning" style="top:0px;height:60px">
+          <div class="evt-title">LGA Terminal B</div>
+          <div class="evt-sub">צ'ק אין · 2h לפני</div>
+          <div class="evt-time">07:30–09:00</div>
         </div>
-        <div class="evt morning" style="top:180px;height:90px">
-          <div class="evt-title">איסוף רכב + נסיעה</div>
-          <div class="evt-sub">YYZ → רועי</div>
-          <div class="evt-time">10:30–12:00</div>
+        <div class="evt morning" style="top:175px;height:100px;background:rgba(124,92,232,0.85);color:#fff">
+          <div class="evt-title">✈️ PD 604 · LGA → YYZ</div>
+          <div class="evt-sub">Porter · Terminal 3 · 1h 40m</div>
+          <div class="evt-time">09:55–11:35</div>
+        </div>
+        <div class="evt morning" style="top:285px;height:60px;background:rgba(212,67,67,0.85)">
+          <div class="evt-title">רועי אוסף ב-YYZ</div>
+          <div class="evt-sub">Terminal 3 · arrivals</div>
+          <div class="evt-time">11:45–12:30</div>
         </div>
         <div class="evt afternoon" style="top:330px;height:150px">
           <div class="evt-title">מתפרקים אצל רועי</div>
           <div class="evt-sub">קפה + מנוחה אחרי טיסה</div>
           <div class="evt-time">12:30–15:00</div>
         </div>
-        <div class="evt afternoon" style="top:510px;height:90px">
-          <div class="evt-title">סיבוב רגוע / Harbourfront</div>
+        <div class="evt afternoon" style="top:510px;height:90px;background:rgba(42,171,114,0.45);border-style:dashed;border-width:1px">
+          <div class="evt-title">Harbourfront (אופציונלי)</div>
+          <div class="evt-sub">רק אם יש כוח</div>
           <div class="evt-time">15:30–17:00</div>
         </div>
         <div class="evt evening" style="top:630px;height:90px;background:rgba(212,67,67,0.85)">
@@ -1431,30 +1437,30 @@ body {
         </div>
       </div>
 
-      <!-- Day 4: 27.5 — Elora Gorge day-trip (solo: 3 of us; family for dinner) -->
+      <!-- Day 4: 27.5 — Rest day at Roei's (Elora available as alt) -->
       <div class="cal-day-col solo-day" id="tdc4">
-        <div class="evt morning" style="top:90px;height:90px">
-          <div class="evt-title">יציאה ל-Elora</div>
-          <div class="evt-sub">~1.5 שעות נסיעה</div>
-          <div class="evt-time">08:30–10:00</div>
+        <div class="evt morning" style="top:180px;height:90px">
+          <div class="evt-title">בוקר עצלן</div>
+          <div class="evt-sub">קפה ארוך + קריאה</div>
+          <div class="evt-time">10:00–11:30</div>
         </div>
-        <div class="evt all" style="top:210px;height:180px">
-          <div class="evt-title">Elora Gorge Trail</div>
-          <div class="evt-sub">קניון, נהר, גשרים</div>
-          <div class="evt-time">10:00–13:00</div>
+        <div class="evt morning" style="top:300px;height:120px;background:rgba(42,171,114,0.45);border-style:dashed;border-width:1px">
+          <div class="evt-title">סיבוב קל (אופציונלי)</div>
+          <div class="evt-sub">The Annex / Kensington</div>
+          <div class="evt-time">12:00–14:00</div>
         </div>
-        <div class="evt afternoon" style="top:420px;height:90px">
-          <div class="evt-title">פיקניק / Elora Mill</div>
-          <div class="evt-time">13:00–14:30</div>
+        <div class="evt afternoon" style="top:450px;height:60px">
+          <div class="evt-title">צהריים פשוט</div>
+          <div class="evt-time">14:00–15:00</div>
         </div>
-        <div class="evt afternoon" style="top:540px;height:120px">
-          <div class="evt-title">סיבוב בעיירה Elora</div>
-          <div class="evt-sub">חנויות אומנים</div>
-          <div class="evt-time">14:30–16:30</div>
+        <div class="evt afternoon" style="top:540px;height:150px;background:rgba(42,171,114,0.5)">
+          <div class="evt-title">😴 מנוחה אצל רועי</div>
+          <div class="evt-sub">בריכה / גינה / ספר</div>
+          <div class="evt-time">15:00–17:30</div>
         </div>
         <div class="evt evening" style="top:720px;height:120px">
-          <div class="evt-title">חזרה + ארוחה משפחתית</div>
-          <div class="evt-sub">רועי + הבנות מצטרפים</div>
+          <div class="evt-title">ארוחה משפחתית</div>
+          <div class="evt-sub">רועי + הבנות חוזרים</div>
           <div class="evt-time">19:00–21:00</div>
         </div>
       </div>
@@ -1562,7 +1568,7 @@ body {
         </div>
         <div class="evt afternoon" style="top:330px;height:60px">
           <div class="evt-title">יציאה ל-YYZ</div>
-          <div class="evt-sub">החזרת רכב + Terminal 1</div>
+          <div class="evt-sub">רועי / אובר · Terminal 1</div>
           <div class="evt-time">12:30–13:30</div>
         </div>
         <div class="evt afternoon" style="top:390px;height:210px">
@@ -1620,7 +1626,7 @@ body {
     <button class="dtab tor" onclick="showDayTor(1)"><small>24.5 ראשון · כולם</small>Downtown</button>
     <button class="dtab tor" onclick="showDayTor(2)"><small>25.5 שני · רועי 🟢</small>🌊 Niagara</button>
     <button class="dtab tor" onclick="showDayTor(3)"><small>26.5 שלישי · ☕</small>שוק + איים</button>
-    <button class="dtab tor" onclick="showDayTor(4)"><small>27.5 רביעי · ☕</small>🌲 Elora</button>
+    <button class="dtab tor" onclick="showDayTor(4)"><small>27.5 רביעי · ☕</small>😴 מנוחה</button>
     <button class="dtab tor" onclick="showDayTor(5)"><small>28.5 חמישי · 3 בלבד</small>🚗 → Kingston</button>
     <button class="dtab tor" onclick="showDayTor(6)"><small>29.5 שישי · 3 בלבד</small>🏝️ 1000 Islands</button>
     <button class="dtab tor" onclick="showDayTor(7)"><small>30.5 שבת · כולם</small>פרידה</button>
@@ -1630,7 +1636,7 @@ body {
   <!-- ── DAY 0 — Arrival + Candlelight: Queen vs ABBA ── -->
   <div id="td0" class="dpanel active">
     <div class="dpanel-head">
-      <div><div class="dpanel-num">יום 1 מתוך 9</div><div class="dpanel-title">הגעה + 🎶 Candlelight: Queen vs ABBA</div><div class="dpanel-date">שבת 23.5 · נחיתה ~10:00 · ההופעה 20:45</div></div>
+      <div><div class="dpanel-num">יום 1 מתוך 9</div><div class="dpanel-title">הגעה + 🎶 Candlelight: Queen vs ABBA</div><div class="dpanel-date">שבת 23.5 · נחיתה 11:35 · ההופעה 20:45</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(236,119,102,.2);color:#ec7766">🎶 5 כרטיסים Zone B</span></div>
     </div>
     <div class="img-strip">
@@ -1638,12 +1644,41 @@ body {
       <div class="img-card"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Candlelight"><div class="img-card-label">🕯️ Candlelight</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1572456546088-e9d75c5d36b3?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Harbourfront"><div class="img-card-label">Harbourfront</div></div>
     </div>
+
+    <!-- Flight info card -->
+    <div style="background:linear-gradient(135deg,rgba(124,92,232,0.12),rgba(124,92,232,0.04));border:1px solid rgba(124,92,232,0.4);border-radius:12px;padding:16px;margin-bottom:16px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a890f0;margin-bottom:10px">טיסה לטורונטו · Porter Airlines · PD 604</div>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin-bottom:10px">
+        <div>
+          <div style="font-size:22px;font-weight:900;color:var(--cream)">09:55</div>
+          <div style="font-size:13px;color:var(--cream);font-weight:600">LGA New York</div>
+          <div style="font-size:11px;color:var(--muted)">Terminal B</div>
+        </div>
+        <div style="text-align:center;color:var(--muted);font-size:11px">
+          <div style="font-size:14px;color:#a890f0">✈ PD 604</div>
+          <div>1h 40m · PorterClassic</div>
+        </div>
+        <div style="text-align:left">
+          <div style="font-size:22px;font-weight:900;color:var(--cream)">11:35</div>
+          <div style="font-size:13px;color:var(--cream);font-weight:600">YYZ Toronto Pearson</div>
+          <div style="font-size:11px;color:var(--muted)">Terminal 3</div>
+        </div>
+      </div>
+      <div style="padding-top:10px;border-top:1px solid rgba(124,92,232,0.2);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:14px">
+        <div>💺 <strong style="color:var(--cream)">Ohad</strong> 14C</div>
+        <div>💺 <strong style="color:var(--cream)">Zeev</strong> 14B</div>
+        <div>💺 <strong style="color:var(--cream)">Riva</strong> 14A</div>
+        <div>🎒 1 bag each</div>
+      </div>
+    </div>
+
     <div class="warn-box" style="background:rgba(236,119,102,0.1);border-color:rgba(236,119,102,0.3);color:#ec7766;margin-bottom:16px">🎶 <strong>הופעה הערב:</strong> Candlelight: Queen vs ABBA · The Royal Theatre, 608 College Street · 20:45 · 5 כרטיסים Zone B (Order R111547913). ~75 דקות בלי הפסקה. להגיע 20:00–20:15</div>
     <div class="tl-grid full"><div class="tl">
-      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">08:00 — בוקר</div><div class="tl-name">טיסה Porter LGA → YYZ</div><div class="tl-desc">~1h45, ישיר. Porter נוחת ב-Billy Bishop (Toronto Island Airport) — 5 דקות מ-Downtown. Air Canada/Delta נוחתים ב-YYZ Pearson. תלוי איזו טיסה הזמנתם</div></div>
-      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:30 — בוקר</div><div class="tl-name">איסוף רכב + נסיעה לרועי</div><div class="tl-desc">לאסוף רכב מהשדה (Avis/Enterprise/Hertz). הסבר חצי שעה לסידורים. נסיעה לבית של רועי וקטי, ~30–40 דקות מ-YYZ</div></div>
-      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:30 — צהריים</div><div class="tl-name">מתפרקים בבית רועי וקטי</div><div class="tl-desc">לאחסן מזוודות, חיבוקים ראשונים עם תמר ונירה. <strong>חשוב:</strong> מנוחה אמיתית — אחרי 8 ימי NYC + טיסה + הופעה הערב, צריכים לטעון מצברים. לישון אם אפשר</div></div>
-      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">15:30 — אחה"צ קליל (אופציונלי)</div><div class="tl-name">סיבוב Harbourfront</div><div class="tl-desc">אם יש כוח — הליכה לאורך אגם אונטריו, Sugar Beach, HTO Park. אם לא — לישון. הים יישאר גם מחר</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">07:30 — בוקר מוקדם</div><div class="tl-name">LGA Terminal B</div><div class="tl-desc">להגיע מ-Manhattan ~7:00 בבוקר (Uber/M60 bus + N/W). צ'ק אין Porter בטרמינל B, ביטחון, ארוחת בוקר/קפה אחרי הביטחון. PD 604 ממריא ב-09:55</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:55 — Departure ✈</div><div class="tl-name">PD 604 · LGA → YYZ</div><div class="tl-desc">Porter Airlines, 1h 40m, PorterClassic Standard. <strong>YYZ Pearson Terminal 3</strong> (לא Billy Bishop). מקומות: 14A/14B/14C ביחד. ארוחת בוקר קלה במטוס</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:35 — נחיתה</div><div class="tl-name">YYZ · רועי אוסף</div><div class="tl-desc"><strong>אין רכב להשכיר</strong> — רועי אוסף אתכם מ-Terminal 3 arrivals. כבודה (כל אחד 1 mez), פגישה עם רועי, נסיעה הביתה (~30–40 דקות תלוי איפה הם גרים). הגעה לבית רועי ~13:00</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:00 — צהריים</div><div class="tl-name">מתפרקים בבית רועי וקטי</div><div class="tl-desc">לאחסן מזוודות, חיבוקים ראשונים עם תמר ונירה. <strong>חשוב:</strong> מנוחה אמיתית — אחרי 8 ימי NYC + טיסה + הופעה הערב, צריכים לטעון מצברים. לישון אם אפשר</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon" style="opacity:0.7">15:30 — אחה"צ <strong style="color:var(--gold)">(אופציונלי — לדלג ברירת מחדל)</strong></div><div class="tl-name" style="opacity:0.85">סיבוב Harbourfront</div><div class="tl-desc">אחרי טיסה + 8 ימים ב-NYC + הופעת ערב — הקצב יהיה הדוק. <strong>ברירת המחדל: לוותר.</strong> רק אם כולם בכושר מצוין: הליכה קצרה לאורך אגם אונטריו, Sugar Beach. הים נשאר גם מחר ובימים הבאים</div></div>
       <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">17:30 — ערב מוקדם</div><div class="tl-name">ארוחה מוקדמת — עם המשפחה</div><div class="tl-desc">חובה לאכול לפני ההופעה. משהו קל ומהיר — אצל רועי או takeout. <strong>לסיים עד 19:00</strong> כדי להתכונן לדרך</div></div>
       <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:30 — נסיעה</div><div class="tl-name">ל-The Royal Theatre · 608 College Street</div><div class="tl-desc">לב Little Italy. חניה ב-Green P (אפליקציה) ברחובות הסמוכים, או אובר. תכננו 20–30 דקות מהבית. להגיע 20:00–20:15</div></div>
       <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">20:45 — 🎶 ההופעה</div><div class="tl-name">Candlelight: Queen vs ABBA</div><div class="tl-desc">סדרת Candlelight — קוורטט מיתרים מנגן Bohemian Rhapsody, Don't Stop Me Now, Mamma Mia, Dancing Queen, ועוד באולם מעוטר במאות נרות (LED, לא אש). ~75 דקות, בלי הפסקה. רומנטי, אווירתי. <strong>5 כרטיסים = 5 מתוך 7 הנוסעים</strong> — לוודא מי בקבוצה</div></div>
@@ -1679,7 +1714,7 @@ body {
   <!-- ── DAY 2 — NIAGARA ── -->
   <div id="td2" class="dpanel">
     <div class="dpanel-head">
-      <div><div class="dpanel-num">יום 3 מתוך 9</div><div class="dpanel-title">🌊 ניאגרה — היום הגדול</div><div class="dpanel-date">שני 25.5 · 🟢 רועי בחופש · כל המשפחה · רכב</div></div>
+      <div><div class="dpanel-num">יום 3 מתוך 9</div><div class="dpanel-title">🌊 ניאגרה — היום הגדול</div><div class="dpanel-date">שני 25.5 · 🟢 רועי בחופש · כל המשפחה · ברכב של רועי</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה · יום חופש של רועי #1</span></div>
     </div>
     <div class="img-strip">
@@ -1722,32 +1757,34 @@ body {
     <div class="day-map-wrap"><div class="day-map-title">מסלול היום</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=St+Lawrence+Market+Toronto&daddr=Jack+Layton+Ferry+Terminal+Toronto+to:Centreville+Amusement+Park+Toronto&output=embed"></iframe></div></div>
   </div>
 
-  <!-- ── DAY 4 — Elora Gorge ── -->
+  <!-- ── DAY 4 — Rest day (Elora optional alt) ── -->
   <div id="td4" class="dpanel">
     <div class="dpanel-head">
-      <div><div class="dpanel-num">יום 5 מתוך 9</div><div class="dpanel-title">🌲 Elora Gorge — יום טבע</div><div class="dpanel-date">רביעי 27.5 · 3 בלבד · רכב · רועי בעבודה</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 ערב — כל המשפחה</span></div>
+      <div><div class="dpanel-num">יום 5 מתוך 9</div><div class="dpanel-title">😴 יום מנוחה — אצל רועי</div><div class="dpanel-date">רביעי 27.5 · האנרגיה חוזרת לפני קינגסטון</div></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,171,114,.15);color:#2aab72">🌿 קצב נמוך מאוד</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 ערב — כל המשפחה</span></div>
     </div>
     <div class="img-strip">
-      <div class="img-card"><img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Elora"><div class="img-card-label">Elora Gorge</div></div>
-      <div class="img-card"><img src="https://images.unsplash.com/photo-1564407526220-f02a8a04c6f3?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="River"><div class="img-card-label">Grand River</div></div>
-      <div class="img-card"><img src="https://images.unsplash.com/photo-1486520299386-6d106b22014b?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Town"><div class="img-card-label">Elora Town</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Coffee"><div class="img-card-label">בוקר עצלן</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1503176430-db1c5c1ea4f7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Annex"><div class="img-card-label">The Annex / Kensington</div></div>
+      <div class="img-card"><img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Rest"><div class="img-card-label">חצר רועי</div></div>
     </div>
+    <div class="warn-box" style="background:rgba(42,171,114,0.08);border-color:rgba(42,171,114,0.3);color:#2aab72;margin-bottom:16px">🌿 <strong>למה יום מנוחה במכוון:</strong> אחרי 8 ימים ב-NYC + יומיים פעילים בטורונטו (Niagara, Islands+Korean BBQ), ולפני יומיים גדולים (Kingston + 1000 Islands) — הגוף צריך לטעון. אל תפספסו את היום הזה. תכנון רגוע = ביצוע יותר טוב לשאר השבוע</div>
     <div class="tl-grid full"><div class="tl">
-      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">08:30 — בוקר</div><div class="tl-name">יציאה ל-Elora</div><div class="tl-desc">~1.5 שעות צפון-מערב מטורונטו. דרך 401 ואז 6. בדרך — Tim Hortons (חובה קנדית). זה היום הזה רק שלושתכם — הקצב שלכם, ללא דחיפות</div></div>
-      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">10:00 — Elora Gorge</div><div class="tl-name">קניון ה-Grand River</div><div class="tl-desc">קניון 22 מטר עומק חצוב על ידי Grand River. שביל מסלול ראשי 4 ק"מ — נוח לכולם, נוף מטורף. גשרים תלויים, מערות קטנות, מגדל תצפית. Conservation Area פתוח 1.5–15.10, 8:00–21:00. <strong>Tubing זמין רק מ-21.6 (לא בטיול שלנו)</strong> — אבל ההליכה לבד מספקת</div></div>
-      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:00 — צהריים</div><div class="tl-name">פיקניק או Elora Mill</div><div class="tl-desc">אופציה 1: סנדוויצ'ים שקניתם בבוקר + פיקניק על הסלעים. אופציה 2: <strong>Elora Mill Hotel</strong> — מלון יוקרתי בטחנה היסטורית מעל המפלים, ארוחה ברמה גבוהה (יקר). אופציה 3: Cork Restaurant בעיירה — שווה, סביר</div></div>
-      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:30 — סיבוב בעיירה</div><div class="tl-name">Elora Village</div><div class="tl-desc">עיירה אבן מ-1832 — מבני כנסייה, גלריות (Elora Centre for the Arts), חנויות אומנים. Foodland קטן וחמוד. Mill St. — הרחוב הראשי, הליכה של שעה. רומנטי + נחמד</div></div>
-      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:00 — ערב · כולם נפגשים</div><div class="tl-name">חזרה לטורונטו + ארוחה משפחתית</div><div class="tl-desc">~1.5 שעות חזרה. רועי חוזר מעבודה (~17:30), הבנות אחרי בית ספר. ארוחה אצלם או טייקאוואי. יום ארוך אבל ממלא — מחר בוקר ביקור בית ספר ויציאה לקינגסטון</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:00 — בוקר עצלן</div><div class="tl-name">קפה ארוך + ארוחת בוקר</div><div class="tl-desc">לישון עד מאוחר. קפה איטי, עיתון, נשיפה. אם רוצים יציאה — Boxcar Social או Ezra's Pound ב-The Annex (קרוב לרועי, סביר שכן)</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">12:00 — אופציונלי</div><div class="tl-name">סיבוב קל ב-The Annex / Kensington</div><div class="tl-desc">רק אם בא לכם — לא חובה. Kensington (אם לא הספקתם בעומק) או The Annex עם חנויות ספרים. הליכה של שעה-וחצי, לא יותר. <strong>אם בא לכם רק לישון — לישון</strong></div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:00 — צהריים</div><div class="tl-name">משהו פשוט</div><div class="tl-desc">סנדוויץ' מ-Loblaws / שאוארמה ברחוב / מה שיש אצל רועי במקרר</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">15:00 — אחה"צ של אפס תוכניות</div><div class="tl-name">😴 מנוחה אמיתית</div><div class="tl-desc">בריכה (אם יש), ספסל בגינה, שינה אחה"צ, קריאה, סדרה. שום דבר לא חייב לקרות. הילדים בבית ספר, הבית שקט — נצלו את זה</div></div>
+      <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">19:00 — ערב</div><div class="tl-name">ארוחה משפחתית</div><div class="tl-desc">רועי חוזר מעבודה (~17:30), הבנות מבית הספר. ארוחה ביתית אצלם — <strong>תזמינו פיצה</strong> או משהו פשוט. לסיים מוקדם — מחר בבוקר 08:30 ביקור בית ספר ואז יציאה לקינגסטון</div></div>
     </div></div>
-    <div class="planb"><strong>Plan B קרוב לעיר:</strong> אם 1.5 שעות נסיעה זה יותר מדי — Scarborough Bluffs (30 דקות מטורונטו, 65 מטר מצוקים מעל אגם אונטריו) + Rouge National Urban Park (פארק לאומי ראשון בעיר בקנדה — 30 דקות מהמרכז). יום טבע קל יותר</div>
-    <div class="day-map-wrap"><div class="day-map-title">Elora Gorge</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?saddr=Toronto&daddr=Elora+Gorge+Conservation+Area&output=embed"></iframe></div></div>
+    <div class="planb" style="background:rgba(80,140,200,0.08);border-color:rgba(80,140,200,0.3)"><strong>אם בא לכם הכל-מלא במקום מנוחה:</strong> <strong>🌲 Elora Gorge day-trip</strong> — קניון 22 מטר על Grand River, 1.5 שעות נסיעה כל כיוון (3 שעות סה"כ ברכב). שביל 4 ק"מ נוח לכולם, גשרים תלויים, עיירה אבן מ-1832, Elora Mill Hotel למסעדה יוקרתית. <em>נחמד מאוד אבל שלוש שעות נסיעה ביום שבע ימי טיול אחרי NYC זה הרבה</em>. ההמלצה שלי: מנוחה. אם אתם מוצאים שאין מספיק טבע גם ככה — אז Elora. אבל יש לכם Niagara + 1000 Islands בלאו הכי</div>
+    <div class="planb"><strong>Plan B קל יותר:</strong> אם רוצים תוכן בלי לנסוע רחוק — <strong>Hockey Hall of Fame</strong> ב-Brookfield Place (Downtown) ~2 שעות, או <strong>AGO</strong> (Frank Gehry) ~3 שעות, או <strong>Scarborough Bluffs</strong> (30 דקות נסיעה, מצוקים מעל אגם אונטריו, פיקניק). כל אלה חצי-יום בלבד</div>
+    <div class="day-map-wrap"><div class="day-map-title">איזור The Annex / Kensington</div><div class="day-map-el"><iframe loading="lazy" src="https://maps.google.com/maps?q=The+Annex+Toronto&z=14&output=embed"></iframe></div></div>
   </div>
 
   <!-- ── DAY 5 — Drive to Kingston (school visit + drive + explore + overnight) ── -->
   <div id="td5" class="dpanel">
     <div class="dpanel-head">
-      <div><div class="dpanel-num">יום 6 מתוך 9</div><div class="dpanel-title">🏫 בית ספר → 🚗 קינגסטון (לינה)</div><div class="dpanel-date">חמישי 28.5 · 3 בלבד · רכב · לינה ב-B&B בקינגסטון</div></div>
+      <div><div class="dpanel-num">יום 6 מתוך 9</div><div class="dpanel-title">🏫 בית ספר → 🚗 קינגסטון (לינה)</div><div class="dpanel-date">חמישי 28.5 · 3 בלבד · רכב מרועי · לינה ב-B&B בקינגסטון</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(232,68,68,.15);color:var(--kids)">🏫 ביקור בבית ספר 08:30</span></div>
     </div>
     <div class="img-strip">
@@ -1758,7 +1795,7 @@ body {
     <div class="warn-box" style="background:rgba(232,68,68,0.08);border-color:rgba(232,68,68,0.3);color:#ec7766;margin-bottom:16px">⚠️ <strong>הערה:</strong> ביקשת ביקור בית ספר ביום שישי בבוקר — אבל ביום שישי אתם בקינגסטון לילה ובחזרה דרך 1000 Islands. <strong>הזזתי את ביקור הבית ספר לחמישי בבוקר 08:30–09:00</strong> לפני היציאה לקינגסטון. אם זה לא מתאים — תגיד ונשנה</div>
     <div class="tl-grid full"><div class="tl">
       <div class="tli"><div class="tldot kids"></div><div class="tl-seg kids">08:30 — בוקר 🏫</div><div class="tl-name">ביקור בבית הספר של תמר ונירה</div><div class="tl-desc">להגיע איתן בבוקר, להיכנס לבית הספר, לראות את הכיתה, להכיר חברים, אולי להגיד שלום. 20–30 דקות. רגע משמעותי לקרובים שלא רואים יום-יום</div></div>
-      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — אחרי הסעה</div><div class="tl-name">קפה + אריזה אחרונה</div><div class="tl-desc">מזוודה ללילה אחד (לבוש החלפה, פיג'מה, מברשת). דלק מלא, מים, חטיפים, מטעני טלפון. יציאה ב-10:00</div></div>
+      <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — אחרי הסעה</div><div class="tl-name">קפה + אריזה אחרונה</div><div class="tl-desc">מזוודה ללילה אחד (לבוש החלפה, פיג'מה, מברשת). <strong>לקחת מפתחות הרכב מרועי</strong> (וודאו ביטוח/הסכמה). דלק מלא, מים, חטיפים, מטעני טלפון. יציאה ב-10:00</div></div>
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:00 — דרך</div><div class="tl-name">🚗 נסיעה לקינגסטון — 401 East</div><div class="tl-desc">~3 שעות, 263 ק"מ. כביש מהיר רגיל. עצירה אחת באמצע (Belleville/Trenton) לקפה ושירותים. הילדים-לא-באו אז זה גם פחות לחץ. נחיתה בקינגסטון ~13:00</div></div>
       <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">13:00 — צהריים</div><div class="tl-name">צ'ק אין B&B + ארוחה</div><div class="tl-desc">B&B בקינגסטון (Frontenac Club, Rosemount, Hochelaga — להזמין מראש). מומלץ ב-Old Town כדי ללכת ברגל. ארוחה ב-Pan Chancho Bakery (אגדי) או Aquaterra (איטלקי)</div></div>
       <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:30 — אחה"צ</div><div class="tl-name">סיור בקינגסטון Old Town</div><div class="tl-desc">"The Limestone City" — בנייני אבן מ-1820 לכאורה. <strong>City Hall</strong> (1844) Beaux-Arts. <strong>Princess Street</strong> — הרחוב הראשי, חנויות אינדי, ספרים. <strong>Market Square</strong> — שוק קטן + פסל סר ג'ון א. מקדונלד (ראש ממשלת קנדה הראשון, חי כאן). הליכה רגועה של 2–3 שעות</div></div>
@@ -1772,7 +1809,7 @@ body {
   <!-- ── DAY 6 — Kingston → Thousand Islands → Toronto ── -->
   <div id="td6" class="dpanel">
     <div class="dpanel-head">
-      <div><div class="dpanel-num">יום 7 מתוך 9</div><div class="dpanel-title">🏝️ Thousand Islands — חזרה לטורונטו</div><div class="dpanel-date">שישי 29.5 · 3 בלבד · רכב · ערב חזרה</div></div>
+      <div><div class="dpanel-num">יום 7 מתוך 9</div><div class="dpanel-title">🏝️ Thousand Islands — חזרה לטורונטו</div><div class="dpanel-date">שישי 29.5 · 3 בלבד · רכב מרועי · ערב חזרה</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 ערב — חזרה לרועי</span></div>
     </div>
     <div class="img-strip">
@@ -1870,7 +1907,7 @@ body {
     <div class="tl-grid full"><div class="tl">
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — בוקר אחרון</div><div class="tl-name">בראנץ' פרידה אצל רועי וקטי</div><div class="tl-desc">או יציאה למסעדה — Lady Marmalade (Riverside), Mildred's Temple Kitchen (Liberty Village). אווירה משפחתית, תמונות אחרונות עם תמר ונירה לפני שהן יוצאות</div></div>
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">11:00 — אריזה</div><div class="tl-name">אריזה אחרונה + פרידות</div><div class="tl-desc">לוודא שלא שכחנו: סבונים מ-Niagara, ויסקי/שוקולד מ-Distillery, מזכרות מ-1000 Islands. דרכון, eTA. אם הבנות בבית — חיבוק אחרון</div></div>
-      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:30 — יציאה</div><div class="tl-name">החזרת רכב + נסיעה ל-YYZ</div><div class="tl-desc">~30–40 דקות לשדה. החזרת רכב לחברת ההשכרה (תזכרו דלק מלא + צילומים של הרכב). אובר אופציה אם רוצים שרועי לא יחזיר</div></div>
+      <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">12:30 — יציאה</div><div class="tl-name">נסיעה ל-YYZ Terminal 1</div><div class="tl-desc">~30–40 דקות לשדה. <strong>אופציות:</strong> רועי מסיע אתכם (הדרך הכי טבעית — אין רכב להחזיר), או אובר/לימוזין מהבית (~$50–70). פרידות אחרונות בבית לפני, או בשדה. אם רועי נוסע — הוא יכול לחנות לדקה ב-Departures Level לעלייה מהירה</div></div>
       <div class="tli"><div class="tldot afternoon"></div><div class="tl-seg afternoon">14:00 — צ'ק אין</div><div class="tl-name">YYZ Terminal 1 · ITA Airways</div><div class="tl-desc"><strong>ITA Airways צ'ק אין ב-Terminal 1</strong>. להגיע 3 שעות לפני (14:00 לטיסה ב-17:00). PNR: <strong>YLGEJC</strong>. גמ"ר ביטחון בינלאומי + בידוק לבטחון. דיוטי-פרי אחרי</div></div>
       <div class="tli"><div class="tldot evening"></div><div class="tl-seg evening">17:00 — ✈️ Departure</div><div class="tl-name">AZ 651 · Toronto → Rome (8h 40m)</div><div class="tl-desc">טיסה ארוכה. ITA Airways = החברה הלאומית האיטלקית (יורשת Alitalia). מטוס ככה"נ A330. ארוחת ערב מוגשת אחרי המראה. נחיתה ברומא 07:40 לפי שעון מקומי</div></div>
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">07:40 (1.6) — נחיתה ברומא</div><div class="tl-name">Connection · 1h 30m</div><div class="tl-desc">נחיתה ב-Terminal 3 ב-FCO, יציאה ב-Terminal 1 (לפי הכרטיסים — לאמת בשדה). 1h 30m זה <strong>קצר</strong> לעבירה — לא לבזבז זמן בקפה. ללכת ישר לשער הבא. אם הראשונה מאחרת — להתקשר לחברה</div></div>
@@ -1906,7 +1943,7 @@ body {
 
     <div class="tdi" onclick="this.classList.toggle('done')">
       <div class="tdi-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c1520" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="tdi-text">להזמין רכב לשבוע ב-YYZ (לבדוק unlimited mileage לניאגרה)</div>
+      <div class="tdi-text">🚗 לתאם עם רועי שאילת רכב לקינגסטון 28-29.5 (ביטוח, הסכמה, מפתחות)</div>
     </div>
 
     <div class="tdi" onclick="this.classList.toggle('done')">
@@ -2039,7 +2076,7 @@ body {
     </div>
     <div class="gcard">
       <div class="gcard-top"><div class="gcard-icon">🏞️</div><div><div class="gcard-name">Elora Gorge</div><div class="gcard-area">~1.5h צפון-מערב מטורונטו</div></div></div>
-      <div class="gcard-desc">קניון 22 מטר עומק חצוב על ידי Grand River, 1.6 ק"מ אורך. Conservation Area פתוח 1.5–15.10. מסלול מסביב, גשרים תלויים, מערות. <strong>Tubing פותח ב-21.6 — לא יהיה זמין בטיול שלנו (29.5).</strong> העיירה Elora עצמה — אבן מ-1832, גלריות, Elora Mill Hotel מעל המפלים. יום טבע מושלם.</div>
+      <div class="gcard-desc">קניון 22 מטר עומק חצוב על ידי Grand River, 1.6 ק"מ אורך. Conservation Area פתוח 1.5–15.10. מסלול מסביב, גשרים תלויים, מערות. <strong>Tubing פותח ב-21.6 — לא זמין בטיול שלנו.</strong> העיירה Elora עצמה — אבן מ-1832, גלריות, Elora Mill Hotel מעל המפלים. <strong>אופציה ליום מנוחה (27.5)</strong> אם תרצו במקום מנוחה.</div>
       <div class="gcard-facts"><span class="gfact">8–21 כל יום</span><span class="gfact tip">🛶 Tubing מ-21.6</span></div>
     </div>
     <div class="gcard">
@@ -2121,7 +2158,7 @@ body {
   <div class="guide-grid">
     <div class="gcard">
       <div class="gcard-top"><div class="gcard-icon">🚗</div><div><div class="gcard-name">רכב + נסיעה</div><div class="gcard-area">לוגיסטיקה</div></div></div>
-      <div class="gcard-desc">חניה ב-Downtown יקרה ($30/יום). מומלץ: רכב לימי הטיולים (Niagara, Elora, Kingston/1000 Islands) ולא להחזיק בעיר. Toronto Parking Authority lots ($15–25). Green P אפליקציה לחניה ברחוב. כביש 401 + QEW עמוסים בשעות 7–9, 16–18 — לצאת לקינגסטון ב-10 בבוקר.</div>
+      <div class="gcard-desc"><strong>אין השכרת רכב</strong> — רועי אוסף משדה התעופה ומשאיל את רכבו לטיולי יום (Niagara עם רועי כנהג; Kingston ב-28-29 שאילה). חניה ב-Downtown יקרה ($30/יום) — לעדיף TTC לתוך העיר. Toronto Parking Authority lots ($15–25). Green P אפליקציה לחניה ברחוב. כביש 401 + QEW עמוסים בשעות 7–9, 16–18 — לצאת לקינגסטון ב-10 בבוקר.</div>
       <div class="gcard-facts"><span class="gfact tip">📱 Green P app</span></div>
     </div>
     <div class="gcard">

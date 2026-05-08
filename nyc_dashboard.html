@@ -4,27 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NYC + Toronto מאי 2026 — משפחת פלס לוי פלג</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0c1520;
-  --bg2: #152030;
-  --bg3: #1c2d40;
-  --gold: #d4a843;
-  --gold2: #f0c866;
-  --cream: #eee8d8;
-  --muted: rgba(238,232,216,0.5);
-  --border: rgba(212,168,67,0.18);
-  --border2: rgba(212,168,67,0.35);
-  --morning: #e8952a;
-  --afternoon: #2aab72;
-  --evening: #7c5ce8;
-  --kids: #e84444;
-  --ohad: #2a8fe8;
-  --mama: #c25cad;
-  --maple: #d44343;
-  --maple2: #ec7766;
+  /* Snow Mint palette */
+  --bg: #f4f8f6;            /* cool minty white */
+  --bg2: #ecf2ee;            /* surface (slightly darker) */
+  --bg3: #fafefc;            /* surface (slightly lighter / card) */
+  --bg-elev: rgba(250,254,252,0.85);
+  --ink: #141e18;            /* deep forest near-black */
+  --cream: #141e18;          /* legacy alias */
+  --muted: #4a5e52;          /* sage muted */
+  --muted2: #8a9e92;          /* very soft sage */
+  --hairline: rgba(20,40,30,0.10);
+  --hairline-soft: rgba(20,40,30,0.06);
+  --border: rgba(20,40,30,0.10);
+  --border2: rgba(20,40,30,0.20);
+
+  /* Accents */
+  --mint: #2aa67e;           /* primary */
+  --mint-strong: #34c094;
+  --mint-deep: #186448;      /* darker, for text on light */
+  --mint-soft: #d8e6de;      /* tinted surface */
+  --mint-tint: #e2ece6;
+
+  /* Phase accents — NYC keeps mint, Toronto leans into deep forest */
+  --gold: #186448;           /* NYC primary (was brass) */
+  --gold2: #2aa67e;
+  --terracotta: #c06438;     /* secondary warm accent */
+  --maple: #b14025;          /* Toronto distinctive */
+  --maple2: #d35a3a;
+
+  /* Event colors — keyed to the palette */
+  --morning: #d29132;        /* warm amber */
+  --afternoon: #2aa67e;      /* mint */
+  --evening: #6c5dc2;        /* periwinkle */
+  --kids: #d34a3a;           /* coral */
+  --ohad: #3877a8;           /* sky blue */
+  --mama: #b35a8a;           /* rose */
+
   --r: 10px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+  --shadow-soft: 0 1px 2px rgba(20,40,30,0.04), 0 8px 22px -10px rgba(20,40,30,0.12);
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.6) inset, 0 1px 2px rgba(20,40,30,0.05), 0 4px 14px -8px rgba(20,40,30,0.10);
+  --shadow-stamp: 0 2px 8px rgba(42,166,126,0.20), 0 1px 0 rgba(255,255,255,0.4) inset;
+
+  /* IBM Plex — clean, modern, Hebrew + Latin designed as a single system */
+  --sans: 'IBM Plex Sans Hebrew', 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+  --serif: 'IBM Plex Sans Hebrew', 'IBM Plex Sans', sans-serif; /* alias — single family for cohesion */
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
 /* Phase visibility */
@@ -42,131 +73,221 @@ body.phase-toronto .phase-nyc-only { display: none !important; }
   margin-left: 6px;
   vertical-align: middle;
 }
-.fam-marker.full { background: rgba(212,67,67,.15); color: #ec7766; border: 1px solid rgba(212,67,67,.35); }
-.fam-marker.solo { background: rgba(80,140,200,.12); color: #7baadb; border: 1px solid rgba(80,140,200,.35); }
-.fam-marker.evening { background: rgba(124,92,232,.12); color: #a890f0; border: 1px solid rgba(124,92,232,.35); }
-.cal-day-col.solo-day { background-color: rgba(80,140,200,0.04); }
+.fam-marker.full { background: rgba(177,64,37,.10); color: #8a2e1c; border: 1px solid rgba(177,64,37,.30); }
+.fam-marker.solo { background: rgba(56,119,168,.10); color: #1f4263; border: 1px solid rgba(56,119,168,.30); }
+.fam-marker.evening { background: rgba(108,93,194,.10); color: #3a2f6e; border: 1px solid rgba(108,93,194,.30); }
+.cal-day-col.solo-day { background-color: rgba(56,119,168,0.05); }
 
-/* Toronto accent: when in toronto phase, swap key gold accents to maple */
+/* Toronto accent: swap mint → maple/coral */
 body.phase-toronto {
-  --gold: #d44343;
-  --gold2: #ec7766;
-  --border: rgba(212,67,67,0.18);
-  --border2: rgba(212,67,67,0.4);
+  --gold: #b14025;
+  --gold2: #d35a3a;
+  --mint: #b14025;
+  --mint-strong: #d35a3a;
+  --mint-deep: #7a2c19;
+  --mint-soft: #f3e0d8;
+  --mint-tint: #f9ece4;
+  --border: rgba(122,44,25,0.12);
+  --border2: rgba(122,44,25,0.25);
+  --shadow-stamp: 0 2px 8px rgba(177,64,37,0.22), 0 1px 0 rgba(255,255,255,0.4) inset;
 }
-body.phase-toronto .gfact.tip { background: rgba(212,67,67,.1); border-color: rgba(212,67,67,.3); color: #ec7766; }
+body.phase-toronto .gfact.tip { background: rgba(177,64,37,.08); border-color: rgba(177,64,37,.25); color: #b14025; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Heebo', -apple-system, 'Segoe UI', Arial, sans-serif;
+  font-family: var(--sans);
   background: var(--bg);
-  color: var(--cream);
+  color: var(--ink);
   min-height: 100vh;
+  font-feature-settings: 'kern', 'ss01';
+  font-variant-numeric: lining-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  line-height: 1.5;
+  background-image:
+    radial-gradient(ellipse 120% 50% at top right, rgba(42,166,126,0.07), transparent 60%),
+    radial-gradient(ellipse 80% 40% at bottom left, rgba(42,166,126,0.05), transparent 60%);
+  background-attachment: fixed;
+}
+body.phase-toronto {
+  background-image:
+    radial-gradient(ellipse 120% 50% at top right, rgba(177,64,37,0.07), transparent 60%),
+    radial-gradient(ellipse 80% 40% at bottom left, rgba(94,122,58,0.05), transparent 60%);
 }
 
 /* HEADER */
 .site-header {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
+  background: rgba(250,254,252,0.85);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid var(--hairline);
+  padding: 14px 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
   position: sticky;
   top: 0;
   z-index: 100;
+  gap: 16px;
 }
-.site-logo { font-size: 20px; font-weight: 700; color: var(--cream); }
-.site-logo span { color: var(--gold); }
-.site-dates { font-size: 13px; color: var(--muted); }
+.site-logo {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -.4px;
+  line-height: 1.05;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.site-logo .amp {
+  color: var(--mint);
+  font-style: italic;
+  font-weight: 500;
+  padding: 0 1px;
+}
+.site-logo .month {
+  font-family: var(--sans);
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0;
+  font-style: normal;
+}
+.site-logo .dot {
+  display: inline-block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--mint);
+  margin: 0 6px;
+  transform: translateY(-3px);
+}
+.site-dates {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: .2px;
+  font-weight: 400;
+}
 
 /* HEADER CONTROLS */
-.header-controls { display: flex; gap: 12px; align-items: center; }
+.header-controls { display: flex; gap: 10px; align-items: center; }
 
-/* PHASE TOGGLE — bigger, visually dominant */
+/* PHASE TOGGLE — soft pill */
 .phase-toggle {
   display: flex;
-  gap: 0;
-  background: var(--bg3);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
+  gap: 2px;
+  background: var(--bg2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
   padding: 3px;
-  position: relative;
 }
 .phase-btn {
-  padding: 8px 16px;
-  border-radius: 7px;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
   border: none;
   background: transparent;
   color: var(--muted);
-  font-family: inherit;
+  font-family: var(--sans);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all .2s;
+  transition: all .2s ease;
   display: flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: .1px;
 }
-.phase-btn:hover { color: var(--cream); }
-.phase-btn.nyc.active { background: #d4a843; color: #0c1520; box-shadow: 0 2px 8px rgba(212,168,67,0.25); }
-.phase-btn.tor.active { background: #d44343; color: #fff; box-shadow: 0 2px 8px rgba(212,67,67,0.3); }
-.phase-icon { font-size: 15px; line-height: 1; }
+.phase-btn:hover { color: var(--ink); }
+.phase-btn.nyc.active {
+  background: var(--mint);
+  color: #fafefc;
+  box-shadow: var(--shadow-stamp);
+}
+.phase-btn.tor.active {
+  background: var(--maple);
+  color: #fafefc;
+  box-shadow: 0 2px 8px rgba(177,64,37,0.22), 0 1px 0 rgba(255,255,255,0.4) inset;
+}
+.phase-icon { font-size: 14px; line-height: 1; filter: saturate(.7); }
+.phase-btn.active .phase-icon { filter: none; }
 
-/* VIEW TOGGLE */
+/* VIEW TOGGLE — segmented */
 .view-toggle {
   display: flex;
-  gap: 4px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 4px;
+  gap: 0;
+  background: var(--bg2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  padding: 3px;
 }
 .view-btn {
-  padding: 6px 16px;
-  border-radius: 6px;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
   border: none;
   background: transparent;
   color: var(--muted);
-  font-family: inherit;
+  font-family: var(--sans);
   font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all .15s;
+  transition: all .2s;
 }
-.view-btn.active { background: var(--gold); color: var(--bg); font-weight: 700; }
+.view-btn:hover { color: var(--ink); }
+.view-btn.active {
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+}
 
-/* Phase banner — subtle reminder of which half of trip you're viewing */
+/* Phase banner */
 .phase-banner {
-  padding: 8px 2rem;
-  font-size: 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 10px 2rem;
+  font-size: 13px;
+  border-bottom: 1px solid var(--hairline);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.phase-banner.nyc { background: linear-gradient(90deg, rgba(212,168,67,0.08), transparent); border-right: 3px solid #d4a843; }
-.phase-banner.tor { background: linear-gradient(90deg, rgba(212,67,67,0.08), transparent); border-right: 3px solid #d44343; }
-.phase-banner-label { color: var(--cream); font-weight: 600; }
-.phase-banner-label .icon { margin-left: 6px; }
-.phase-banner-meta { color: var(--muted); }
+.phase-banner.nyc { background: linear-gradient(90deg, rgba(42,166,126,0.10), transparent 60%); border-right: 3px solid var(--mint); }
+.phase-banner.tor { background: linear-gradient(90deg, rgba(177,64,37,0.08), transparent 60%); border-right: 3px solid var(--maple); }
+.phase-banner-label {
+  color: var(--ink);
+  font-weight: 700;
+  font-family: var(--serif);
+  font-size: 16px;
+  letter-spacing: -.2px;
+}
+.phase-banner-label .icon { margin-left: 8px; font-size: 14px; }
+.phase-banner-meta {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: .1px;
+}
 @media (max-width: 768px) {
-  .phase-banner { padding: 6px 1rem; font-size: 11px; }
+  .phase-banner { padding: 8px 1rem; font-size: 12px; }
+  .phase-banner-label { font-size: 14px; }
+  .phase-banner-meta { font-size: 10px; }
   .site-header {
-    height: auto;
-    padding: 10px 1rem;
+    padding: 12px 1rem 14px;
     flex-wrap: wrap;
     gap: 10px;
   }
-  .site-logo { font-size: 17px; }
-  .site-dates { font-size: 12px; }
+  .site-logo { font-size: 19px; }
+  .site-logo .month { font-size: 12px; }
+  .site-dates { font-size: 10px; }
   .header-controls {
     width: 100%;
     justify-content: space-between;
     gap: 8px;
   }
-  .phase-btn { padding: 6px 10px; font-size: 12px; }
-  .view-btn { padding: 4px 10px; font-size: 12px; }
+  .phase-btn { padding: 6px 12px; font-size: 12px; }
+  .view-btn { padding: 6px 11px; font-size: 12px; }
 }
 
 /* VIEWS */
@@ -177,16 +298,20 @@ body {
 .cal-wrap { padding: 1.5rem 2rem 2rem; }
 
 .legend {
-  display: flex; flex-wrap: wrap; gap: 10px;
-  margin-bottom: 1.25rem;
+  display: flex; flex-wrap: wrap; gap: 14px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--hairline);
 }
-.leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
-.leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+.leg { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); font-weight: 500; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255,255,255,0.5); }
 
 .cal-outer {
-  border: 1px solid var(--border);
-  border-radius: var(--r);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
   overflow: hidden;
+  background: var(--bg3);
+  box-shadow: var(--shadow-card);
 }
 
 /* Header row */
@@ -194,61 +319,84 @@ body {
   display: grid;
   grid-template-columns: 52px repeat(8, 1fr);
   background: var(--bg2);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--hairline);
 }
 .cal-head.tor9, .cal-body.tor9 { grid-template-columns: 52px repeat(9, 1fr); }
-.cal-head-gutter { border-right: 1px solid var(--border); }
+.cal-head-gutter { border-right: 1px solid var(--hairline); }
 .cal-head-day {
-  padding: 10px 6px;
+  padding: 12px 6px;
   text-align: center;
-  border-right: 1px solid var(--border);
-  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--hairline-soft);
 }
-.cal-head-date { font-size: 15px; font-weight: 700; color: var(--gold); }
-.cal-head-name { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.cal-head-label { font-size: 11px; color: var(--cream); margin-top: 2px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cal-head-day:last-child { border-right: none; }
+.cal-head-date {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -.3px;
+}
+.cal-head-name {
+  font-family: var(--sans);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: .1px;
+}
+.cal-head-label {
+  font-size: 11px;
+  color: var(--mint-deep);
+  margin-top: 3px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* Body */
 .cal-body {
   display: grid;
   grid-template-columns: 52px repeat(8, 1fr);
-  background: var(--bg);
+  background: var(--bg3);
   position: relative;
 }
 
 /* Time gutter */
 .cal-time-col {
   background: var(--bg2);
-  border-right: 1px solid var(--border);
+  border-right: 1px solid var(--hairline);
   position: relative;
   height: calc(16 * 60px);
 }
 .cal-hour-label {
   position: absolute;
   right: 6px;
+  font-family: var(--mono);
   font-size: 10px;
-  color: var(--muted);
+  color: var(--muted2);
   transform: translateY(-50%);
   white-space: nowrap;
+  letter-spacing: -.3px;
 }
 
 /* Day columns */
 .cal-day-col {
   position: relative;
-  border-right: 1px solid var(--border);
-  border-left: 1px solid rgba(212,168,67,0.08);
+  border-right: 1px solid var(--hairline-soft);
   height: calc(16 * 60px);
 }
+.cal-day-col:last-child { border-right: none; }
 .cal-day-col::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image: repeating-linear-gradient(
     to bottom,
-    transparent,
+    transparent 0,
     transparent 59px,
-    rgba(212,168,67,0.06) 59px,
-    rgba(212,168,67,0.06) 60px
+    rgba(20,40,30,0.06) 59px,
+    rgba(20,40,30,0.06) 60px
   );
   pointer-events: none;
 }
@@ -256,283 +404,621 @@ body {
 /* Events */
 .evt {
   position: absolute;
-  left: 3px;
-  right: 3px;
-  border-radius: 6px;
-  padding: 4px 6px;
+  left: 4px;
+  right: 4px;
+  border-radius: 8px;
+  padding: 6px 8px;
   font-size: 11px;
-  line-height: 1.3;
+  line-height: 1.35;
   overflow: hidden;
   cursor: default;
-  transition: transform .15s;
+  transition: transform .15s, box-shadow .15s;
   direction: rtl;
   text-align: right;
+  box-shadow: 0 1px 2px rgba(20,40,30,0.08);
+  border: 1px solid rgba(20,40,30,0.05);
 }
-.evt:hover { transform: scaleX(1.02); z-index: 5; }
-.evt-title { font-weight: 700; font-size: 11px; }
-.evt-sub { font-size: 10px; opacity: 0.8; margin-top: 1px; }
-.evt-time { font-size: 9px; opacity: 0.7; margin-top: 2px; }
+.evt:hover { transform: translateY(-1px); z-index: 5; box-shadow: 0 4px 12px rgba(20,40,30,0.12); }
+.evt-title { font-weight: 700; font-size: 12px; letter-spacing: -.1px; }
+.evt-sub { font-size: 11px; opacity: 0.85; margin-top: 2px; font-weight: 500; }
+.evt-time { font-family: var(--mono); font-size: 10px; opacity: 0.75; margin-top: 3px; letter-spacing: -.2px; }
 
-/* SPLIT DAY columns — mama half-track on right, ohad half-track on left */
-.cal-day-col.split { background-image: linear-gradient(to right, rgba(42,143,232,0.04) 0%, rgba(42,143,232,0.04) 50%, rgba(194,92,173,0.04) 50%, rgba(194,92,173,0.04) 100%); }
+/* SPLIT DAY columns */
+.cal-day-col.split { background-image: linear-gradient(to right, rgba(56,119,168,0.05) 0%, rgba(56,119,168,0.05) 50%, rgba(179,90,138,0.05) 50%, rgba(179,90,138,0.05) 100%); }
 .cal-day-col.split::after {
   content: '';
   position: absolute;
   top: 0; bottom: 0;
   left: 50%;
   width: 1px;
-  background: repeating-linear-gradient(to bottom, rgba(238,232,216,0.18) 0, rgba(238,232,216,0.18) 4px, transparent 4px, transparent 9px);
+  background: repeating-linear-gradient(to bottom, rgba(20,40,30,0.18) 0, rgba(20,40,30,0.18) 4px, transparent 4px, transparent 9px);
   pointer-events: none;
   z-index: 1;
 }
-.cal-day-col.split .evt.mama { left: calc(50% + 2px); right: 3px; }
-.cal-day-col.split .evt.ohad { left: 3px; right: calc(50% + 2px); }
-.cal-day-col.split .evt.all { left: 3px; right: 3px; z-index: 2; }
+.cal-day-col.split .evt.mama { left: calc(50% + 2px); right: 4px; }
+.cal-day-col.split .evt.ohad { left: 4px; right: calc(50% + 2px); }
+.cal-day-col.split .evt.all { left: 4px; right: 4px; z-index: 2; }
 .cal-day-col.split .evt.kids,
 .cal-day-col.split .evt.morning,
 .cal-day-col.split .evt.afternoon,
-.cal-day-col.split .evt.evening { left: 3px; right: 3px; }
+.cal-day-col.split .evt.evening { left: 4px; right: 4px; }
 .split-track-label {
   position: absolute;
   top: 0;
+  font-family: var(--sans);
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   padding: 3px 6px;
   z-index: 3;
   pointer-events: none;
+  background: var(--bg3);
+  border-radius: 0 0 4px 4px;
 }
-.split-track-label.mama { right: 3px; color: var(--mama); border-right: 2px solid var(--mama); }
-.split-track-label.ohad { left: 3px; color: var(--ohad); border-left: 2px solid var(--ohad); }
+.split-track-label.mama { right: 4px; color: var(--mama); border-right: 2px solid var(--mama); }
+.split-track-label.ohad { left: 4px; color: var(--ohad); border-left: 2px solid var(--ohad); }
 
-.evt.morning  { background: rgba(232,149,42,0.85); color: #fff; border-right: 2px solid var(--morning); }
-.evt.afternoon { background: rgba(42,171,114,0.85); color: #fff; border-right: 2px solid var(--afternoon); }
-.evt.evening  { background: rgba(124,92,232,0.85); color: #fff; border-right: 2px solid var(--evening); }
-.evt.kids     { background: rgba(232,68,68,0.8); color: #fff; border-right: 2px solid var(--kids); }
-.evt.ohad     { background: rgba(42,143,232,0.85); color: #fff; border-right: 2px solid var(--ohad); }
-.evt.mama     { background: rgba(194,92,173,0.85); color: #fff; border-right: 2px solid var(--mama); }
-.evt.all      { background: rgba(212,168,67,0.75); color: #0c1520; border-right: 2px solid var(--gold); }
+/* Event color variants — soft pastel fills with strong accent stripe */
+.evt.morning   { background: #fdecd2; color: #6b4818; border-right: 3px solid var(--morning); }
+.evt.afternoon { background: #d6ebde; color: #14503a; border-right: 3px solid var(--afternoon); }
+.evt.evening   { background: #e3dff5; color: #3a2f6e; border-right: 3px solid var(--evening); }
+.evt.kids      { background: #fadbd5; color: #7a261c; border-right: 3px solid var(--kids); }
+.evt.ohad      { background: #d8e6f0; color: #1f4263; border-right: 3px solid var(--ohad); }
+.evt.mama      { background: #ecd9e3; color: #6e2f4d; border-right: 3px solid var(--mama); }
+.evt.all       { background: #d8efe5; color: #0f4a36; border-right: 3px solid var(--mint); font-weight: 600; }
 
 /* Current time line */
 .cal-now-line {
   position: absolute;
   left: 0; right: 0;
   height: 2px;
-  background: #ff4444;
+  background: var(--maple2);
   z-index: 10;
   pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.5);
 }
 .cal-now-line::before {
   content: '';
   position: absolute;
-  right: -4px;
+  right: -5px;
   top: -4px;
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: #ff4444;
+  background: var(--maple2);
+  box-shadow: 0 0 0 3px rgba(211,90,58,0.2);
 }
 
 /* ─── DAILY VIEW ─── */
 .daily-wrap { padding: 1.5rem 2rem 2rem; }
 
 /* Crew */
-.crew { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1.5rem; }
+.crew { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.75rem; }
 .crewp {
   display: flex; align-items: center; gap: 8px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 40px;
-  padding: 6px 14px 6px 6px;
+  background: var(--bg3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  padding: 5px 14px 5px 5px;
+  box-shadow: var(--shadow-card);
 }
 .av {
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 30px; height: 30px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
   font-weight: 700; font-size: 13px; flex-shrink: 0;
+  color: #fafefc;
+  letter-spacing: -.3px;
 }
-.cn { font-size: 13px; font-weight: 500; }
-.cr { font-size: 11px; color: var(--muted); }
+.cn { font-size: 13px; font-weight: 600; color: var(--ink); }
+.cr { font-size: 11px; color: var(--muted); font-family: var(--sans); }
 
 /* Stats */
-.stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.75rem; }
-.stat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 1rem; text-align: center; }
-.stat-n { font-size: 30px; font-weight: 900; color: var(--gold); line-height: 1; }
-.stat-l { font-size: 11px; color: var(--muted); margin-top: 5px; text-transform: uppercase; letter-spacing: .5px; }
+.stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 2rem; }
+.stat {
+  background: var(--bg3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 1.1rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.stat:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(20,40,30,0.10); }
+.stat-n {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--mint-deep);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.stat-l {
+  font-family: var(--sans);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
 
 /* Day Tabs */
 .day-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 1.75rem; scrollbar-width: none; }
 .day-tabs::-webkit-scrollbar { display: none; }
 .dtab {
-  flex-shrink: 0; padding: 8px 14px; border-radius: 8px;
-  border: 1px solid var(--border); background: transparent;
-  color: var(--muted); font-family: inherit; font-size: 13px;
-  cursor: pointer; transition: all .15s; white-space: nowrap;
+  flex-shrink: 0; padding: 9px 16px; border-radius: var(--r-pill);
+  border: 1px solid var(--hairline); background: var(--bg3);
+  color: var(--muted); font-family: var(--sans); font-size: 13px;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+  font-weight: 500;
 }
-.dtab:hover { border-color: var(--border2); color: var(--cream); }
-.dtab.active { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 700; }
-.dtab small { display: block; font-size: 11px; opacity: .7; margin-bottom: 2px; }
+.dtab:hover { border-color: var(--mint); color: var(--ink); }
+.dtab.active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(20,40,30,0.18);
+}
+.dtab small { display: block; font-family: var(--sans); font-size: 10px; opacity: .65; margin-bottom: 2px; letter-spacing: .2px; }
 
 /* Day Panel */
 .dpanel { display: none; }
-.dpanel.active { display: block; animation: fadeup .25s ease; }
-@keyframes fadeup { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+.dpanel.active { display: block; animation: fadeup .3s ease; }
+@keyframes fadeup { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
 
 .dpanel-head {
-  margin-bottom: 1.5rem; padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.5rem; padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--hairline);
   display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px;
 }
-.dpanel-num { font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-.dpanel-title { font-size: 26px; font-weight: 900; color: var(--cream); line-height: 1.1; }
-.dpanel-date { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.dpanel-num {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--mint-deep);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.dpanel-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.05;
+  letter-spacing: -.8px;
+}
+.dpanel-date {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+  letter-spacing: .2px;
+}
 .who-badges { display: flex; gap: 6px; flex-wrap: wrap; }
-.wbadge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+.wbadge {
+  font-size: 11px;
+  padding: 4px 11px;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+}
 
 /* Timeline */
 .tl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem; }
 .tl-grid.full { grid-template-columns: 1fr; }
 .tl-col-title {
-  font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
-  color: var(--gold); margin-bottom: 1rem; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  font-family: var(--sans);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--mint-deep);
+  margin-bottom: 1rem;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--hairline);
+  font-weight: 500;
 }
-.tl { position: relative; padding-right: 22px; }
-.tl::before { content:''; position:absolute; right:8px; top:8px; bottom:8px; width:1px; background: var(--border); }
-.tli { position:relative; margin-bottom: 1.2rem; }
-.tldot { position:absolute; right:-17px; top:5px; width:10px; height:10px; border-radius:50%; border:2px solid; }
-.tldot.morning  { border-color:var(--morning);  background:rgba(232,149,42,.15); }
-.tldot.afternoon { border-color:var(--afternoon); background:rgba(42,171,114,.15); }
-.tldot.evening  { border-color:var(--evening);  background:rgba(124,92,232,.15); }
-.tldot.kids     { border-color:var(--kids);     background:rgba(232,68,68,.15); }
-.tl-seg { font-size: 10px; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+.tl { position: relative; padding-right: 24px; }
+.tl::before {
+  content:'';
+  position:absolute;
+  right:8px; top:8px; bottom:8px;
+  width:1px;
+  background: var(--hairline);
+}
+.tli { position:relative; margin-bottom: 1.4rem; }
+.tldot {
+  position:absolute;
+  right:-19px; top:5px;
+  width:11px; height:11px;
+  border-radius:50%;
+  border:2px solid;
+  background: var(--bg);
+}
+.tldot.morning  { border-color:var(--morning);   box-shadow: 0 0 0 3px rgba(210,145,50,.12); }
+.tldot.afternoon { border-color:var(--afternoon); box-shadow: 0 0 0 3px rgba(42,166,126,.12); }
+.tldot.evening  { border-color:var(--evening);   box-shadow: 0 0 0 3px rgba(108,93,194,.12); }
+.tldot.kids     { border-color:var(--kids);      box-shadow: 0 0 0 3px rgba(211,74,58,.12); }
+.tl-seg {
+  font-family: var(--sans);
+  font-size: 10px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  margin-bottom:3px;
+  font-weight: 600;
+}
 .tl-seg.morning  { color:var(--morning); }
-.tl-seg.afternoon { color:var(--afternoon); }
+.tl-seg.afternoon { color:#1d7a5b; }
 .tl-seg.evening  { color:var(--evening); }
 .tl-seg.kids     { color:var(--kids); }
-.tl-name { font-size: 15px; font-weight: 700; color: var(--cream); margin-bottom: 3px; }
-.tl-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.tl-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -.2px;
+}
+.tl-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
 
 .planb {
-  background: var(--bg2); border: 1px solid var(--border); border-right: 3px solid var(--gold);
-  border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--muted); margin-bottom: 1.5rem;
+  background: var(--bg3);
+  border: 1px solid var(--hairline);
+  border-right: 3px solid var(--mint);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
 }
-.planb strong { color: var(--gold); }
+.planb strong { color: var(--mint-deep); font-weight: 700; }
 
 .warn-box {
-  background: rgba(232,68,68,.08); border: 1px solid rgba(232,68,68,.3);
-  border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #e88080; margin-top: 10px;
+  background: rgba(211,74,58,0.08);
+  border: 1px solid rgba(211,74,58,0.25);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #8e2d20;
+  margin-top: 10px;
+  font-weight: 500;
 }
 
 /* TODO */
 .todo-box {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 1.5rem; margin-bottom: 2rem;
+  background: var(--bg3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-card);
 }
-.todo-title { font-size: 16px; font-weight: 700; color: var(--cream); margin-bottom: 1rem; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.todo-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--hairline);
+  letter-spacing: -.3px;
+}
 .tdi {
-  display: flex; align-items: flex-start; gap: 10px; padding: 10px 0;
-  border-bottom: 1px solid var(--border); cursor: pointer;
-  font-size: 13px; color: var(--cream); transition: opacity .2s;
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--hairline-soft);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--ink);
+  transition: opacity .2s;
 }
 .tdi:last-child { border-bottom: none; }
-.tdi.done { opacity: .4; }
+.tdi.done { opacity: .45; }
 .tdi.done .tdi-text { text-decoration: line-through; }
 .tdi-check {
-  width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+  width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0; margin-top: 1px;
   border: 1.5px solid var(--border2);
   display: flex; align-items: center; justify-content: center;
   transition: all .2s;
+  background: var(--bg);
 }
-.tdi.done .tdi-check { background: var(--gold); border-color: var(--gold); }
+.tdi.done .tdi-check { background: var(--mint); border-color: var(--mint); }
 .tdi-check svg { display: none; }
 .tdi.done .tdi-check svg { display: block; }
 .tdi-text { flex: 1; }
-.tdi-answer { font-size: 12px; color: var(--gold); margin-top: 3px; }
+.tdi-answer { font-size: 12px; color: var(--mint-deep); margin-top: 3px; font-weight: 500; }
 
 /* GUIDE */
-.guide-wrap { padding: 1.5rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+.guide-wrap { padding: 1.5rem 2rem 3rem; max-width: 1000px; margin: 0 auto; }
 .guide-section-title {
-  font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
-  color: var(--gold); margin: 2rem 0 1rem; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  font-family: var(--sans);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--mint-deep);
+  margin: 2rem 0 1.25rem;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--hairline);
+  font-weight: 500;
 }
-.guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
 .gcard {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 1.1rem 1.1rem 1rem;
-  transition: border-color .15s;
+  background: var(--bg3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 1.1rem 1.1rem 1rem;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  box-shadow: var(--shadow-card);
 }
-.gcard:hover { border-color: var(--border2); }
-.gcard-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
-.gcard-icon { font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
-.gcard-name { font-size: 15px; font-weight: 700; color: var(--cream); line-height: 1.2; }
-.gcard-area { font-size: 11px; color: var(--gold); margin-top: 2px; text-transform: uppercase; letter-spacing: .5px; }
-.gcard-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
-.gcard-facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.gcard:hover {
+  border-color: var(--mint);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px -10px rgba(20,40,30,0.15);
+}
+.gcard-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.gcard-icon { font-size: 24px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.gcard-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -.3px;
+}
+.gcard-area {
+  font-family: var(--sans);
+  font-size: 10px;
+  color: var(--mint-deep);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+.gcard-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.gcard-facts { display: flex; flex-wrap: wrap; gap: 5px; }
 .gfact {
-  font-size: 11px; padding: 3px 8px; border-radius: 20px;
-  background: var(--bg3); border: 1px solid var(--border); color: var(--muted);
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--bg2);
+  border: 1px solid var(--hairline);
+  color: var(--muted);
+  font-weight: 500;
 }
-.gfact.free { background: rgba(42,171,114,.1); border-color: rgba(42,171,114,.3); color: #2aab72; }
-.gfact.tip  { background: rgba(212,168,67,.1); border-color: rgba(212,168,67,.25); color: var(--gold); }
-.gfact.kids { background: rgba(232,68,68,.1); border-color: rgba(232,68,68,.25); color: #e84444; }
+.gfact.free { background: rgba(42,166,126,.10); border-color: rgba(42,166,126,.3); color: var(--mint-deep); }
+.gfact.tip  { background: rgba(42,166,126,.08); border-color: rgba(42,166,126,.22); color: var(--mint-deep); }
+.gfact.kids { background: rgba(211,74,58,.08); border-color: rgba(211,74,58,.22); color: #b03928; }
 
-
-.img-strip { display:flex; gap:10px; overflow-x:auto; margin-bottom:1.5rem; padding-bottom:4px; scrollbar-width:none; }
+.img-strip { display:flex; gap:12px; overflow-x:auto; margin-bottom:1.5rem; padding-bottom:4px; scrollbar-width:none; }
 .img-strip::-webkit-scrollbar { display:none; }
-.img-card { flex-shrink:0; width:180px; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:var(--bg3); }
-.img-card img { width:180px; height:110px; object-fit:cover; display:block; }
-.img-card-label { font-size:12px; font-weight:500; color:var(--cream); padding:6px 8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.img-card {
+  flex-shrink:0;
+  width:200px;
+  border-radius: var(--r);
+  overflow:hidden;
+  border:1px solid var(--hairline);
+  background:var(--bg3);
+  box-shadow: var(--shadow-card);
+}
+.img-card img { width:200px; height:120px; object-fit:cover; display:block; }
+.img-card-label {
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink);
+  padding:8px 10px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
 /* DAY MAP */
 .day-map-wrap { margin-bottom:1.5rem; }
-.day-map-title { font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:8px; }
-.day-map-el { height:280px; border-radius:10px; overflow:hidden; border:1px solid var(--border); }
+.day-map-title {
+  font-family: var(--sans);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:var(--mint-deep);
+  margin-bottom:10px;
+  font-weight: 500;
+}
+.day-map-el {
+  height:280px;
+  border-radius: var(--r-lg);
+  overflow:hidden;
+  border:1px solid var(--hairline);
+  box-shadow: var(--shadow-card);
+}
 .day-map-el iframe { width:100%; height:100%; border:none; display:block; }
 
- text-align: center; padding: 2rem; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+ text-align: center; padding: 2rem; font-size: 12px; color: var(--muted); border-top: 1px solid var(--hairline); }
 
 /* Mobile day-tabs for the weekly calendar (hidden on desktop) */
 .cal-mobile-tabs { display: none; }
 
 @media (max-width: 768px) {
-  .site-header { padding: 0 1rem; }
-  .cal-wrap, .daily-wrap { padding: 1rem; }
+  .cal-wrap, .daily-wrap { padding: 1.25rem 1rem 2rem; }
   .stats { grid-template-columns: repeat(2,1fr); }
-  .tl-grid { grid-template-columns: 1fr; }
+  .stat-n { font-size: 30px; }
+  .tl-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .dpanel-title { font-size: 26px; }
+  .dpanel-head { flex-direction: column; gap: 12px; }
+  .legend { gap: 10px 14px; padding-bottom: .75rem; }
+  .leg { font-size: 11px; }
 
-  /* Mobile calendar: one day at a time */
+  /* Mobile day picker — stamp pill row */
   .cal-mobile-tabs {
-    display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px;
-    margin-bottom: 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px 10px;
+    margin: -4px -2px 14px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
   }
   .cal-mobile-tabs::-webkit-scrollbar { display: none; }
   .cal-mtab {
-    flex-shrink: 0; padding: 8px 12px; border-radius: 8px;
-    border: 1px solid var(--border); background: transparent;
-    color: var(--muted); font-family: inherit; font-size: 13px;
-    cursor: pointer; transition: all .15s; white-space: nowrap;
-    text-align: center; line-height: 1.2; font-weight: 600;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    padding: 9px 14px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--hairline);
+    background: var(--bg3);
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .2s ease;
+    white-space: nowrap;
+    text-align: center;
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -.1px;
+    min-width: 60px;
   }
-  .cal-mtab small { display: block; font-size: 10px; opacity: .7; margin-bottom: 2px; font-weight: 400; }
-  .cal-mtab.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
-  .cal-mtab.active small { opacity: .85; }
-  .cal-mtab.birthday { border-color: var(--gold2); color: var(--gold2); }
-  .cal-mtab.birthday.active { background: var(--gold2); color: var(--bg); }
+  .cal-mtab small {
+    display: block;
+    font-family: var(--sans);
+    font-size: 9px;
+    opacity: .65;
+    margin-bottom: 3px;
+    font-weight: 500;
+    letter-spacing: .3px;
+  }
+  .cal-mtab.active {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+    box-shadow: 0 2px 8px rgba(20,40,30,0.18);
+  }
+  .cal-mtab.active small { opacity: .75; }
+  .cal-mtab.birthday {
+    border-color: var(--mint);
+    color: var(--mint-deep);
+    background: var(--mint-tint);
+  }
+  .cal-mtab.birthday.active {
+    background: var(--mint);
+    color: #fafefc;
+    border-color: var(--mint);
+    box-shadow: var(--shadow-stamp);
+  }
 
-  .cal-outer { overflow: visible; }
-  .cal-head, .cal-body { grid-template-columns: 44px 1fr; min-width: 0; }
-  .cal-head-day, .cal-day-col { display: none; }
-  .cal-head-day.m-active, .cal-day-col.m-active { display: block; }
-  .cal-head-day { padding: 12px 8px; }
-  .cal-head-date { font-size: 18px; }
-  .cal-head-name, .cal-head-label { font-size: 12px; }
-  .cal-head-label { white-space: normal; }
+  /* ── Mobile weekly cal: AGENDA LIST (not 960px-tall grid) ── */
+  .cal-outer {
+    overflow: visible;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .cal-head { display: none; }
+  .cal-body {
+    display: block;
+    background: transparent;
+    grid-template-columns: 1fr;
+  }
+  .cal-time-col { display: none; }
+
+  .cal-day-col {
+    display: none;
+    height: auto;
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+  .cal-day-col::before { display: none; }
+  .cal-day-col::after { display: none !important; }
+  .cal-day-col.m-active { display: block; }
+
+  /* Events become stacked agenda cards */
+  .cal-day-col .evt {
+    position: relative;
+    inset: auto;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: auto !important;
+    width: 100%;
+    padding: 14px 16px 14px 16px;
+    margin-bottom: 10px;
+    border-radius: var(--r-lg);
+    border-right-width: 4px;
+    box-shadow: var(--shadow-card);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "title time"
+      "sub   time";
+    column-gap: 12px;
+    row-gap: 2px;
+    text-align: right;
+  }
+  .cal-day-col .evt:hover { transform: none; }
+  .cal-day-col .evt-title { grid-area: title; font-size: 15px; font-weight: 700; letter-spacing: -.2px; }
+  .cal-day-col .evt-sub   { grid-area: sub;   font-size: 13px; opacity: .85; margin-top: 0; }
+  .cal-day-col .evt-time  {
+    grid-area: time;
+    font-family: var(--mono);
+    font-size: 11px;
+    align-self: center;
+    opacity: .85;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 6px;
+    white-space: nowrap;
+    letter-spacing: -.2px;
+  }
+
+  /* Track labels inside split day - shown as inline tags above events */
+  .cal-day-col.m-active .split-track-label {
+    position: relative;
+    display: inline-block;
+    padding: 3px 8px;
+    margin: 6px 0;
+    border-radius: 4px;
+    background: var(--bg3);
+    inset: auto;
+  }
+
+  /* Now-line as a pill in agenda view */
+  .cal-day-col .cal-now-line {
+    position: relative;
+    inset: auto;
+    height: auto;
+    background: transparent;
+    text-align: center;
+    margin: 8px 0;
+    color: var(--maple2);
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .cal-day-col .cal-now-line::before {
+    content: '· עכשיו ·';
+    position: relative;
+    inset: auto;
+    width: auto; height: auto;
+    background: transparent;
+    border-radius: 0;
+    display: inline-block;
+    padding: 4px 12px;
+    border-top: 1px solid var(--maple2);
+    border-bottom: 1px solid var(--maple2);
+  }
+
   .cal-hour-label { font-size: 11px; right: 4px; }
-  .evt { left: 6px; right: 6px; padding: 6px 9px; }
-  .evt-title { font-size: 13px; }
-  .evt-sub { font-size: 12px; }
-  .evt-time { font-size: 11px; }
 }
 </style>
 </head>
@@ -540,7 +1026,7 @@ body {
 
 <header class="site-header">
   <div>
-    <div class="site-logo">NYC <span>+</span> Toronto <span style="color:rgba(238,232,216,0.4);font-size:14px">·</span> מאי 2026</div>
+    <div class="site-logo">NYC<span class="amp">&amp;</span>Toronto<span class="dot"></span><span class="month">מאי 2026</span></div>
     <div class="site-dates" id="siteDates">15–22.5 · NYC · 8 לילות</div>
   </div>
   <div class="header-controls">
@@ -559,11 +1045,11 @@ body {
 <!-- Phase banner -->
 <div class="phase-banner nyc phase-nyc-only">
   <div class="phase-banner-label"><span class="icon">🗽</span> שלב 1 · NYC</div>
-  <div class="phase-banner-meta">15–22.5 · 8 לילות · עם משפחת עידן + חני</div>
+  <div class="phase-banner-meta">15–22.5 · 8 לילות</div>
 </div>
 <div class="phase-banner tor phase-toronto-only">
   <div class="phase-banner-label"><span class="icon">🍁</span> שלב 2 · Toronto</div>
-  <div class="phase-banner-meta">23–31.5 · 8 לילות · עם משפחת רועי + קטי + הבנות</div>
+  <div class="phase-banner-meta">23–31.5 · 8 לילות</div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -837,18 +1323,6 @@ body {
 <div id="view-daily" class="view active phase-nyc-only">
 <div class="daily-wrap">
 
-  <!-- Crew -->
-  <div class="crew">
-    <div class="crewp"><div class="av" style="background:rgba(212,168,67,.2);color:var(--gold)">א</div><div><div class="cn">אוהד</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(232,68,68,.2);color:#e84444">ז</div><div><div class="cn">זאביק</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(194,92,173,.2);color:var(--mama)">א</div><div><div class="cn">אמא</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(42,171,114,.2);color:#2aab72">ע</div><div><div class="cn">עידן</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(42,143,232,.2);color:#2a8fe8">ח</div><div><div class="cn">חני</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(240,165,0,.2);color:#f0a500">ל</div><div><div class="cn">ליב</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(232,68,68,.15);color:#e89060">ב</div><div><div class="cn">בן</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(232,68,68,.15);color:#e89060">ד</div><div><div class="cn">דילן</div></div></div>
-  </div>
-
   <!-- Stats -->
   <div class="stats">
     <div class="stat"><div class="stat-n">8</div><div class="stat-l">ימי טיול</div></div>
@@ -873,7 +1347,7 @@ body {
   <div id="d0" class="dpanel active">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 1 מתוך 8</div><div class="dpanel-title">נחיתה והתאוששות</div><div class="dpanel-date">שישי 15.5 · נחיתה 05:00</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="East Village"><div class="img-card-label">East Village</div></div>
@@ -895,7 +1369,7 @@ body {
   <div id="d1" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 2 מתוך 8</div><div class="dpanel-title">Midtown + Grand Central + Top of the Rock</div><div class="dpanel-date">שבת 16.5 · כולם ביחד</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Bryant Park"><div class="img-card-label">Bryant Park</div></div>
@@ -919,7 +1393,7 @@ body {
   <div id="d2" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 3 מתוך 8</div><div class="dpanel-title">Central Park + מוזיאון הטבע</div><div class="dpanel-date">ראשון 17.5 · כולם ביחד</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Central Park"><div class="img-card-label">Central Park</div></div>
@@ -939,7 +1413,7 @@ body {
   <div id="d3" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 4 מתוך 8</div><div class="dpanel-title">Union Square + High Line + Chelsea</div><div class="dpanel-date">שני 18.5 · כולם ביחד · עידן עובד</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Union Square"><div class="img-card-label">Union Square Market</div></div>
@@ -963,8 +1437,8 @@ body {
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 5 מתוך 8</div><div class="dpanel-title">יום מפוצל — קומיקס vs. The Met</div><div class="dpanel-date">שלישי 19.5 · עידן עובד</div></div>
       <div class="who-badges">
-        <span class="wbadge" style="background:rgba(42,143,232,.15);color:var(--ohad)">אוהד</span>
-        <span class="wbadge" style="background:rgba(194,92,173,.15);color:var(--mama)">אמא + זאביק + חני</span>
+        <span class="wbadge" style="background:rgba(56,119,168,.12);color:var(--ohad)">אוהד</span>
+        <span class="wbadge" style="background:rgba(179,90,138,.12);color:var(--mama)">אמא + זאביק + חני</span>
       </div>
     </div>
     <div class="img-strip">
@@ -1003,7 +1477,7 @@ body {
   <div id="d5" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 6 מתוך 8</div><div class="dpanel-title">🎂 יום הולדת — עידן</div><div class="dpanel-date">רביעי 20.5 · כולם ביחד</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(42,171,114,.2);color:#2aab72">עידן</span><span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.18);color:#186448">עידן</span><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Dinner"><div class="img-card-label">ארוחה חגיגית</div></div>
@@ -1027,8 +1501,8 @@ body {
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 7 מתוך 8</div><div class="dpanel-title">Intrepid + Brooklyn Bridge + Dumbo</div><div class="dpanel-date">חמישי 21.5 · יום מלא עם הילדים</div></div>
       <div class="who-badges">
-        <span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span>
-        <span class="wbadge" style="background:rgba(232,68,68,.15);color:var(--kids)">ליב, בן, דילן</span>
+        <span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span>
+        <span class="wbadge" style="background:rgba(211,74,58,.12);color:var(--kids)">ליב, בן, דילן</span>
       </div>
     </div>
     <div class="img-strip">
@@ -1052,7 +1526,7 @@ body {
   <div id="d7" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 8 מתוך 8</div><div class="dpanel-title">Staten Island Ferry + Central Park — יום אחרון</div><div class="dpanel-date">שישי 22.5 · לנשום</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,168,67,.15);color:var(--gold)">כולם</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Ferry"><div class="img-card-label">Staten Island Ferry 🗽</div></div>
@@ -1299,9 +1773,9 @@ body {
     <!-- Header -->
     <div class="cal-head tor9">
       <div class="cal-head-gutter"></div>
-      <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#ec7766">23.5</div><div class="cal-head-name">שבת</div><div class="cal-head-label">🎶 Queen vs ABBA</div></div>
+      <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#b14025">23.5</div><div class="cal-head-name">שבת</div><div class="cal-head-label">🎶 Queen vs ABBA</div></div>
       <div class="cal-head-day"><div class="cal-head-date">24.5</div><div class="cal-head-name">ראשון</div><div class="cal-head-label">Downtown</div></div>
-      <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#ec7766">25.5</div><div class="cal-head-name">שני · רועי 🟢</div><div class="cal-head-label">🌊 Niagara</div></div>
+      <div class="cal-head-day" style="border-right:2px solid #d44343"><div class="cal-head-date" style="color:#b14025">25.5</div><div class="cal-head-name">שני · רועי 🟢</div><div class="cal-head-label">🌊 Niagara</div></div>
       <div class="cal-head-day"><div class="cal-head-date">26.5</div><div class="cal-head-name">שלישי · ערב</div><div class="cal-head-label">Islands</div></div>
       <div class="cal-head-day"><div class="cal-head-date">27.5</div><div class="cal-head-name">רביעי · ערב</div><div class="cal-head-label">😴 יום מנוחה</div></div>
       <div class="cal-head-day" style="border-right:2px solid #5b6e9c"><div class="cal-head-date" style="color:#7baadb">28.5</div><div class="cal-head-name">חמישי · 3 בלבד</div><div class="cal-head-label">🚗 → Kingston</div></div>
@@ -1606,17 +2080,6 @@ body {
 <div id="view-daily-tor" class="view phase-toronto-only">
 <div class="daily-wrap">
 
-  <!-- Crew -->
-  <div class="crew">
-    <div class="crewp"><div class="av" style="background:rgba(212,67,67,.2);color:#ec7766">א</div><div><div class="cn">אוהד</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(232,68,68,.2);color:#e84444">ז</div><div><div class="cn">זאביק</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(194,92,173,.2);color:var(--mama)">א</div><div><div class="cn">אמא</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(42,143,232,.2);color:#2a8fe8">ר</div><div><div class="cn">רועי</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(42,171,114,.2);color:#2aab72">ק</div><div><div class="cn">קטי</div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(240,165,0,.2);color:#f0a500">ת</div><div><div class="cn">תמר<span class="cr"> · 13</span></div></div></div>
-    <div class="crewp"><div class="av" style="background:rgba(240,165,0,.2);color:#f0a500">נ</div><div><div class="cn">נירה<span class="cr"> · 11</span></div></div></div>
-  </div>
-
   <!-- Stats -->
   <div class="stats">
     <div class="stat"><div class="stat-n">9</div><div class="stat-l">ימי טורונטו</div></div>
@@ -1649,7 +2112,7 @@ body {
   <div id="td0" class="dpanel active">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 1 מתוך 9</div><div class="dpanel-title">הגעה + 🎶 Candlelight: Queen vs ABBA</div><div class="dpanel-date">שבת 23.5 · נחיתה 11:35 · ההופעה 20:45</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(236,119,102,.2);color:#ec7766">🎶 5 כרטיסים Zone B</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(211,90,58,.18);color:#b14025">🎶 5 כרטיסים Zone B</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1517090504586-fde19ea6066f?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Toronto skyline"><div class="img-card-label">Toronto Skyline</div></div>
@@ -1684,7 +2147,7 @@ body {
       </div>
     </div>
 
-    <div class="warn-box" style="background:rgba(236,119,102,0.1);border-color:rgba(236,119,102,0.3);color:#ec7766;margin-bottom:16px">🎶 <strong>הופעה הערב:</strong> Candlelight: Queen vs ABBA · The Royal Theatre, 608 College Street · 20:45 · 5 כרטיסים Zone B (Order R111547913). ~75 דקות בלי הפסקה. להגיע 20:00–20:15</div>
+    <div class="warn-box" style="background:rgba(236,119,102,0.1);border-color:rgba(236,119,102,0.3);color:#b14025;margin-bottom:16px">🎶 <strong>הופעה הערב:</strong> Candlelight: Queen vs ABBA · The Royal Theatre, 608 College Street · 20:45 · 5 כרטיסים Zone B (Order R111547913). ~75 דקות בלי הפסקה. להגיע 20:00–20:15</div>
     <div class="tl-grid full"><div class="tl">
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">07:30 — בוקר מוקדם</div><div class="tl-name">LGA Terminal B</div><div class="tl-desc">להגיע מ-Manhattan ~7:00 בבוקר (Uber/M60 bus + N/W). צ'ק אין Porter בטרמינל B, ביטחון, ארוחת בוקר/קפה אחרי הביטחון. PD 604 ממריא ב-09:55</div></div>
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:55 — Departure ✈</div><div class="tl-name">PD 604 · LGA → YYZ</div><div class="tl-desc">Porter Airlines, 1h 40m, PorterClassic Standard. <strong>YYZ Pearson Terminal 3</strong> (לא Billy Bishop). מקומות: 14A/14B/14C ביחד. ארוחת בוקר קלה במטוס</div></div>
@@ -1705,7 +2168,7 @@ body {
   <div id="td1" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 2 מתוך 9</div><div class="dpanel-title">CN Tower + Aquarium + Distillery</div><div class="dpanel-date">ראשון 24.5 · סוף שבוע · כל המשפחה</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה</span><span class="wbadge" style="background:rgba(232,68,68,.15);color:var(--kids)">תמר + נירה</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(177,64,37,.12);color:#b14025">🟢 כל המשפחה</span><span class="wbadge" style="background:rgba(211,74,58,.12);color:var(--kids)">תמר + נירה</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1542391570-0a85b07eb39f?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="CN Tower"><div class="img-card-label">CN Tower</div></div>
@@ -1727,7 +2190,7 @@ body {
   <div id="td2" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 3 מתוך 9</div><div class="dpanel-title">🌊 ניאגרה — היום הגדול</div><div class="dpanel-date">שני 25.5 · 🟢 רועי בחופש · כל המשפחה · ברכב של רועי</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה · יום חופש של רועי #1</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(177,64,37,.12);color:#b14025">🟢 כל המשפחה · יום חופש של רועי #1</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1489447068241-b3490214e879?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Niagara"><div class="img-card-label">Niagara Falls</div></div>
@@ -1773,14 +2236,14 @@ body {
   <div id="td4" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 5 מתוך 9</div><div class="dpanel-title">😴 יום מנוחה — אצל רועי</div><div class="dpanel-date">רביעי 27.5 · האנרגיה חוזרת לפני קינגסטון</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(42,171,114,.15);color:#2aab72">🌿 קצב נמוך מאוד</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 ערב — כל המשפחה</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(42,171,114,.15);color:#186448">🌿 קצב נמוך מאוד</span><span class="wbadge" style="background:rgba(124,92,232,.12);color:#a890f0">🌙 ערב — כל המשפחה</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Coffee"><div class="img-card-label">בוקר עצלן</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1503176430-db1c5c1ea4f7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Annex"><div class="img-card-label">The Annex / Kensington</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Rest"><div class="img-card-label">חצר רועי</div></div>
     </div>
-    <div class="warn-box" style="background:rgba(42,171,114,0.08);border-color:rgba(42,171,114,0.3);color:#2aab72;margin-bottom:16px">🌿 <strong>למה יום מנוחה במכוון:</strong> אחרי 8 ימים ב-NYC + יומיים פעילים בטורונטו (Niagara, Islands+Korean BBQ), ולפני יומיים גדולים (Kingston + 1000 Islands) — הגוף צריך לטעון. אל תפספסו את היום הזה. תכנון רגוע = ביצוע יותר טוב לשאר השבוע</div>
+    <div class="warn-box" style="background:rgba(42,171,114,0.08);border-color:rgba(42,171,114,0.3);color:#186448;margin-bottom:16px">🌿 <strong>למה יום מנוחה במכוון:</strong> אחרי 8 ימים ב-NYC + יומיים פעילים בטורונטו (Niagara, Islands+Korean BBQ), ולפני יומיים גדולים (Kingston + 1000 Islands) — הגוף צריך לטעון. אל תפספסו את היום הזה. תכנון רגוע = ביצוע יותר טוב לשאר השבוע</div>
     <div class="tl-grid full"><div class="tl">
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">10:00 — בוקר עצלן</div><div class="tl-name">קפה ארוך + ארוחת בוקר</div><div class="tl-desc">לישון עד מאוחר. קפה איטי, עיתון, נשיפה. אם רוצים יציאה — Boxcar Social או Ezra's Pound ב-The Annex (קרוב לרועי, סביר שכן)</div></div>
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">12:00 — אופציונלי</div><div class="tl-name">סיבוב קל ב-The Annex / Kensington</div><div class="tl-desc">רק אם בא לכם — לא חובה. Kensington (אם לא הספקתם בעומק) או The Annex עם חנויות ספרים. הליכה של שעה-וחצי, לא יותר. <strong>אם בא לכם רק לישון — לישון</strong></div></div>
@@ -1797,14 +2260,14 @@ body {
   <div id="td5" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 6 מתוך 9</div><div class="dpanel-title">🏫 בית ספר → 🚗 קינגסטון (לינה)</div><div class="dpanel-date">חמישי 28.5 · 3 בלבד · רכב מרועי · לינה ב-B&B בקינגסטון</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(232,68,68,.15);color:var(--kids)">🏫 ביקור בבית ספר 08:30</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(80,140,200,.15);color:#7baadb">☕ רק אוהד + אמא + זאביק</span><span class="wbadge" style="background:rgba(211,74,58,.12);color:var(--kids)">🏫 ביקור בבית ספר 08:30</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1568378879032-2f5048b1f6e8?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="School visit"><div class="img-card-label">🏫 ביקור בית ספר</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1633531283875-5fa46f64a40b?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Kingston"><div class="img-card-label">Kingston Old Town</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1565514020179-026b92b2d70b?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Princess St"><div class="img-card-label">Princess Street</div></div>
     </div>
-    <div class="warn-box" style="background:rgba(232,68,68,0.08);border-color:rgba(232,68,68,0.3);color:#ec7766;margin-bottom:16px">⚠️ <strong>הערה:</strong> ביקשת ביקור בית ספר ביום שישי בבוקר — אבל ביום שישי אתם בקינגסטון לילה ובחזרה דרך 1000 Islands. <strong>הזזתי את ביקור הבית ספר לחמישי בבוקר 08:30–09:00</strong> לפני היציאה לקינגסטון. אם זה לא מתאים — תגיד ונשנה</div>
+    <div class="warn-box" style="background:rgba(232,68,68,0.08);border-color:rgba(232,68,68,0.3);color:#b14025;margin-bottom:16px">⚠️ <strong>הערה:</strong> ביקשת ביקור בית ספר ביום שישי בבוקר — אבל ביום שישי אתם בקינגסטון לילה ובחזרה דרך 1000 Islands. <strong>הזזתי את ביקור הבית ספר לחמישי בבוקר 08:30–09:00</strong> לפני היציאה לקינגסטון. אם זה לא מתאים — תגיד ונשנה</div>
     <div class="tl-grid full"><div class="tl">
       <div class="tli"><div class="tldot kids"></div><div class="tl-seg kids">08:30 — בוקר 🏫</div><div class="tl-name">ביקור בבית הספר של תמר ונירה</div><div class="tl-desc">להגיע איתן בבוקר, להיכנס לבית הספר, לראות את הכיתה, להכיר חברים, אולי להגיד שלום. 20–30 דקות. רגע משמעותי לקרובים שלא רואים יום-יום</div></div>
       <div class="tli"><div class="tldot morning"></div><div class="tl-seg morning">09:00 — אחרי הסעה</div><div class="tl-name">קפה + אריזה אחרונה</div><div class="tl-desc">מזוודה ללילה אחד (לבוש החלפה, פיג'מה, מברשת). <strong>לקחת מפתחות הרכב מרועי</strong> (וודאו ביטוח/הסכמה). דלק מלא, מים, חטיפים, מטעני טלפון. יציאה ב-10:00</div></div>
@@ -1848,7 +2311,7 @@ body {
   <div id="td7" class="dpanel">
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 8 מתוך 9</div><div class="dpanel-title">Kensington + High Park — יום אחרון מלא</div><div class="dpanel-date">שבת 30.5 · סוף שבוע · כל המשפחה</div></div>
-      <div class="who-badges"><span class="wbadge" style="background:rgba(212,67,67,.15);color:#ec7766">🟢 כל המשפחה</span></div>
+      <div class="who-badges"><span class="wbadge" style="background:rgba(177,64,37,.12);color:#b14025">🟢 כל המשפחה</span></div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1503176430-db1c5c1ea4f7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Kensington"><div class="img-card-label">Kensington Market</div></div>
@@ -1904,7 +2367,7 @@ body {
           <div>3h 20m</div>
         </div>
         <div style="text-align:left">
-          <div style="font-size:22px;font-weight:900;color:#ec7766">13:30</div>
+          <div style="font-size:22px;font-weight:900;color:#b14025">13:30</div>
           <div style="font-size:13px;color:var(--cream);font-weight:600">Tel Aviv TLV</div>
           <div style="font-size:11px;color:var(--muted)">Ben Gurion · שני 1.6</div>
         </div>
@@ -2152,7 +2615,7 @@ body {
     <div class="gcard">
       <div class="gcard-top"><div class="gcard-icon">🔬</div><div><div class="gcard-name">⚠ Ontario Science Centre — סגור</div><div class="gcard-area">המיקום ב-Don Mills נסגר 6.2024</div></div></div>
       <div class="gcard-desc"><strong>הבניין הקבוע ב-Don Mills סגור לצמיתות (יוני 2024) בשל נזק מבני.</strong> מיקום זמני ב-Harbourfront Centre מתוכנן לקיץ 2026 — אולי ייפתח אחרי הטיול שלנו. החלופה: AGO, ROM, Aquarium, Hockey Hall of Fame. המרכז הקבוע החדש ב-Ontario Place — צפוי 2029 בלבד.</div>
-      <div class="gcard-facts"><span class="gfact" style="background:rgba(232,68,68,.1);border-color:rgba(232,68,68,.3);color:#e84444">סגור</span></div>
+      <div class="gcard-facts"><span class="gfact" style="background:rgba(232,68,68,.1);border-color:rgba(232,68,68,.3);color:#b03928">סגור</span></div>
     </div>
     <div class="gcard">
       <div class="gcard-top"><div class="gcard-icon">🏒</div><div><div class="gcard-name">Hockey Hall of Fame</div><div class="gcard-area">Downtown · Brookfield Place</div></div></div>
@@ -2280,7 +2743,7 @@ function setPhase(p) {
     b.classList.toggle('active', (isNyc && p === 'nyc') || (!isNyc && p === 'tor'));
   });
   const sd = document.getElementById('siteDates');
-  if (sd) sd.textContent = (p === 'nyc') ? '15–22.5 · NYC · 8 לילות' : '23–31.5 · Toronto · 9 ימים';
+  if (sd) sd.textContent = (p === 'nyc') ? '15–22.5 · NYC · 8 לילות' : '23–31.5 · TORONTO · 9 ימים';
   setView(currentView);
   updateUrlState();
 }

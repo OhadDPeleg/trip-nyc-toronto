@@ -152,7 +152,19 @@ body {
 .phase-banner-meta { color: var(--muted); }
 @media (max-width: 768px) {
   .phase-banner { padding: 6px 1rem; font-size: 11px; }
-  .header-controls { flex-direction: column; gap: 6px; align-items: flex-end; }
+  .site-header {
+    height: auto;
+    padding: 10px 1rem;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .site-logo { font-size: 17px; }
+  .site-dates { font-size: 12px; }
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
   .phase-btn { padding: 6px 10px; font-size: 12px; }
   .view-btn { padding: 4px 10px; font-size: 12px; }
 }

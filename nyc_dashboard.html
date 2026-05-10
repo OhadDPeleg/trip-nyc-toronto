@@ -843,6 +843,55 @@ body.phase-toronto {
 }
 .planb strong { color: var(--mint-deep); font-weight: 700; }
 
+/* "From hotel" transit hint — small banner at top of each day */
+.from-hotel {
+  margin: 0 0 1.25rem;
+  padding: 11px 14px;
+  background: linear-gradient(90deg, var(--mint-tint) 0%, var(--bg3) 100%);
+  border: 1px solid var(--hairline);
+  border-right: 3px solid var(--mint);
+  border-radius: var(--r);
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.55;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.from-hotel .fh-icon {
+  font-size: 18px;
+  line-height: 1.4;
+  flex: 0 0 auto;
+}
+.from-hotel .fh-body { min-width: 0; }
+.from-hotel .fh-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--mint-deep);
+  font-weight: 700;
+  margin-left: 6px;
+}
+.from-hotel .fh-route { font-weight: 600; color: var(--ink); letter-spacing: -.1px; }
+.from-hotel .fh-meta {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.from-hotel .fh-meta .alt {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: -.1px;
+}
+@media (max-width: 768px) {
+  .from-hotel { padding: 10px 12px; font-size: 12.5px; }
+  .from-hotel .fh-icon { font-size: 16px; }
+}
+
 .warn-box {
   background: rgba(211,74,58,0.08);
   border: 1px solid rgba(211,74,58,0.25);
@@ -2161,6 +2210,14 @@ body.phase-toronto {
       <div><div class="dpanel-num">יום 2 מתוך 8</div><div class="dpanel-title">Midtown — בוקר רגוע + Top of the Rock</div><div class="dpanel-date">שבת 16.5 · כולם ביחד · שכונה אחת</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
+    <div class="from-hotel">
+      <div class="fh-icon">🚶‍♂️</div>
+      <div class="fh-body">
+        <span class="fh-label">מהמלון →</span>
+        <span class="fh-route">Ess-a-Bagel · 51st & 3rd Ave</span>
+        <span class="fh-meta">25 דק' צפונה על Lexington · או <span class="alt">🚇 קו 6 מ-23rd St → 51st St</span> (5 דק', 2 תחנות) ובלוק מזרחה</span>
+      </div>
+    </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Bryant Park"><div class="img-card-label">Bryant Park</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Grand Central"><div class="img-card-label">Grand Central</div></div>
@@ -2186,6 +2243,14 @@ body.phase-toronto {
       <div><div class="dpanel-num">יום 3 מתוך 8</div><div class="dpanel-title">מוזיאון הטבע + Central Park</div><div class="dpanel-date">ראשון 17.5 · כולם ביחד · Upper West Side</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
     </div>
+    <div class="from-hotel">
+      <div class="fh-icon">🚇</div>
+      <div class="fh-body">
+        <span class="fh-label">מהמלון →</span>
+        <span class="fh-route">AMNH · CPW & 79th</span>
+        <span class="fh-meta"><span class="alt">קו 6 מ-23rd St → 86th St</span> (12 דק', 7 תחנות) · יציאה והליכה מערבה דרך 81st St ל-AMNH (~7 דק'). <strong>סה"כ ~20 דק'.</strong></span>
+      </div>
+    </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1583109193439-a571d9e00be2?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="AMNH"><div class="img-card-label">מוזיאון הטבע</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Central Park"><div class="img-card-label">Central Park</div></div>
@@ -2206,6 +2271,14 @@ body.phase-toronto {
     <div class="dpanel-head">
       <div><div class="dpanel-num">יום 4 מתוך 8</div><div class="dpanel-title">Union Square + High Line + Chelsea</div><div class="dpanel-date">שני 18.5 · כולם ביחד · עידן עובד</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
+    </div>
+    <div class="from-hotel">
+      <div class="fh-icon">🚶‍♂️</div>
+      <div class="fh-body">
+        <span class="fh-label">מהמלון →</span>
+        <span class="fh-route">Union Square Greenmarket · 14th-17th St</span>
+        <span class="fh-meta">10 דק' דרומה על Park Ave South — Union Square ב-14th St. <strong>אין צורך בסאבוויי.</strong></span>
+      </div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Union Square"><div class="img-card-label">Union Square Market</div></div>
@@ -2234,6 +2307,14 @@ body.phase-toronto {
       <div><div class="dpanel-num">יום 5 מתוך 8</div><div class="dpanel-title">Midtown shopping + MoMA</div><div class="dpanel-date">שלישי 19.5 · כולם · עידן עובד</div></div>
       <div class="who-badges">
         <span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span>
+      </div>
+    </div>
+    <div class="from-hotel">
+      <div class="fh-icon">🚶‍♂️</div>
+      <div class="fh-body">
+        <span class="fh-label">מהמלון →</span>
+        <span class="fh-route">Midtown Comics · 46th & Lex</span>
+        <span class="fh-meta">25 דק' ישר צפונה על Lexington Ave (אותו רחוב!) · עוברים ב-Madison Sq Park, Empire State, Grand Central. <em>או</em> <span class="alt">🚇 קו 6 מ-23rd → 51st</span> (5 דק') ו-5 בלוקים דרומה</span>
       </div>
     </div>
     <div class="img-strip">
@@ -2300,6 +2381,14 @@ body.phase-toronto {
         <span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span>
       </div>
     </div>
+    <div class="from-hotel">
+      <div class="fh-icon">🚇</div>
+      <div class="fh-body">
+        <span class="fh-label">מהמלון →</span>
+        <span class="fh-route">Brooklyn Bridge · City Hall (Manhattan side)</span>
+        <span class="fh-meta"><span class="alt">קו 6 מ-23rd St → Brooklyn Bridge-City Hall</span> (8 דק', 5 תחנות) · יציאה ישירות לכיוון הגשר. <em>או הליכה ~30 דק' דרומה דרך East Village אם רוצים נוף בוקר</em></span>
+      </div>
+    </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1553265888-a87d956aabb7?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Brooklyn Bridge"><div class="img-card-label">Brooklyn Bridge</div></div>
       <div class="img-card"><img src="https://images.unsplash.com/photo-1518894781321-630e638d0742?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Dumbo"><div class="img-card-label">Dumbo</div></div>
@@ -2322,8 +2411,16 @@ body.phase-toronto {
   <!-- ── DAY 7 ── -->
   <div id="d7" class="dpanel">
     <div class="dpanel-head">
-      <div><div class="dpanel-num">יום 8 מתוך 8</div><div class="dpanel-title">Lower Manhattan — יום אחרון רגוע</div><div class="dpanel-date">שישי 22.5 · כולם · אפס סאבוויי</div></div>
+      <div><div class="dpanel-num">יום 8 מתוך 8</div><div class="dpanel-title">Lower Manhattan — יום אחרון רגוע</div><div class="dpanel-date">שישי 22.5 · כולם · יום הליכה</div></div>
       <div class="who-badges"><span class="wbadge" style="background:rgba(42,166,126,.12);color:var(--gold)">כולם</span></div>
+    </div>
+    <div class="from-hotel">
+      <div class="fh-icon">🚇</div>
+      <div class="fh-body">
+        <span class="fh-label">מהמלון →</span>
+        <span class="fh-route">Whitehall Terminal · Staten Island Ferry</span>
+        <span class="fh-meta"><span class="alt">קו 6 מ-23rd St → Bowling Green</span> (12 דק', 8 תחנות) · יציאה והליכה 5 דק' דרומה ל-Whitehall Terminal. <em>הליכה כל הדרך = ~3 מייל / שעה — לא מעשי בבוקר</em></span>
+      </div>
     </div>
     <div class="img-strip">
       <div class="img-card"><img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=360&q=75" onerror="this.closest('.img-card').style.display='none'" alt="Ferry"><div class="img-card-label">Staten Island Ferry 🗽</div></div>

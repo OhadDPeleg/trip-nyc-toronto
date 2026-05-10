@@ -1113,6 +1113,8 @@ body.phase-toronto {
 
 @media (max-width: 768px) {
   .cal-wrap, .daily-wrap { padding: 1.25rem 1rem 2rem; }
+  /* Summary stats card is redundant once you're inside the daily view — hide on mobile */
+  .daily-wrap > .stats { display: none; }
   .stats { grid-template-columns: repeat(2,1fr); }
   .stat-n { font-size: 30px; }
   .tl-grid { grid-template-columns: 1fr; gap: 1.25rem; }

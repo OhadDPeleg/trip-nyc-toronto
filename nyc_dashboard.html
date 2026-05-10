@@ -1338,6 +1338,272 @@ body.phase-toronto {
 
   .cal-hour-label { font-size: 11px; right: 4px; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   MOBILE WEEKLY = TRIP OVERVIEW (8/9-day vertical index)
+   The desktop calendar grid stays as-is; on mobile it's
+   replaced by a scannable overview where each day = one card.
+   ════════════════════════════════════════════════════════════ */
+.m-trip-overview { display: none; }
+.m-trip-jump { display: none; }
+
+@media (max-width: 768px) {
+  /* Hide existing calendar grid + day-pills + legend on mobile */
+  #view-cal .cal-mobile-tabs,
+  #view-cal-tor .cal-mobile-tabs,
+  #view-cal .legend,
+  #view-cal-tor .legend,
+  #view-cal .cal-outer,
+  #view-cal-tor .cal-outer { display: none; }
+
+  /* Show the overview */
+  .m-trip-overview { display: block; }
+  .m-trip-jump { display: block; }
+
+  .m-trip-head {
+    padding: 4px 0 14px;
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: 6px;
+  }
+  .m-trip-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--mint-deep);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  body.phase-toronto .m-trip-eyebrow { color: var(--maple); }
+  .m-trip-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -.5px;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .m-trip-sub {
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: .1px;
+  }
+
+  .m-trip-list {
+    padding: 14px 0 16px;
+    position: relative;
+  }
+  .m-trip-list::before {
+    content: '';
+    position: absolute;
+    right: 28px;
+    top: 24px; bottom: 24px;
+    width: 2px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      var(--hairline) 4%,
+      var(--hairline) 96%,
+      transparent 100%);
+  }
+
+  .m-day-card {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 14px;
+    margin-bottom: 12px;
+    align-items: stretch;
+    position: relative;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-day-card .stamp {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    background: var(--bg);
+    padding: 4px 0;
+    display: flex; flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .m-day-card .stamp .num {
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -.6px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .m-day-card .stamp .dow {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .m-day-card .stamp .pin {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--mint);
+    margin-top: 8px;
+    box-shadow: 0 0 0 3px var(--bg);
+    flex: 0 0 auto;
+  }
+  body.phase-toronto .m-day-card .stamp .pin { border-color: var(--maple); }
+  body .m-day-card.solo .stamp .pin { border-color: var(--ohad); background: var(--bg); }
+  body .m-day-card.split .stamp .pin {
+    background: linear-gradient(180deg, var(--ohad) 50%, var(--mama) 50%);
+    border-color: transparent;
+  }
+  body .m-day-card.bday .stamp .pin {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px rgba(24,100,72,0.25);
+  }
+  body .m-day-card.travel .stamp .pin {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .m-day-card .body {
+    background: var(--bg3);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+    padding: 12px 14px;
+    position: relative;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 2px 6px -3px rgba(20,40,30,0.06);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .m-day-card .body::before {
+    content: '';
+    position: absolute;
+    right: 0; top: 14px; bottom: 14px;
+    width: 3px; border-radius: 2px;
+    background: var(--mint);
+  }
+  body.phase-toronto .m-day-card .body::before { background: var(--maple); }
+  body .m-day-card.solo .body::before { background: var(--ohad); }
+  body .m-day-card.split .body::before { background: linear-gradient(180deg, var(--ohad), var(--mama)); }
+  body .m-day-card.bday .body::before { background: var(--gold); }
+  body .m-day-card.travel .body::before { background: var(--ink); }
+  .m-day-card.bday .body {
+    background: linear-gradient(135deg, rgba(24,100,72,0.08) 0%, var(--bg3) 60%);
+    border-color: rgba(24,100,72,0.30);
+  }
+  .m-day-card .body:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px -8px rgba(20,40,30,0.18);
+  }
+  .m-day-card .body-head {
+    display: flex; justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .m-day-card .body-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -.2px;
+    line-height: 1.2;
+    flex: 1;
+  }
+  .m-day-card .body-title .icon {
+    font-size: 13px;
+    margin-left: 2px;
+    vertical-align: -1px;
+  }
+  .m-day-card .body-stamp {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: var(--r-pill);
+    white-space: nowrap;
+    background: var(--bg2);
+    color: var(--muted);
+  }
+  .m-day-card.solo .body-stamp { background: rgba(56,119,168,0.12); color: var(--ohad); }
+  .m-day-card.split .body-stamp { background: rgba(179,90,138,0.12); color: var(--mama); }
+  .m-day-card.bday .body-stamp { background: rgba(24,100,72,0.16); color: var(--mint-deep); }
+  .m-day-card.travel .body-stamp { background: var(--ink); color: var(--bg); }
+
+  .m-day-card .neighborhood {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    letter-spacing: .1px;
+  }
+  .m-day-card .neighborhood::before {
+    content: '◉';
+    margin-left: 5px;
+    color: var(--mint);
+    font-size: 9px;
+    vertical-align: 1px;
+  }
+  body.phase-toronto .m-day-card .neighborhood::before { color: var(--maple); }
+
+  .m-day-card .events-row {
+    display: flex; gap: 4px;
+    flex-wrap: wrap;
+  }
+  .m-day-card .ec {
+    font-size: 10.5px;
+    padding: 3px 8px 3px 6px;
+    border-radius: 6px;
+    background: var(--bg2);
+    color: var(--ink);
+    font-weight: 500;
+    display: inline-flex; align-items: center;
+    gap: 4px;
+    border: 1px solid var(--hairline-soft);
+    letter-spacing: -.1px;
+  }
+  .m-day-card .ec .t {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .m-day-card .ec.morning   { border-right: 2px solid var(--morning); }
+  .m-day-card .ec.afternoon { border-right: 2px solid var(--afternoon); }
+  .m-day-card .ec.evening   { border-right: 2px solid var(--evening); }
+  .m-day-card .more {
+    font-size: 10px;
+    color: var(--muted2);
+    padding: 3px 4px;
+    font-family: var(--mono);
+    letter-spacing: .2px;
+    align-self: center;
+  }
+
+  .m-trip-jump {
+    margin: 16px 0 0;
+    border: 1px dashed var(--hairline);
+    border-radius: var(--r-lg);
+    padding: 14px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    background: linear-gradient(135deg, var(--mint-tint) 0%, transparent 100%);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-trip-jump strong { color: var(--mint-deep); font-weight: 700; }
+  body.phase-toronto .m-trip-jump {
+    background: linear-gradient(135deg, rgba(177,64,37,0.08) 0%, transparent 100%);
+  }
+  body.phase-toronto .m-trip-jump strong { color: var(--maple); }
+}
 </style>
 </head>
 <body>
@@ -1375,6 +1641,126 @@ body.phase-toronto {
 ══════════════════════════════════════════ -->
 <div id="view-cal" class="view phase-nyc-only">
 <div class="cal-wrap">
+
+  <!-- ── MOBILE OVERVIEW (vertical 8-day index) ── -->
+  <div class="m-trip-overview">
+    <div class="m-trip-head">
+      <div class="m-trip-eyebrow">🗽 שלב 1 · NYC</div>
+      <h2 class="m-trip-title">8 ימים בניו יורק</h2>
+      <div class="m-trip-sub">15.5 — 22.5 · Freehand NYC · עידן + חני</div>
+    </div>
+    <div class="m-trip-list">
+
+      <div class="m-day-card travel" onclick="goToDay('nyc',0)">
+        <div class="stamp"><div class="num">15</div><div class="dow">שישי · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">נחיתה והתאוששות <span class="icon">✈</span></div><span class="body-stamp">נחיתה</span></div>
+          <div class="neighborhood">East Village · Gramercy</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">04:55</span>JFK</span>
+            <span class="ec afternoon"><span class="t">13:00</span>Freehand</span>
+            <span class="ec evening"><span class="t">19:30</span>Ippudo</span>
+            <span class="more">+2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('nyc',1)">
+        <div class="stamp"><div class="num">16</div><div class="dow">שבת · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">Midtown + Top of the Rock</div><span class="body-stamp">כולם</span></div>
+          <div class="neighborhood">Midtown</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">09:30</span>Ess-a-Bagel</span>
+            <span class="ec afternoon"><span class="t">13:30</span>5th Ave</span>
+            <span class="ec evening"><span class="t">19:30</span>Top of Rock ✨</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('nyc',2)">
+        <div class="stamp"><div class="num">17</div><div class="dow">א׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">מוזיאון הטבע + Central Park</div><span class="body-stamp">כולם</span></div>
+          <div class="neighborhood">Upper West Side</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">09:30</span>AMNH</span>
+            <span class="ec afternoon"><span class="t">14:30</span>Central Park</span>
+            <span class="ec evening"><span class="t">18:30</span>UWS dinner</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('nyc',3)">
+        <div class="stamp"><div class="num">18</div><div class="dow">ב׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">Union + High Line + Keens 🥩</div><span class="body-stamp">הזמנה</span></div>
+          <div class="neighborhood">Union Sq → Chelsea</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">09:00</span>Greenmarket</span>
+            <span class="ec afternoon"><span class="t">13:00</span>Chelsea Market</span>
+            <span class="ec evening"><span class="t">20:15</span>Keens 🥩</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card split" onclick="goToDay('nyc',4)">
+        <div class="stamp"><div class="num">19</div><div class="dow">ג׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">יום מפוצל — קומיקס × Met</div><span class="body-stamp">מפוצל</span></div>
+          <div class="neighborhood">אוהד · UES (אמא+זאביק)</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">09:30</span>Comics / Met</span>
+            <span class="ec afternoon"><span class="t">13:30</span>Nintendo / Mile</span>
+            <span class="ec evening"><span class="t">19:00</span>Korean Hot Pot 🍲</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card bday" onclick="goToDay('nyc',5)">
+        <div class="stamp"><div class="num">20</div><div class="dow">ד׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">🎂 יום הולדת עידן</div><span class="body-stamp">יום הולדת</span></div>
+          <div class="neighborhood">Koreatown · ערב חגיגי</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">10:00</span>בוקר רגוע</span>
+            <span class="ec afternoon"><span class="t">14:00</span>זמן משפחה</span>
+            <span class="ec evening"><span class="t">19:30</span>Cote / Jongro 🎂</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('nyc',6)">
+        <div class="stamp"><div class="num">21</div><div class="dow">ה׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">Brooklyn + DUMBO</div><span class="body-stamp">כולם</span></div>
+          <div class="neighborhood">Brooklyn Bridge → Heights</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">10:00</span>BK Bridge</span>
+            <span class="ec afternoon"><span class="t">14:30</span>Heights Promenade</span>
+            <span class="ec evening"><span class="t">18:30</span>Juliana's 🍕</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('nyc',7)">
+        <div class="stamp"><div class="num">22</div><div class="dow">ו׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">Lower Manhattan · יום אחרון</div><span class="body-stamp">כולם</span></div>
+          <div class="neighborhood">Lower Manhattan · אפס סאבוויי</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">10:00</span>Staten Ferry 🗽</span>
+            <span class="ec afternoon"><span class="t">12:45</span>9/11 + Oculus</span>
+            <span class="ec evening"><span class="t">19:00</span>Tribeca dinner</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="m-trip-jump" onclick="setPhase('tor')">
+      המשך לשלב 2 · <strong>Toronto · 9 ימים</strong> 🍁
+    </div>
+  </div>
 
   <div class="cal-mobile-tabs" id="calMobileTabs">
     <button class="cal-mtab" onclick="setCalDay(0)"><small>שישי</small>15.5</button> <button class="cal-mtab" onclick="setCalDay(1)"><small>שבת</small>16.5</button>
@@ -2171,6 +2557,135 @@ body.phase-toronto {
 ══════════════════════════════════════════ -->
 <div id="view-cal-tor" class="view phase-toronto-only">
 <div class="cal-wrap">
+
+  <!-- ── MOBILE OVERVIEW (vertical 9-day index) ── -->
+  <div class="m-trip-overview">
+    <div class="m-trip-head">
+      <div class="m-trip-eyebrow">🍁 שלב 2 · Toronto</div>
+      <h2 class="m-trip-title">9 ימים בטורונטו</h2>
+      <div class="m-trip-sub">23.5 — 31.5 · אצל רועי וקטי · תמר + נירה</div>
+    </div>
+    <div class="m-trip-list">
+
+      <div class="m-day-card travel" onclick="goToDay('tor',0)">
+        <div class="stamp"><div class="num">23</div><div class="dow">שבת · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">🎶 הגעה + Candlelight: Queen vs ABBA</div><span class="body-stamp">נחיתה</span></div>
+          <div class="neighborhood">YYZ · Little Italy</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">11:35</span>YYZ ✈</span>
+            <span class="ec afternoon"><span class="t">12:30</span>אצל רועי</span>
+            <span class="ec evening"><span class="t">20:45</span>Royal Theatre 🕯️</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('tor',1)">
+        <div class="stamp"><div class="num">24</div><div class="dow">א׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">CN Tower + Aquarium + Distillery</div><span class="body-stamp">כולם</span></div>
+          <div class="neighborhood">Downtown</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">09:00</span>CN Tower</span>
+            <span class="ec afternoon"><span class="t">14:00</span>Harbourfront</span>
+            <span class="ec evening"><span class="t">19:30</span>Pai 🍜</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('tor',2)">
+        <div class="stamp"><div class="num">25</div><div class="dow">ב׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">🌊 ניאגרה — היום הגדול</div><span class="body-stamp">רועי 🟢</span></div>
+          <div class="neighborhood">Niagara · NOTL</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">10:00</span>Table Rock</span>
+            <span class="ec afternoon"><span class="t">12:30</span>Hornblower ⛴</span>
+            <span class="ec evening"><span class="t">18:30</span>חזרה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card solo" onclick="goToDay('tor',3)">
+        <div class="stamp"><div class="num">26</div><div class="dow">ג׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">St. Lawrence + Toronto Islands</div><span class="body-stamp">3 בלבד</span></div>
+          <div class="neighborhood">Old Town · Islands</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">09:00</span>St. Lawrence</span>
+            <span class="ec afternoon"><span class="t">12:00</span>Islands</span>
+            <span class="ec evening"><span class="t">19:00</span>Korean BBQ 🥩</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card solo" onclick="goToDay('tor',4)">
+        <div class="stamp"><div class="num">27</div><div class="dow">ד׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">🌲 Elora Gorge — יום טבע</div><span class="body-stamp">3 בלבד</span></div>
+          <div class="neighborhood">Elora · 1.5h צפון</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">08:30</span>יציאה</span>
+            <span class="ec afternoon"><span class="t">10:00</span>Elora Gorge</span>
+            <span class="ec evening"><span class="t">19:00</span>חזרה משפחתי</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card solo travel" onclick="goToDay('tor',5)">
+        <div class="stamp"><div class="num">28</div><div class="dow">ה׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">🏫 בית ספר → 🚗 קינגסטון</div><span class="body-stamp">לינה</span></div>
+          <div class="neighborhood">Toronto → Kingston</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">08:30</span>בית ספר</span>
+            <span class="ec afternoon"><span class="t">14:30</span>Old Town</span>
+            <span class="ec evening"><span class="t">19:00</span>Chez Piggy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card solo" onclick="goToDay('tor',6)">
+        <div class="stamp"><div class="num">29</div><div class="dow">ו׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">🏝️ Thousand Islands → חזרה</div><span class="body-stamp">3 בלבד</span></div>
+          <div class="neighborhood">Kingston → Toronto</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">10:00</span>Parkway</span>
+            <span class="ec afternoon"><span class="t">13:30</span>Cruise ⛴</span>
+            <span class="ec evening"><span class="t">21:00</span>חזרה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card" onclick="goToDay('tor',7)">
+        <div class="stamp"><div class="num">30</div><div class="dow">ש׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">Kensington + High Park</div><span class="body-stamp">כולם</span></div>
+          <div class="neighborhood">Kensington · Graffiti · High Park</div>
+          <div class="events-row">
+            <span class="ec morning"><span class="t">10:00</span>Kensington</span>
+            <span class="ec afternoon"><span class="t">15:00</span>High Park</span>
+            <span class="ec evening"><span class="t">19:30</span>ארוחת פרידה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-day-card travel" onclick="goToDay('tor',8)">
+        <div class="stamp"><div class="num">31</div><div class="dow">א׳ · .5</div><div class="pin"></div></div>
+        <div class="body">
+          <div class="body-head"><div class="body-title">✈️ טיסה הביתה · YYZ → FCO → TLV</div><span class="body-stamp">חזרה</span></div>
+          <div class="neighborhood">Pearson T1 · ITA Airways</div>
+          <div class="events-row">
+            <span class="ec evening"><span class="t">17:00</span>YYZ ✈</span>
+            <span class="ec evening"><span class="t">+8h 40m</span>FCO</span>
+            <span class="ec evening"><span class="t">+TLV</span>הביתה</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <div class="cal-mobile-tabs" id="calMobileTabsTor">
     <button class="cal-mtab" onclick="setCalDayTor(0)"><small>שבת · כולם</small>🎶 23.5</button> <button class="cal-mtab" onclick="setCalDayTor(1)"><small>ראשון · כולם</small>24.5</button>
@@ -3188,6 +3703,15 @@ function setView(v) {
   document.getElementById('view-guide-tor').classList.toggle('active', v === 'guide');
   document.querySelectorAll('.view-btn').forEach((b,i) => b.classList.toggle('active', (i===0&&v==='cal')||(i===1&&v==='daily')||(i===2&&v==='guide')));
   updateUrlState();
+}
+
+// ── Jump from overview card → daily view of that day ──
+function goToDay(phase, n) {
+  if (phase === 'tor' && currentPhase !== 'tor') setPhase('tor');
+  else if (phase === 'nyc' && currentPhase !== 'nyc') setPhase('nyc');
+  setView('daily');
+  if (phase === 'tor') showDayTor(n); else showDay(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ── SHOW DAY (NYC) ──
